@@ -1,1 +1,1 @@
-web: java -cp target/classes:target/dependency/* scheduler.Scheduler
+web: java -cp target/classes:target/dependency/* sparkscheduler.Sparkscheduler
