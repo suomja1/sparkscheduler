@@ -1,16 +1,16 @@
 package sparkscheduler;
 
 import java.net.URI;
+import static spark.Spark.staticFiles;
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.notFound;
-import static spark.Spark.staticFiles;
 
-public class Sparkscheduler {
+public class Application {
     public static void main(String[] args) {
-        getConnection();
         staticFiles.location("/static");
-
+        getHerokuAssignedPort();
+        
         // Once Heroku Postgres has been added a DATABASE_URL setting will be available in the app
         // configuration and will contain the URL used to access the Heroku Postgres service
         get("/", (req, res) -> "Hello sparkscheduler!! \n"
@@ -22,7 +22,7 @@ public class Sparkscheduler {
         });
     }
 
-    private static void getConnection() {
+    private static void getHerokuAssignedPort() {
         // The port to bind to is assigned by Heroku as the PORT environment variable
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));

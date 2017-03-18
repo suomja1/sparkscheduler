@@ -1,4 +1,4 @@
-package sparkscheduler.model;
+package sparkscheduler.shift;
 
 import java.sql.Timestamp;
 import java.util.UUID;

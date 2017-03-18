@@ -1,4 +1,4 @@
-package sparkscheduler.model;
+package sparkscheduler.employee;
 
 import java.util.UUID;
 
