@@ -26,7 +26,7 @@ public class Application {
         });
 
         notFound((req, res) -> {
-            res.redirect("404.html");
+            res.redirect("/404.html");
             return "";
         });
     }
