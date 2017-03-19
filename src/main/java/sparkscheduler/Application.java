@@ -15,8 +15,11 @@ public class Application {
         
         get("/", (req, res) -> {
             Map map = new HashMap<>();
-            map.put("text", "Hello sparkscheduler!!");
             return render(map, "index");
+        });
+        
+        get("/login", (req, res) -> {
+            return render(new HashMap<>(), "login");
         });
 
         notFound((req, res) -> {

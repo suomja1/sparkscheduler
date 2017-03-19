@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Login – sparkscheduler</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="main.css" />
+    </head>
+    <body>
+        <h1>sparkscheduler</h1>
+        <h4>Kirjaudu sisään:</h4>
+        <form  method="post">
+            <p><input type="text" placeholder="Syötä käyttäjätunnus" name="username" required="" oninvalid="this.setCustomValidity('Ole hyvä ja syötä käyttäjätunnus')"/></p>
+            <p><input type="password" placeholder="Syötä salasana" name="password" required="" oninvalid="this.setCustomValidity('Ole hyvä ja syötä salasana')"/></p>
+            <p><button type="submit">Kirjaudu</button></p>
+        </form>
+    </body>
+</html>
