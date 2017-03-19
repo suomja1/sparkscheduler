@@ -33,7 +33,7 @@
 
 Yleiskuva \scheduler{}-järjestelmän toiminnallisuudesta on esitetty kuvassa~\ref{fig:kayttotapaukset}. Kaavion tueksi annetaan lyhyet kuvaukset järjestelmän sidosryhminä toimivista käyttäjäryhmistä ja esitetään muutama käyttötapauksista tarkemmin.
 
-\begin{figure}[t]
+\begin{figure}[tb]
 \centering
 \makebox[\textwidth][c]{\includegraphics[width=1.5\textwidth]{bfd992e8}}
 \caption{Käyttötapauskaavio näyttää järjestelmän sidosryhmät ja miten ne liittyvät järjestelmään.}
@@ -86,16 +86,26 @@ Käyttötapauksen käyttäjä on esimies, jonka tavoitteena on poistaa työnteki
 \end{enumerate}
 
 \section{Järjestelmän tietosisältö}
-\section{Relaatiotietokantakaavio}
 
-\begin{figure}[t]
+Järjestelmän tietosisältö kuvataan käsitekaavion (Kuva~\ref{fig:kasitekaavio}) avulla.
+
+\begin{figure}[tb]
 \centering
-\includegraphics[width=\textwidth]{af410d18}
-\caption{Alustava tietokantakaavio -- toistaiseksi englanniksi.}
-\label{fig:tietokantakaavio}
+\includegraphics[width=.5\textwidth]{e85adf45}
+\caption{Käsitekaavio on järjestelmään säilöttävälle tiedolle käsitetason malli, jonka perusteella johdetaan toteutustason relaatiotietokantakaavio.}
+\label{fig:kasitekaavio}
 \end{figure}
 
+\section{Relaatiotietokantakaavio}
+
 Alustava \scheduler{}-järjestelmän tietokantakaavio on esitetty kuvassa~\ref{fig:tietokantakaavio}.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\textwidth]{af410d18}
+\caption{Relaatiotietokantakaaviossa tiedon säilömiseen käytettävän tietokannan rakenne esitetään kaaviokuvana.}
+\label{fig:tietokantakaavio}
+\end{figure}
 
 \section{Järjestelmän yleisrakenne}
 \section{Käyttöliittymä ja järjestelmän komponentit}

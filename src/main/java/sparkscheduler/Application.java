@@ -1,6 +1,5 @@
 package sparkscheduler;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import static spark.Spark.staticFiles;
@@ -14,14 +13,9 @@ public class Application {
         staticFiles.location("/static");
         getHerokuAssignedPort();
         
-        // Once Heroku Postgres has been added a DATABASE_URL setting will be available in the app
-        // configuration and will contain the URL used to access the Heroku Postgres service
-        get("/", (req, res) -> "Hello sparkscheduler!! \n"
-                + "The host of the database is " + new URI(System.getenv("DATABASE_URL")).getHost());
-        
-        get("/thymeleaf", (req, res) -> {
+        get("/", (req, res) -> {
             Map map = new HashMap<>();
-            map.put("text", "Hello again sparkscheduler!!");
+            map.put("text", "Hello sparkscheduler!!");
             return render(map, "index");
         });
 
@@ -31,8 +25,12 @@ public class Application {
         });
     }
 
-    private static void getHerokuAssignedPort() {
-        // The port to bind to is assigned by Heroku as the PORT environment variable
+    /**
+     * Sets the server port. The port to bind to is assigned by Heroku as the 
+     * PORT environment variable. On localhost the default used by Spark port is 
+     * 4567.
+     */
+    public static void getHerokuAssignedPort() {
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));
         }
