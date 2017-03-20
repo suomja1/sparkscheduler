@@ -19,12 +19,13 @@ public class Application {
         });
         
         get("/login", (req, res) -> {
-            return render(new HashMap<>(), "login");
+            Map map = new HashMap<>();
+            return render(map, "login");
         });
 
         notFound((req, res) -> {
-            res.redirect("/404.html");
-            return "";
+            Map map = new HashMap<>();
+            return render(map, "404");
         });
     }
 
