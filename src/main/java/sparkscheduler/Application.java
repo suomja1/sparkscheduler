@@ -1,28 +1,26 @@
 package sparkscheduler;
 
-import org.sql2o.Sql2o;
 import static spark.Spark.staticFiles;
-import sparkscheduler.employee.EmployeeController;
-import sparkscheduler.exception.ExceptionController;
-import sparkscheduler.index.IndexController;
-import sparkscheduler.login.LoginController;
-import sparkscheduler.shift.ShiftController;
+import sparkscheduler.controller.EmployeeController;
+import sparkscheduler.controller.ExceptionController;
+import sparkscheduler.controller.IndexController;
+import sparkscheduler.controller.LoginController;
+import sparkscheduler.controller.ShiftController;
 import static sparkscheduler.util.ConnectionUtil.getHerokuAssignedPort;
+import sparkscheduler.model.Sql2oModel;
+import static sparkscheduler.util.ConnectionUtil.getDbConnection;
 import static spark.Spark.get;
 import static spark.Spark.notFound;
-import static sparkscheduler.util.ConnectionUtil.getDbConnection;
 
 public class Application {
-    
-    // Dependency
-    public static Sql2o sql2o;
+    public static Sql2oModel sql2oModel;
     
     public static void main(String[] args) {
         // Initialization of Spark, connection and database
         staticFiles.location("/static");
-        sql2o = getDbConnection();
+        sql2oModel = new Sql2oModel(getDbConnection());
         getHerokuAssignedPort();
-
+        
         // Routes
         get("/", IndexController.serveIndexPage);
         get("/login", LoginController.serveLoginPage);

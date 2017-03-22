@@ -1,4 +1,4 @@
-package sparkscheduler.shift;
+package sparkscheduler.controller;
 
 import java.util.HashMap;
 import java.util.Map;

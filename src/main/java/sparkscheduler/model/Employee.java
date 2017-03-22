@@ -1,9 +1,9 @@
-package sparkscheduler.employee;
+package sparkscheduler.model;
 
 import java.util.List;
 import java.util.UUID;
 import lombok.Data;
-import sparkscheduler.shift.Shift;
+import sparkscheduler.model.Shift;
 
 @Data
 public class Employee{ 

@@ -1,4 +1,4 @@
-package sparkscheduler.unit;
+package sparkscheduler.model;
 
 import java.util.UUID;
 import lombok.Data;

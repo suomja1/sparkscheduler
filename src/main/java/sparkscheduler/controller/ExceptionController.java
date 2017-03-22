@@ -1,4 +1,4 @@
-package sparkscheduler.login;
+package sparkscheduler.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,9 +7,9 @@ import spark.Response;
 import spark.Route;
 import static sparkscheduler.util.ViewUtil.render;
 
-public class LoginController {
-    public static Route serveLoginPage = (Request req, Response res) -> {
+public class ExceptionController {
+    public static Route serveNotFoundPage = (Request req, Response res) -> {
         Map map = new HashMap<>();
-        return render(map, "login");
+        return render(map, "404");
     };
 }

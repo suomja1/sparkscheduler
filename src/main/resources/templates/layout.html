@@ -49,6 +49,7 @@
             <label class="col-sm-3 control-label" for="units">Toimintayksikkö:</label>
             <div class="col-sm-9">
                 <select id="units" name="units" class="form-control" multiple="">
+                    <option th:each="u : ${units}" th:text="${u.name}">unit name</option>
                     <option value="malmi">Malmi</option>
                     <option value="petikko">Petikko</option>
                     <option value="olari">Olari</option>

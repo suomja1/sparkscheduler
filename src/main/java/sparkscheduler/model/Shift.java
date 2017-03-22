@@ -1,11 +1,11 @@
-package sparkscheduler.shift;
+package sparkscheduler.model;
 
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 import lombok.Data;
-import sparkscheduler.employee.Employee;
-import sparkscheduler.unit.Unit;
+import sparkscheduler.model.Employee;
+import sparkscheduler.model.Unit;
 
 @Data
 public class Shift {
