@@ -8,8 +8,28 @@
     </head>
     <body>
         <header th:fragment="header">
-            <p><a href="#">sparkscheduler</a></p>
+            <p><a href="/">sparkscheduler</a></p>
         </header>
+        
+        <div th:fragment="usernameInput" class="form-group">
+            <label class="col-sm-3 control-label" for="username">Käyttäjätunnus:</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" id="username" name="username" />
+            </div>
+        </div>
+        
+        <div th:fragment="passwordInput" class="form-group">
+            <label class="col-sm-3 control-label" for="password">Salasana:</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="password" id="password" name="password" />
+            </div>
+        </div>
+        
+        <div th:fragment="submitButton (buttonname)" class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-default" th:text="${buttonname}"></button>
+            </div>
+        </div>
         
         <form th:fragment="addEmployee" class="form-horizontal" method="post">
             <div class="form-group">
@@ -37,25 +57,9 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="username">Käyttäjänimi:</label>
-                <div class="col-sm-9">
-                    <input class="form-control" id="username" name="username" type="text" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="password">Salasana:</label>
-                <div class="col-sm-9">
-                    <input class="form-control" id="password" name="password" type="password" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <button type="submit" class="btn btn-default">Lisää</button>
-                </div>
-            </div>
+            <div th:replace="layout :: usernameInput"/>
+            <div th:replace="layout :: passwordInput"/>
+            <div th:replace="layout :: submitButton ('Lisää')"/>
         </form>
         
         <form th:fragment="addShift" class="form-horizontal" method="post">
@@ -108,15 +112,11 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <button type="submit" class="btn btn-default">Tallenna</button>
-                </div>
-            </div>
+            <div th:replace="layout :: submitButton ('Lisää')"/>
         </form>
         
         <footer th:fragment="footer" class="footer">
-            &copy; 2016 JS
+            &copy; 2017 JS
         </footer>
     </body>
 </html>
