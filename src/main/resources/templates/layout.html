@@ -49,7 +49,7 @@
             <label class="col-sm-3 control-label" for="units">Toimintayksikkö:</label>
             <div class="col-sm-9">
                 <select id="units" name="units" class="form-control" multiple="">
-                    <option th:each="u : ${units}" th:text="${u.name}">unit name</option>
+                    <option th:each="u : ${units}" th:text="${u.name}" th:value="${u.id}">unit name</option>
                 </select>
             </div>
         </div>
