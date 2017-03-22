@@ -1,52 +1,27 @@
 package sparkscheduler;
 
-import java.util.HashMap;
-import java.util.Map;
 import static spark.Spark.staticFiles;
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.notFound;
-import static sparkscheduler.util.ViewUtil.render;
+import sparkscheduler.employee.EmployeeController;
+import sparkscheduler.exception.ExceptionController;
+import sparkscheduler.index.IndexController;
+import sparkscheduler.login.LoginController;
+import sparkscheduler.shift.ShiftController;
 
 public class Application {
     public static void main(String[] args) {
         staticFiles.location("/static");
         getHerokuAssignedPort();
         
-        get("/", (req, res) -> {
-            Map map = new HashMap<>();
-            return render(map, "index");
-        });
-        
-        get("/login", (req, res) -> {
-            Map map = new HashMap<>();
-            return render(map, "login");
-        });
-        
-        get("/shift", (req, res) -> {
-            Map map = new HashMap<>();
-            return render(map, "shift");
-        });
-        
-        get("/shifts", (req, res) -> {
-            Map map = new HashMap<>();
-            return render(map, "shifts");
-        });
-        
-        get("/employee", (req, res) -> {
-            Map map = new HashMap<>();
-            return render(map, "employee");
-        });
-        
-        get("/employees", (req, res) -> {
-            Map map = new HashMap<>();
-            return render(map, "employees");
-        });
-        
-        notFound((req, res) -> {
-            Map map = new HashMap<>();
-            return render(map, "404");
-        });
+        get("/", IndexController.serveIndexPage);
+        get("/login", LoginController.serveLoginPage);
+        get("/shift", ShiftController.fetchShift);
+        get("/shifts", ShiftController.fetchShifts);
+        get("/employee", EmployeeController.fetchEmployee);
+        get("/employees", EmployeeController.fetchEmployees);
+        notFound(ExceptionController.serveNotFoundPage);
     }
 
     /**
