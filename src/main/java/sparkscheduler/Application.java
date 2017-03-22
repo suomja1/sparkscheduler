@@ -11,10 +11,12 @@ import sparkscheduler.shift.ShiftController;
 import static sparkscheduler.util.ConnectionUtil.getHerokuAssignedPort;
 
 public class Application {
-    public static void main(String[] args) {
+    public static void main(String[] args) {        
+        // Initialization of Spark, connection
         staticFiles.location("/static");
         getHerokuAssignedPort();
         
+        // Routes
         get("/", IndexController.serveIndexPage);
         get("/login", LoginController.serveLoginPage);
         get("/shift", ShiftController.fetchShift);
