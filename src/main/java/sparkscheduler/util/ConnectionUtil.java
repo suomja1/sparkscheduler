@@ -1,5 +1,11 @@
 package sparkscheduler.util;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.UUID;
+import org.sql2o.Sql2o;
+import org.sql2o.converters.UUIDConverter;
+import org.sql2o.quirks.PostgresQuirks;
 import static spark.Spark.port;
 
 public class ConnectionUtil {
@@ -11,6 +17,23 @@ public class ConnectionUtil {
     public static void getHerokuAssignedPort() {
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));
+        }
+    }
+    
+    public static Sql2o getDbConnection() {
+        try {
+            URI dbUri = new URI(System.getenv("DATABASE_URL"));
+            String user = dbUri.getUserInfo().split(":")[0];
+            String pass = dbUri.getUserInfo().split(":")[1];
+            String jdbcAddress = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+            return new Sql2o(jdbcAddress, user, pass, new PostgresQuirks() {
+                {
+                    converters.put(UUID.class, new UUIDConverter());
+                }
+            });
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("Jotain meni vikaan getDbConnection-metodin kanssa?");
         }
     }
 }
