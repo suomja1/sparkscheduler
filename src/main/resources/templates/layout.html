@@ -14,20 +14,48 @@
         <div th:fragment="usernameInput" class="form-group">
             <label class="col-sm-3 control-label" for="username">Käyttäjätunnus:</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="username" name="username" />
+                <input class="form-control" type="text" id="username" name="username" th:value="${usernameValue}" />
             </div>
         </div>
         
         <div th:fragment="passwordInput" class="form-group">
             <label class="col-sm-3 control-label" for="password">Salasana:</label>
             <div class="col-sm-9">
-                <input class="form-control" type="password" id="password" name="password" />
+                <input class="form-control" type="password" id="password" name="password" th:value="${passwordValue}" />
             </div>
         </div>
         
         <div th:fragment="submitButton (buttonname)" class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
                 <button type="submit" class="btn btn-default" th:text="${buttonname}"></button>
+            </div>
+        </div>
+        
+        <div th:fragment="employeesInput" class="form-group">
+            <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
+            <div class="col-sm-9">
+                <select class="form-control" id="employees" name="employees" multiple="">
+                    <option value="esimes1">Esko Esimies</option>
+                    <option value="nn">NN</option>
+                    <option value="merima1">Matti Meri</option>
+                    <option value="mm">MM</option>
+                    <option value="jaynjo1">Johanna Jäynä</option>
+                    <option value="aa">AA</option>
+                </select>
+            </div>
+        </div>
+        
+        <div th:fragment="multipleUnitInput" class="form-group">
+            <label class="col-sm-3 control-label" for="units">Toimintayksikkö:</label>
+            <div class="col-sm-9">
+                <select id="units" name="units" class="form-control" multiple="">
+                    <option value="malmi">Malmi</option>
+                    <option value="petikko">Petikko</option>
+                    <option value="olari">Olari</option>
+                    <option value="itäkeskus">Itäkeskus</option>
+                    <option value="tampere">Tampere</option>
+                    <option value="turku">Turku</option>
+                </select>
             </div>
         </div>
         
@@ -43,6 +71,7 @@
                 <label class="col-sm-3 control-label" for="superior">Esimies:</label>
                 <div class="col-sm-9">
                     <select class="form-control" id="superior" name="superior">
+                        <option disabled="" selected="" value=""> -- valitse -- </option>
                         <option value="esimes1">Esko Esimies</option>
                         <option value="merima1">Matti Meri</option>
                         <option value="jaynjo1">Johanna Jäynä</option>
@@ -67,6 +96,7 @@
                 <label class="col-sm-3 control-label" for="unit">Toimintayksikkö:</label>
                 <div class="col-sm-9">
                         <select id="unit" name="unit" class="form-control">
+                            <option disabled="" selected="" value=""> -- valitse -- </option>
                             <option value="malmi">Malmi</option>
                             <option value="petikko">Petikko</option>
                             <option value="olari">Olari</option>
@@ -77,19 +107,7 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
-                <div class="col-sm-9">
-                        <select class="form-control" id="employees" name="employees" multiple="">
-                            <option value="esimes1">Esko Esimies</option>
-                            <option value="nn">NN</option>
-                            <option value="merima1">Matti Meri</option>
-                            <option value="mm">MM</option>
-                            <option value="jaynjo1">Johanna Jäynä</option>
-                            <option value="aa">AA</option>
-                        </select>
-                </div>
-            </div>
+            <div th:replace="layout :: employeesInput"/>
             
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="date">Päivämäärä:</label>
@@ -114,9 +132,5 @@
             
             <div th:replace="layout :: submitButton ('Lisää')"/>
         </form>
-        
-        <footer th:fragment="footer" class="footer">
-            &copy; 2017 JS
-        </footer>
     </body>
 </html>
