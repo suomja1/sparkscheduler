@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout :: head ('Työntekijän nimi')" /> 
+    <body class="container-fluid">
+        <header th:replace="layout :: header" />
+        
+        <h4>Työntekijän tiedot</h4>
+        
+        <!--Tässä voisi käyttää layoutin valmista...-->
+        
+        <form class="form-horizontal" method="post">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="fullName">Nimi:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="fullName" name="fullName" type="text" value="Essi Esimerkki" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="superior">Esimies:</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="superior" name="superior">
+                        <option value="esimes1">Esko Esimies</option>
+                        <option selected="" value="merima1">Matti Meri</option>
+                        <option value="jaynjo1">Johanna Jäynä</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="contract">Sopimus:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="contract" name="contract" type="number" min="0" value="37.5" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="username">Käyttäjänimi:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="username" name="username" type="text" value="esimes2" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="password">Salasana:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="password" name="password" type="password" value="salasana" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Tallenna</button>
+                </div>
+            </div>
+        </form>
+        
+        <footer th:replace="layout :: footer" />
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout :: head ('Työvuorot')" />
+    <body class="container-fluid">
+        <header th:replace="layout :: header" />
+        
+        <h4>Työvuorot</h4>
+        
+        <p>
+            <a href="#add" class="btn btn-success">Lisää</a>
+        </p>
+        
+        <table class="table table-condensed table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Toimintayksikkö</th>
+                    <th>Päivämäärä</th>
+                    <th>Vuoro</th>
+                    <th>Työntekijät</th>
+                    <th>Muokkaa</th>
+                    <th>Poista</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Malmi</td>
+                    <td>21.3.2017</td>
+                    <td>10:00–18:00</td>
+                    <td>Essi Esimerkki, Mikko Mallikas</td>
+                    <td><a href="#" class="btn-xs btn-default">Muokkaa</a></td>
+                    <td><button class="btn-xs btn-danger">Poista</button></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h4 id="add">Lisää työvuoro</h4>
+
+        <form th:replace="layout :: addShift"/>
+        
+        <footer th:replace="layout :: footer" />
+    </body>
+</html>

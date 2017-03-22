@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout :: head ('Työntekijät')" />
+    <body class="container-fluid">
+        <header th:replace="layout :: header" />
+        
+        <h4>Työntekijät</h4>
+        
+        <p>
+            <a href="#add" class="btn btn-success">Lisää</a>
+        </p>
+        
+        <table class="table table-condensed table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Nimi</th>
+                    <th>Esimies</th>
+                    <th>Sopimus</th>
+                    <th>Muokkaa</th>
+                    <th>Poista</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Essi Esimerkki</td>
+                    <td>Esko Esimies</td>
+                    <td>37.5</td>
+                    <td><a href="#" class="btn-xs btn-default">Muokkaa</a></td>
+                    <td><button class="btn-xs btn-danger">Poista</button></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h4 id="add">Lisää työntekijä</h4>
+        
+        <form th:replace="layout :: addEmployee"/>
+        
+        <footer th:replace="layout :: footer" />
+    </body>
+</html>

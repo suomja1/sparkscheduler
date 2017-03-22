@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="head :: head ('Fant ikke siden')" />
-    <body>
-        <h1>404</h1>
-        <h4>Sorry. Vi kunne ikke finne siden.</h4>
-        <img src="/images/giphy.gif" alt="notFoundGif" />
+    <head th:replace="layout :: head ('Fant ikke siden')" />
+    <body class="container-fluid">
+        <header th:replace="layout :: header" />
+
+        <h1 class="text-center">404</h1>
+        <h4 class="text-center">Sorry. Vi kunne ikke finne siden.</h4>
+        <img src="/images/giphy.gif" alt="notFoundGif" class="img-responsive center-block"/>
+        
+        <footer th:replace="layout :: footer" />
     </body>
 </html>

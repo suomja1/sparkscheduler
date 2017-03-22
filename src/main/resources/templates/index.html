@@ -1,121 +1,87 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="head :: head ('Home')" />
-    <body>
-        <h1>sparkscheduler</h1>
-        <div id="columns">
-            <div id="left_col">
-                <h4>Selaa..</h4>
-                <form method="post">
-                    <p>
-                        <label for="yksikko">
-                            Valitse toimintayksikkö: </br>
-                            <select name="yksikko" id="yksikko" multiple="">
-                                <option value="malmi">Malmi</option>
-                                <option value="olari">Olari</option>
-                                <option value="helsinginkatu">Helsinginkatu</option>
-                                <option value="itakeskus">Itäkeskus</option>
-                            </select>
-                        </label>
-                    </p>
-                    <p>
-                        <label for="tyontekija">
-                            Valitse työntekijä:  </br>
-                            <select name="tyontekija" id="tyontekija" multiple="">
-                                <option value="esko">Esko Esimies</option>
-                                <option value="matti">Matti Meri</option>
-                                <option value="johanna">Johanna Juvonen</option>
-                            </select>
-                        </label>
-                    </p>
-                    <p>
-                        <label for="datefrom">
-                            Mistä: <input type="date" name="datefrom" id="datefrom" />
-                        </label>
-                    </p>
-                    <p>
-                        <label for="dateto">
-                            Mihin: <input type="date" name="dateto" id="dateto" />
-                        </label>
-                    </p>
-                    <p>
-                        <button type="submit">..työntekijöitä</button>
-                    </p>
-                    <p>
-                        <button type="submit">..työvuoroja</button>
-                    </p>
-                </form>
+    <head th:replace="layout :: head ('Koti')" />
+    <body class="container-fluid">
+        <header th:replace="layout :: header" />
+        
+        <h1 class="text-center">sparkscheduler</h1>
+        
+        <h4>Selaa työvuoroja</h4>
+        
+        <form class="form-horizontal" method="post">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="units">Toimintayksikkö:</label>
+                <div class="col-sm-9">
+                    <select id="units" name="units" class="form-control" multiple="">
+                        <option value="malmi">Malmi</option>
+                        <option value="petikko">Petikko</option>
+                        <option value="olari">Olari</option>
+                        <option value="itäkeskus">Itäkeskus</option>
+                        <option value="tampere">Tampere</option>
+                        <option value="turku">Turku</option>
+                    </select>
+                </div>
             </div>
-            <div id="right_col">
-                <h4>Lisää..</h4>
-                <form  method="post">
-                    <p>
-                        <label for="name">
-                            Nimi: <input type="text" name="name" id="name" />
-                        </label>
-                    </p>
-                    <p>
-                        <label for="username">
-                            Käyttäjätunnus: <input type="text" name="username" id="username" />
-                        </label>
-                    </p>
-                    <p>
-                        <label for="password">
-                            Salasana: <input type="password" name="password" id="password" />
-                        </label>
-                    </p>
-                    <p>
-                        <label for="contract">
-                            Sopimus: <input type="number" name="contract" id="contract" min="0" />
-                        </label>
-                    </p>
-                    <p>
-                        <label for="esimies">
-                            Valitse esimies:  </br>
-                            <select name="esimies" id="esimies" >
-                                <option value="esko">Esko Esimies</option>
-                            </select>
-                        </label>
-                    </p>
-                    <p>
-                        <label for="yksikko">
-                            Valitse toimintayksikkö: </br>
-                            <select name="yksikko" id="yksikko" multiple="">
-                                <option value="malmi">Malmi</option>
-                                <option value="olari">Olari</option>
-                                <option value="helsinginkatu">Helsinginkatu</option>
-                                <option value="itakeskus">Itäkeskus</option>
-                            </select>
-                        </label>
-                    </p>
-                    <p>
-                        <label for="tyontekija">
-                            Valitse työntekijä:  </br>
-                            <select name="tyontekija" id="tyontekija" multiple="">
-                                <option value="esko">Esko Esimies</option>
-                                <option value="matti">Matti Meri</option>
-                                <option value="johanna">Johanna Juvonen</option>
-                            </select>
-                        </label>
-                    </p>
-                    <p>
-                        <label for="from">
-                            Mistä: <input type="datetime-local" name="from" id="from" />
-                        </label>
-                    </p>
-                    <p>
-                        <label for="to">
-                            Mihin: <input type="datetime-local" name="to" id="to" />
-                        </label>
-                    </p>
-                    <p>
-                        <button type="submit">..työntekijä</button>
-                    </p>
-                    <p>
-                        <button type="submit">..työvuoro</button>
-                    </p>
-                </form>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="employees">Työntekijä:</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="employees" name="employees" multiple="">
+                        <option value="esimes1">Esko Esimies</option>
+                        <option value="nn">NN</option>
+                        <option value="merima1">Matti Meri</option>
+                        <option value="mm">MM</option>
+                        <option value="jaynjo1">Johanna Jäynä</option>
+                        <option value="aa">AA</option>
+                    </select>
+                </div>
             </div>
-        </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="from">Mistä:</label>
+                <div class="col-sm-9">
+                    <input type="datetime-local" class="form-control" id="from" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="to">Mihin:</label>
+                <div class="col-sm-9">
+                    <input type="datetime-local" class="form-control" id="to" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Selaa</button>
+                </div>
+            </div>
+        </form>
+        
+        <h4>Selaa työntekijöitä</h4>
+        
+        <form class="form-horizontal" method="post">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="units">Toimintayksikkö:</label>
+                <div class="col-sm-9">
+                    <select id="units" name="units" class="form-control" multiple="">
+                        <option value="malmi">Malmi</option>
+                        <option value="petikko">Petikko</option>
+                        <option value="olari">Olari</option>
+                        <option value="itäkeskus">Itäkeskus</option>
+                        <option value="tampere">Tampere</option>
+                        <option value="turku">Turku</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Selaa</button>
+                </div>
+            </div>
+        </form>
+        
+        <footer th:replace="layout :: footer" />
     </body>
 </html>

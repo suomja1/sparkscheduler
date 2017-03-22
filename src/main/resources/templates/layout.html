@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head (title)">
+        <title th:text="${title} + ' – sparkscheduler'">title</title>
+        <meta charset="utf-8" />
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="main.css" />
+    </head>
+    <body>
+        <header th:fragment="header">
+            <p><a href="#">sparkscheduler</a></p>
+        </header>
+        
+        <form th:fragment="addEmployee" class="form-horizontal" method="post">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="fullName">Nimi:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="fullName" name="fullName" type="text" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="superior">Esimies:</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="superior" name="superior">
+                        <option value="esimes1">Esko Esimies</option>
+                        <option value="merima1">Matti Meri</option>
+                        <option value="jaynjo1">Johanna Jäynä</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="contract">Sopimus:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="contract" name="contract" type="number" min="0" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="username">Käyttäjänimi:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="username" name="username" type="text" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="password">Salasana:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="password" name="password" type="password" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Lisää</button>
+                </div>
+            </div>
+        </form>
+        
+        <form th:fragment="addShift" class="form-horizontal" method="post">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="unit">Toimintayksikkö:</label>
+                <div class="col-sm-9">
+                        <select id="unit" name="unit" class="form-control">
+                            <option value="malmi">Malmi</option>
+                            <option value="petikko">Petikko</option>
+                            <option value="olari">Olari</option>
+                            <option value="itäkeskus">Itäkeskus</option>
+                            <option value="tampere">Tampere</option>
+                            <option value="turku">Turku</option>
+                        </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
+                <div class="col-sm-9">
+                        <select class="form-control" id="employees" name="employees" multiple="">
+                            <option value="esimes1">Esko Esimies</option>
+                            <option value="nn">NN</option>
+                            <option value="merima1">Matti Meri</option>
+                            <option value="mm">MM</option>
+                            <option value="jaynjo1">Johanna Jäynä</option>
+                            <option value="aa">AA</option>
+                        </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="date">Päivämäärä:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="date" name="date" type="date" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="from">Alkamisaika:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="from" name="from" type="time" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="to">Päättymisaika:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="to" name="to" type="time" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Tallenna</button>
+                </div>
+            </div>
+        </form>
+        
+        <footer th:fragment="footer" class="footer">
+            &copy; 2016 JS
+        </footer>
+    </body>
+</html>

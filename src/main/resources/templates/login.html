@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="head :: head ('Login')" />
-    <body>
-        <h1>sparkscheduler</h1>
+    <head th:replace="layout :: head ('Kirjaudu')" />
+    <body class="container-fluid">
+        <header th:replace="layout :: header" />
+        
         <h4>Kirjaudu sisään:</h4>
-        <form method="post">
-            <p>
-                <label for="username">
-                    Käyttäjätunnus: <input type="text" id="username" name="username" required="" oninvalid="this.setCustomValidity('Ole hyvä ja syötä käyttäjätunnus')" />
-                </label>
-            </p>
-            <p>
-                <label for="password">
-                    Salasana: <input type="password" id="password" name="password" required="" oninvalid="this.setCustomValidity('Ole hyvä ja syötä salasana')"/>
-                </label>
-            </p>
-            <p>
-                <button type="submit">Kirjaudu</button>
-            </p>
+        
+        <form class="form-horizontal" method="post">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="username">Käyttäjätunnus:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="username" name="username" required="" oninvalid="this.setCustomValidity('Ole hyvä ja syötä käyttäjätunnus')" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="password">Salasana:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="password" id="password" name="password" required="" oninvalid="this.setCustomValidity('Ole hyvä ja syötä salasana')"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Kirjaudu</button>
+                </div>
+            </div>
         </form>
+        
+        <footer th:replace="layout :: footer" />
     </body>
 </html>

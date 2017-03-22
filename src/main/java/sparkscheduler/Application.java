@@ -22,7 +22,27 @@ public class Application {
             Map map = new HashMap<>();
             return render(map, "login");
         });
-
+        
+        get("/shift", (req, res) -> {
+            Map map = new HashMap<>();
+            return render(map, "shift");
+        });
+        
+        get("/shifts", (req, res) -> {
+            Map map = new HashMap<>();
+            return render(map, "shifts");
+        });
+        
+        get("/employee", (req, res) -> {
+            Map map = new HashMap<>();
+            return render(map, "employee");
+        });
+        
+        get("/employees", (req, res) -> {
+            Map map = new HashMap<>();
+            return render(map, "employees");
+        });
+        
         notFound((req, res) -> {
             Map map = new HashMap<>();
             return render(map, "404");
@@ -31,7 +51,7 @@ public class Application {
 
     /**
      * Sets the server port. The port to bind to is assigned by Heroku as the 
-     * PORT environment variable. On localhost the default used by Spark port is 
+     * PORT environment variable. On localhost the default port used by Spark is 
      * 4567.
      */
     public static void getHerokuAssignedPort() {

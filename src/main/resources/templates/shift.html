@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout :: head ('Paikka ja aika')" />
+    <body class="container-fluid">
+        <header th:replace="layout :: header" />
+
+        <h4>Työvuoron tiedot</h4>
+        
+        <!--Tässä voisi käyttää layoutin valmista...-->
+
+        <form class="form-horizontal" method="post">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="unit">Toimintayksikkö:</label>
+                <div class="col-sm-9">
+                        <select id="unit" name="unit" class="form-control">
+                            <option value="malmi">Malmi</option>
+                            <option value="petikko">Petikko</option>
+                            <option value="olari">Olari</option>
+                            <option selected="" value="itäkeskus">Itäkeskus</option>
+                            <option value="tampere">Tampere</option>
+                            <option value="turku">Turku</option>
+                        </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
+                <div class="col-sm-9">
+                        <select class="form-control" id="employees" name="employees" multiple="">
+                            <option value="esimes1">Esko Esimies</option>
+                            <option value="nn">NN</option>
+                            <option selected="" value="merima1">Matti Meri</option>
+                            <option value="mm">MM</option>
+                            <option selected="" value="jaynjo1">Johanna Jäynä</option>
+                            <option value="aa">AA</option>
+                        </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="date">Päivämäärä:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="date" name="date" type="date" value="2017-03-21" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="from">Alkamisaika:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="from" name="from" type="time" value="10:00" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="to">Päättymisaika:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="to" name="to" type="time" value="18:00" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Tallenna</button>
+                </div>
+            </div>
+        </form>
+
+        <footer th:replace="layout :: footer" />
+    </body>
+</html>
