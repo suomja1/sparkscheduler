@@ -3,7 +3,6 @@ package sparkscheduler.model;
 import java.util.List;
 import java.util.UUID;
 import lombok.Data;
-import sparkscheduler.model.Shift;
 
 @Data
 public class Employee{ 
