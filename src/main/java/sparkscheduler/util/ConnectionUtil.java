@@ -20,13 +20,19 @@ public class ConnectionUtil {
         }
     }
     
+    /**
+     * Create a JDBC connection to Heroku Postgres by parsing the DATABASE_URL
+     * environment variable. Once Heroku Postgres has been added a DATABASE_URL
+     * setting will be available in the app configuration and will contain the
+     * URL used to access the provisioned Heroku Postgres service.
+     */
     public static Sql2o getDbConnection() {
         try {
             URI dbUri = new URI(System.getenv("DATABASE_URL"));
             String user = dbUri.getUserInfo().split(":")[0];
             String pass = dbUri.getUserInfo().split(":")[1];
             String jdbcAddress = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-
+            
             return new Sql2o(jdbcAddress, user, pass, new PostgresQuirks() {
                 {
                     converters.put(UUID.class, new UUIDConverter());

@@ -6,6 +6,8 @@
 \usepackage{calc}
 \usepackage{setspace}
 \usepackage{graphicx}
+\usepackage{tabu}
+\usepackage{booktabs}
 \usepackage{hyperref}
 
 \setstretch{1.04}
@@ -17,11 +19,12 @@
 \urlstyle{same}
 
 \begin{document}
+\global\tabulinesep = 2pt
 \title{scheduler}
 \author{Janne Suomalainen}
 \maketitle
 
-\tableofcontents\clearpage
+\tableofcontents
 
 \section{Johdanto}
 
@@ -87,7 +90,7 @@ Käyttötapauksen käyttäjä on esimies, jonka tavoitteena on poistaa työnteki
 
 \section{Järjestelmän tietosisältö}
 
-Järjestelmän tietosisältö kuvataan käsitekaavion (Kuva~\ref{fig:kasitekaavio}) avulla.
+Järjestelmän tietosisältö kuvataan käsitekaavion (Kuva~\ref{fig:kasitekaavio}) avulla. Määritellään kaavion tietokohteet yksitellen.
 
 \begin{figure}[tb]
 \centering
@@ -95,6 +98,43 @@ Järjestelmän tietosisältö kuvataan käsitekaavion (Kuva~\ref{fig:kasitekaavi
 \caption{Käsitekaavio on järjestelmään säilöttävälle tiedolle käsitetason malli, jonka perusteella johdetaan toteutustason relaatiotietokantakaavio.}
 \label{fig:kasitekaavio}
 \end{figure}
+
+\subsubsection*{Tietokohde: Employee}
+{\footnotesize \begin{tabu} to \linewidth {@{}*2{X}X[2]@{}}
+\toprule
+Attribuutti & Arvojoukko & Kuvailu \\
+\midrule
+fullName & Merkkijono & Työntekijän koko nimi muodossa \emph{Etunimi Sukunimi} \\
+username & Merkkijono, uniikki & Työntekijän käyttäjätunnus järjestelmään \\
+password & Merkkijono & Työntekijän salasana järjestelmään \\
+contract & Desimaaliluku, vähintään nolla, oletusarvoisesti 37,5 & Työntekijän työsopimuksessa lukeva viikkotuntimäärä \\
+\bottomrule
+\end{tabu}}\smallskip
+
+\noindent Työntekijällä on enintään yksi esimies, joka on myös työntekijä. Edelleen esimiehellä voi olla alaisia. Työntekijällä voi olla useita työvuoroja.
+
+\subsubsection*{Tietokohde: Shift}
+{\footnotesize \begin{tabu} to \linewidth {@{}*2{X}X[2]@{}}
+\toprule
+Attribuutti & Arvojoukko & Kuvailu \\
+\midrule
+startTime & Aikaleima & Työvuoron alkamisajankohta, joka sisätää sekä päivämäärän että kellonajan \\
+endTime & Aikaleima & Työvuoron päättymisajankohta, joka sisältää sekä päivämäärän että kellonajan \\
+\bottomrule
+\end{tabu}}\smallskip
+
+\noindent Työvuoroon liittyy aina vähintään yksi työntekijä. Lisäksi työvuoroon liittyy täsmälleen yksi toimipiste.
+
+\subsubsection*{Tietokohde: Unit}
+{\footnotesize \begin{tabu} to \linewidth {@{}*2{X}X[2]@{}}
+\toprule
+Attribuutti & Arvojoukko & Kuvailu \\
+\midrule
+name & Merkkijono & Toimipisteen nimi \\
+\bottomrule
+\end{tabu}}\smallskip
+
+\noindent Toimipisteeseen voi liittyä useita työvuoroja.
 
 \section{Relaatiotietokantakaavio}
 
