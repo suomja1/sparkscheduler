@@ -11,6 +11,13 @@
             <p><a href="/">sparkscheduler</a></p>
         </header>
         
+        <div th:fragment="dateInput" class="form-group">
+            <label class="col-sm-3 control-label" for="date">Päivämäärä:</label>
+            <div class="col-sm-9">
+                <input class="form-control" id="date" name="date" type="date" th:value="${dateValue}" />
+            </div>
+        </div>
+        
         <div th:fragment="usernameInput" class="form-group">
             <label class="col-sm-3 control-label" for="username">Käyttäjätunnus:</label>
             <div class="col-sm-9">
@@ -103,13 +110,7 @@
             </div>
             
             <div th:replace="layout :: employeesInput"/>
-            
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="date">Päivämäärä:</label>
-                <div class="col-sm-9">
-                    <input class="form-control" id="date" name="date" type="date" />
-                </div>
-            </div>
+            <div th:replace="layout :: dateInput"/>
             
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="from">Alkamisaika:</label>
