@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class Employee{ 
     private UUID id;
-    private Employee superior;
-    private List<Shift> shifts;
+    private UUID superior;
+    private List<UUID> shifts;
     private String fullName;
     private String username;
     private String password;
