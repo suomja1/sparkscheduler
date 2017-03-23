@@ -1,7 +1,6 @@
 package sparkscheduler.dao;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -31,21 +30,15 @@ public class EmployeeDao {
         }
     }
     
-    public Optional<Employee> findOne(UUID id) {
+    public Employee findOne(UUID id) {
         try (Connection c = sql2o.open()) {
-            List<Employee> employees = c.createQuery("SELECT * FROM Employee WHERE id = :id")
+            Employee employee = c.createQuery("SELECT * FROM Employee WHERE id = :id")
                     .addParameter("id", id)
-                    .executeAndFetch(Employee.class);
+                    .executeAndFetchFirst(Employee.class);
             
-            if (employees.isEmpty()) {
-                return Optional.empty();
-            } else if (employees.size() == 1) {
-                Employee employee = employees.get(0);
-                employee.setShifts(getShiftsFor(c, id));
-                return Optional.of(employee);
-            } else {
-                throw new RuntimeException("UUID-törmäys Employee-taulussa?");
-            }
+            employee.setShifts(getShiftsFor(c, id));
+            
+            return employee;
         }
     }
     
