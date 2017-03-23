@@ -10,8 +10,6 @@ import sparkscheduler.controller.ShiftController;
 import static sparkscheduler.util.ConnectionUtil.getHerokuAssignedPort;
 import sparkscheduler.dao.UnitDao;
 import static sparkscheduler.util.ConnectionUtil.getDbConnection;
-import static spark.Spark.get;
-import static spark.Spark.notFound;
 import sparkscheduler.dao.EmployeeDao;
 import sparkscheduler.dao.ShiftDao;
 import static spark.Spark.get;
