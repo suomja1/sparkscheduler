@@ -36,21 +36,8 @@
             </div>
             
             <div th:replace="layout :: dateInput (dateValue='2017-03-21')"/>
-            
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="from">Alkamisaika:</label>
-                <div class="col-sm-9">
-                    <input class="form-control" id="from" name="from" type="time" value="10:00" />
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="to">Päättymisaika:</label>
-                <div class="col-sm-9">
-                    <input class="form-control" id="to" name="to" type="time" value="18:00" />
-                </div>
-            </div>
-            
+            <div th:replace="layout :: timeFromInput (timeFromValue='10:00')"/>
+            <div th:replace="layout :: timeToInput (timeToValue='18:00')"/>
             <div th:replace="layout :: submitButton ('Tallenna')"/>
         </form>
     </body>

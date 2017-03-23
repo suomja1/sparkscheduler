@@ -9,12 +9,7 @@
         <!--Tässä voisi käyttää layoutin valmista...-->
         
         <form class="form-horizontal" method="post">
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="fullName">Nimi:</label>
-                <div class="col-sm-9">
-                    <input class="form-control" id="fullName" name="fullName" type="text" value="Essi Esimerkki" />
-                </div>
-            </div>
+            <div th:replace="layout :: fullNameInput (fullNameValue='Essi Esimerkki')"/>
             
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="superior">Esimies:</label>
@@ -27,13 +22,7 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="contract">Sopimus:</label>
-                <div class="col-sm-9">
-                    <input class="form-control" id="contract" name="contract" type="number" min="0" value="37.5" />
-                </div>
-            </div>
-            
+            <div th:replace="layout :: contractInput (contractValue='37.5')"/>
             <div th:replace="layout :: usernameInput (usernameValue='esimes2')"/>
             <div th:replace="layout :: passwordInput (passwordValue='salasana')"/>
             <div th:replace="layout :: submitButton ('Tallenna')"/>
