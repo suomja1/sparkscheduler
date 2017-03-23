@@ -1,5 +1,6 @@
 package sparkscheduler;
 
+import org.sql2o.Sql2o;
 import static spark.Spark.staticFiles;
 import sparkscheduler.controller.EmployeeController;
 import sparkscheduler.controller.ExceptionController;
@@ -7,19 +8,30 @@ import sparkscheduler.controller.IndexController;
 import sparkscheduler.controller.LoginController;
 import sparkscheduler.controller.ShiftController;
 import static sparkscheduler.util.ConnectionUtil.getHerokuAssignedPort;
-import sparkscheduler.model.Sql2oModel;
+import sparkscheduler.dao.UnitDao;
 import static sparkscheduler.util.ConnectionUtil.getDbConnection;
+import static spark.Spark.get;
+import static spark.Spark.notFound;
+import sparkscheduler.dao.EmployeeDao;
+import sparkscheduler.dao.ShiftDao;
 import static spark.Spark.get;
 import static spark.Spark.notFound;
 
 public class Application {
-    // Dependency
-    public static Sql2oModel sql2oModel;
+    // Dependencies
+    public static UnitDao unitDao;
+    public static EmployeeDao employeeDao;
+    public static ShiftDao shiftDao;
     
     public static void main(String[] args) {
-        // Initialization of Spark, connection and database
+        // Initialization of Spark, database, dependencies and connection
         staticFiles.location("/static");
-        sql2oModel = new Sql2oModel(getDbConnection());
+        
+        Sql2o sql2o = getDbConnection();
+        unitDao = new UnitDao(sql2o);
+        employeeDao = new EmployeeDao(sql2o);
+        shiftDao = new ShiftDao(sql2o);
+        
         getHerokuAssignedPort();
         
         // Routes

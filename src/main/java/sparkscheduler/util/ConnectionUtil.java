@@ -39,7 +39,7 @@ public class ConnectionUtil {
                 }
             });
         } catch (URISyntaxException e) {
-            throw new RuntimeException("Jotain meni vikaan getDbConnection-metodin kanssa?");
+            throw new RuntimeException("Jotain meni vikaan getDbConnection()-metodin kanssa?");
         }
     }
 }
