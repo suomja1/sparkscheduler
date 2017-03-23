@@ -12,5 +12,5 @@ public class Employee{
     private String fullName;
     private String username;
     private String password;
-    private double contract;
+    private Double contract;
 }
