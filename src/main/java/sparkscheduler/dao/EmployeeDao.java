@@ -16,18 +16,14 @@ public class EmployeeDao {
 
     public UUID save(UUID superior, String fullName, String username, String password, Double contract) {
         try (Connection c = sql2o.open()) {
-            UUID id = UUID.randomUUID();
-
-            c.createQuery("INSERT INTO Employee VALUES (:id, :superior, :fullName, :username, :password, :contract)")
-                    .addParameter("id", id)
+            return c.createQuery("INSERT INTO Employee VALUES (:superior, :fullName, :username, :password, :contract)", true)
                     .addParameter("superior", superior)
                     .addParameter("fullName", fullName)
                     .addParameter("username", username)
                     .addParameter("password", password)
                     .addParameter("contract", contract)
-                    .executeUpdate();
-
-            return id;
+                    .executeUpdate()
+                    .getKey(UUID.class);
         }
     }
 
@@ -109,7 +105,6 @@ public class EmployeeDao {
 
     public void delete(UUID id) {
         try (Connection c = sql2o.beginTransaction()) {
-
             c.createQuery("DELETE FROM EmployeeShift WHERE employee = :id")
                     .addParameter("employee", id)
                     .executeUpdate();
