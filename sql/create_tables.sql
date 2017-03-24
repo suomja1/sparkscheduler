@@ -21,5 +21,6 @@ CREATE TABLE Shift (
 
 CREATE TABLE EmployeeShift (
     employee UUID REFERENCES Employee(id),
-    shift UUID REFERENCES Shift(id)
+    shift UUID REFERENCES Shift(id),
+    PRIMARY KEY (employee, shift)
 );

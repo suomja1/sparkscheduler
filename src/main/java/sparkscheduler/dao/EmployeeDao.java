@@ -2,6 +2,8 @@ package sparkscheduler.dao;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import org.apache.commons.lang.StringUtils;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import sparkscheduler.model.Employee;
@@ -58,6 +60,45 @@ public class EmployeeDao {
             return employees;
         }
     }
+    
+    public List<Employee> findByUnitOrderByLastName(UUID unit) {
+        try (Connection c = sql2o.open()) {
+            String SQL = "SELECT e FROM Employee e"
+                    + "INNER JOIN EmployeeShift ON e.id = employee"
+                    + "INNER JOIN Shift s ON shift = s.id"
+                    + "AND s.unit = :unit"
+                    + "ORDER BY SUBSTRING(e.fullName, E'([^\\s]+)(,|$)')";
+            
+            List<Employee> employees = c.createQuery(SQL)
+                    .addParameter("unit", unit)
+                    .executeAndFetch(Employee.class);
+
+            employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));
+
+            return employees;
+        }
+    }
+    
+    /**
+     * Experimental.
+     */
+    public List<Employee> findByUnitOrderByLastName(List<UUID> units) {
+        try (Connection c = sql2o.open()) {
+            String SQL = "SELECT e FROM Employee e"
+                    + "INNER JOIN EmployeeShift ON e.id = employee"
+                    + "INNER JOIN Shift s ON shift = s.id"
+                    + "AND s.unit = ANY (STRING_TO_ARRAY(:units, ',')::UUID[])"
+                    + "ORDER BY SUBSTRING(e.fullName, E'([^\\s]+)(,|$)')";
+
+            List<Employee> employees = c.createQuery(SQL)
+                    .addParameter("units", StringUtils.join(units.stream().map(UUID::toString).collect(Collectors.toList()), ","))
+                    .executeAndFetch(Employee.class);
+
+            employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));
+
+            return employees;
+        }
+    }
 
     public Integer count() {
         try (Connection c = sql2o.open()) {
@@ -85,6 +126,15 @@ public class EmployeeDao {
         try (Connection c = sql2o.open()) {
             return !c.createQuery("SELECT * FROM Employee WHERE id = :id")
                     .addParameter("id", id)
+                    .executeAndFetch(Employee.class)
+                    .isEmpty();
+        }
+    }
+    
+    public boolean existsByUsername(String username) {
+        try (Connection c = sql2o.open()) {
+            return !c.createQuery("SELECT * FROM Employee WHERE username = :username")
+                    .addParameter("username", username)
                     .executeAndFetch(Employee.class)
                     .isEmpty();
         }
