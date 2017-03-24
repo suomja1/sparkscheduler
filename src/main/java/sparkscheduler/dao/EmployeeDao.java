@@ -58,7 +58,7 @@ public class EmployeeDao {
     
     public List<Employee> findByUnitOrderByLastName(UUID unit) {
         try (Connection c = sql2o.open()) {
-            String SQL = "SELECT e FROM Employee e "
+            String SQL = "SELECT * FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
                     + "AND s.unit = :unit "
@@ -81,7 +81,7 @@ public class EmployeeDao {
                     units.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", "))
             );
             
-            String SQL = "SELECT e FROM Employee e "
+            String SQL = "SELECT * FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
                     + unitUUIDs
