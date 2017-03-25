@@ -154,7 +154,7 @@ public class EmployeeDao {
     }
     
     private List<UUID> getShiftsFor(Connection c, UUID id) {
-        return c.createQuery("SELECT shift FROM EmployeeShift WHERE employee = :id")
+        return c.createQuery("SELECT shift FROM EmployeeShift WHERE employee = :employee")
                 .addParameter("employee", id)
                 .executeAndFetch(UUID.class);
     }

@@ -1,6 +1,5 @@
 package sparkscheduler.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.Data;
@@ -14,12 +13,4 @@ public class Employee{
     private String username;
     private String password;
     private Double contract;
-    
-    public void setShifts(List<UUID> shifts) {
-        if (shifts == null) {
-            this.shifts = new ArrayList<>();
-        } else {
-            this.shifts = shifts;
-        }
-    }
 }
