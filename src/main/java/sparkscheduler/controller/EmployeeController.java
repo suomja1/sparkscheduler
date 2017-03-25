@@ -21,15 +21,12 @@ public class EmployeeController {
     };
     
     public static Route handleAddEmployee = (Request req, Response res) -> {
-        String superior = req.queryParams("superior");
-        String contract = req.queryParams("contract");
-        
         employeeDao.save(
-                superior == null ? null : UUID.fromString(superior),
+                req.queryMap().hasKey("superior") ? null : UUID.fromString(req.queryParams("superior")),
                 req.queryParams("fullName"),
                 req.queryParams("username"),
                 req.queryParams("password"),
-                contract == null ? null : Double.parseDouble(contract)
+                req.queryMap().hasKey("contract") ? null : Double.parseDouble(req.queryParams("contract"))
         );
         
         res.redirect("/employees");
