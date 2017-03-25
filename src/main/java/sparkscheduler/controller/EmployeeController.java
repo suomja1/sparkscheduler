@@ -25,11 +25,11 @@ public class EmployeeController {
         String contract = req.queryParams("contract");
         
         employeeDao.save(
-                superior.isEmpty() ? null : UUID.fromString(superior),
+                superior == null ? null : UUID.fromString(superior),
                 req.queryParams("fullName"),
                 req.queryParams("username"),
                 req.queryParams("password"),
-                contract.isEmpty() ? null : Double.parseDouble(contract)
+                contract == null ? null : Double.parseDouble(contract)
         );
         
         res.redirect("/employees");
