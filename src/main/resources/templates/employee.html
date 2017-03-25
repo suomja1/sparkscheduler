@@ -1,30 +1,26 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout :: head ('Työntekijän nimi')" /> 
+    <head th:replace="layout :: head (${employee.fullName})" /> 
     <body class="container-fluid">
         <header th:replace="layout :: header" />
         
         <h4>Työntekijän tiedot</h4>
         
-        <!--Tässä voisi käyttää layoutin valmista...-->
-        
         <form class="form-horizontal" method="post">
-            <div th:replace="layout :: fullNameInput (fullNameValue='Essi Esimerkki')"/>
+            <div th:replace="layout :: fullNameInput (fullNameValue=${employee.fullName})"/>
             
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="superior">Esimies:</label>
                 <div class="col-sm-9">
                     <select class="form-control" id="superior" name="superior">
-                        <option value="esimes1">Esko Esimies</option>
-                        <option selected="" value="merima1">Matti Meri</option>
-                        <option value="jaynjo1">Johanna Jäynä</option>
+                        <option th:each="s : ${superiors}" th:text="${s.fullName}" th:value="${s.id}" th:selected="${s.id.equals(employee.superior)}">superior name</option>
                     </select>
                 </div>
             </div>
             
-            <div th:replace="layout :: contractInput (contractValue='37.5')"/>
-            <div th:replace="layout :: usernameInput (usernameValue='esimes2')"/>
-            <div th:replace="layout :: passwordInput (passwordValue='salasana')"/>
+            <div th:replace="layout :: contractInput (contractValue=${employee.contract})"/>
+            <div th:replace="layout :: usernameInput (usernameValue=${employee.username})"/>
+            <div th:replace="layout :: passwordInput (passwordValue=${employee.password})"/>
             <div th:replace="layout :: submitButton ('Tallenna')"/>
         </form>
     </body>

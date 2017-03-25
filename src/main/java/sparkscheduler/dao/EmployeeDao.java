@@ -20,47 +20,22 @@ public class EmployeeDao {
 
     public UUID save(UUID superior, String fullName, String username, String password, Double contract) {
         try (Connection c = sql2o.open()) {
+            if (contract == null) {
+                return c.createQuery("INSERT INTO Employee (superior, fullName, username, password) VALUES (:superior, :fullName, :username, :password)", true)
+                        .addParameter("superior", superior)
+                        .addParameter("fullName", fullName)
+                        .addParameter("username", username)
+                        .addParameter("password", password)
+                        .executeUpdate()
+                        .getKey(UUID.class);
+            }
+            
             return c.createQuery("INSERT INTO Employee (superior, fullName, username, password, contract) VALUES (:superior, :fullName, :username, :password, :contract)", true)
                     .addParameter("superior", superior)
                     .addParameter("fullName", fullName)
                     .addParameter("username", username)
                     .addParameter("password", password)
                     .addParameter("contract", contract)
-                    .executeUpdate()
-                    .getKey(UUID.class);
-        }
-    }
-    
-    public UUID save(String fullName, String username, String password, Double contract) {
-        try (Connection c = sql2o.open()) {
-            return c.createQuery("INSERT INTO Employee (fullName, username, password, contract) VALUES (:fullName, :username, :password, :contract)", true)
-                    .addParameter("fullName", fullName)
-                    .addParameter("username", username)
-                    .addParameter("password", password)
-                    .addParameter("contract", contract)
-                    .executeUpdate()
-                    .getKey(UUID.class);
-        }
-    }
-    
-    public UUID save(UUID superior, String fullName, String username, String password) {
-        try (Connection c = sql2o.open()) {
-            return c.createQuery("INSERT INTO Employee (superior, fullName, username, password) VALUES (:superior, :fullName, :username, :password)", true)
-                    .addParameter("superior", superior)
-                    .addParameter("fullName", fullName)
-                    .addParameter("username", username)
-                    .addParameter("password", password)
-                    .executeUpdate()
-                    .getKey(UUID.class);
-        }
-    }
-    
-    public UUID save(String fullName, String username, String password) {
-        try (Connection c = sql2o.open()) {
-            return c.createQuery("INSERT INTO Employee (fullName, username, password) VALUES (:fullName, :username, :password)", true)
-                    .addParameter("fullName", fullName)
-                    .addParameter("username", username)
-                    .addParameter("password", password)
                     .executeUpdate()
                     .getKey(UUID.class);
         }

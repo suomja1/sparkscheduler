@@ -11,7 +11,10 @@ import static sparkscheduler.util.ViewUtil.render;
 
 public class EmployeeController {
     public static Route fetchEmployee = (Request req, Response res) -> {
-        return render("employee");
+        Map map = new HashMap<>();
+        map.put("employee", employeeDao.findOne(UUID.fromString(req.params(":id"))));
+        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByLastName());
+        return render(map, "employee");
     };
 
     public static Route fetchEmployees = (Request req, Response res) -> {
@@ -23,19 +26,14 @@ public class EmployeeController {
     public static Route handleAddEmployee = (Request req, Response res) -> {
         String superior = req.queryParams("superior");
         String contract = req.queryParams("contract");
-        String fullName = req.queryParams("fullName");
-        String username = req.queryParams("username");
-        String password = req.queryParams("password");
         
-        if ((superior == null || superior.isEmpty()) && (contract == null || contract.isEmpty())) {
-            employeeDao.save(fullName, username, password);
-        } else if (superior == null || superior.isEmpty()) {
-            employeeDao.save(fullName, username, password, Double.parseDouble(contract));
-        } else if (contract == null || contract.isEmpty()) {
-            employeeDao.save(UUID.fromString(superior), fullName, username, password);
-        } else {
-            employeeDao.save(UUID.fromString(superior), fullName, username, password, Double.parseDouble(contract));
-        }
+        employeeDao.save(
+                superior == null || superior.isEmpty() ? null : UUID.fromString(superior), 
+                req.queryParams("fullName"), 
+                req.queryParams("username"), 
+                req.queryParams("password"), 
+                contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
+        );
         
         res.redirect("/employees", 303);
         

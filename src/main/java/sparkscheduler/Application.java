@@ -38,7 +38,7 @@ public class Application {
         get("/login", LoginController.serveLoginPage);
         get("/shift", ShiftController.fetchShift);
         get("/shifts", ShiftController.fetchShifts);
-        get("/employee", EmployeeController.fetchEmployee);
+        get("/employee/:id", EmployeeController.fetchEmployee);
         post("/employee", EmployeeController.handleAddEmployee);
         get("/employees", EmployeeController.fetchEmployees);
 
