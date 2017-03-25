@@ -7,6 +7,10 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import sparkscheduler.model.Employee;
 
+/**
+ * Provides sophisticated CRUD functionality for the entity class Employee.
+ * Naming conventions come from Spring Data JPA.
+ */
 public class EmployeeDao {
     private Sql2o sql2o;
 
@@ -39,12 +43,6 @@ public class EmployeeDao {
         }
     }
 
-    private List<UUID> getShiftsFor(Connection c, UUID id) {
-        return c.createQuery("SELECT shift FROM EmployeeShift WHERE employee = :id")
-                .addParameter("employee", id)
-                .executeAndFetch(UUID.class);
-    }
-
     public List<Employee> findAllByOrderByLastName() {
         try (Connection c = sql2o.open()) {
             List<Employee> employees = c.createQuery("SELECT * FROM Employee ORDER BY SUBSTRING(fullName, E'([^\\s]+)(,|$)')")
@@ -58,7 +56,7 @@ public class EmployeeDao {
     
     public List<Employee> findByUnitOrderByLastName(UUID unit) {
         try (Connection c = sql2o.open()) {
-            String SQL = "SELECT * FROM Employee e "
+            String SQL = "SELECT e.id, e.superior, e.fullName, e.username, e.password, e.contract FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
                     + "AND s.unit = :unit "
@@ -76,15 +74,11 @@ public class EmployeeDao {
     
     public List<Employee> findByUnitOrderByLastName(List<UUID> units) {
         try (Connection c = sql2o.open()) {
-            String unitUUIDs = String.format(
-                    "AND s.unit IN (%s) ", 
-                    units.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", "))
-            );
-            
-            String SQL = "SELECT * FROM Employee e "
+            String SQL = "SELECT e.id, e.superior, e.fullName, e.username, e.password, e.contract FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
-                    + unitUUIDs
+                    + String.format("AND s.unit IN (%s) ",
+                            units.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", ")))
                     + "ORDER BY SUBSTRING(e.fullName, E'([^\\s]+)(,|$)')";
 
             List<Employee> employees = c.createQuery(SQL)
@@ -105,7 +99,7 @@ public class EmployeeDao {
 
     public void delete(UUID id) {
         try (Connection c = sql2o.beginTransaction()) {
-            c.createQuery("DELETE FROM EmployeeShift WHERE employee = :id")
+            c.createQuery("DELETE FROM EmployeeShift WHERE employee = :employee")
                     .addParameter("employee", id)
                     .executeUpdate();
 
@@ -146,5 +140,11 @@ public class EmployeeDao {
                     .addParameter("contract", contract)
                     .executeUpdate();
         }
+    }
+    
+    private List<UUID> getShiftsFor(Connection c, UUID id) {
+        return c.createQuery("SELECT shift FROM EmployeeShift WHERE employee = :id")
+                .addParameter("employee", id)
+                .executeAndFetch(UUID.class);
     }
 }
