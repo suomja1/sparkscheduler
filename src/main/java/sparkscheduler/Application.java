@@ -13,6 +13,7 @@ import static sparkscheduler.util.ConnectionUtil.getDbConnection;
 import sparkscheduler.dao.EmployeeDao;
 import sparkscheduler.dao.ShiftDao;
 import static spark.Spark.get;
+import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.post;
 
@@ -44,5 +45,6 @@ public class Application {
         get("/employees", EmployeeController.fetchEmployees);
 
         notFound(ExceptionController.serveNotFoundPage);
+        internalServerError(ExceptionController.serveServerErrorPage);
     }
 }

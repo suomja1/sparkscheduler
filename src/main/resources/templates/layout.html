@@ -22,7 +22,7 @@
         <div th:fragment="contractInput" class="form-group">
             <label class="col-sm-3 control-label" for="contract">Sopimus:</label>
             <div class="col-sm-9">
-                <input class="form-control" id="contract" name="contract" type="number" min="0" th:value="${contractValue}" />
+                <input class="form-control" id="contract" name="contract" type="number" step="0.5" min="0" th:value="${contractValue}" />
             </div>
         </div>
 
