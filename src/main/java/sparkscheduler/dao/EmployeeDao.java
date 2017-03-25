@@ -20,7 +20,7 @@ public class EmployeeDao {
 
     public UUID save(UUID superior, String fullName, String username, String password, Double contract) {
         try (Connection c = sql2o.open()) {
-            return c.createQuery("INSERT INTO Employee VALUES (:superior, :fullName, :username, :password, :contract)", true)
+            return c.createQuery("INSERT INTO Employee (superior, fullName, username, password, contract) VALUES (:superior, :fullName, :username, :password, :contract)", true)
                     .addParameter("superior", superior)
                     .addParameter("fullName", fullName)
                     .addParameter("username", username)
