@@ -39,4 +39,22 @@ public class EmployeeController {
         
         return "";
     };
+    
+    public static Route handleUpdateEmployee = (Request req, Response res) -> {
+        UUID id = UUID.fromString(req.params(":id"));
+        String superior = req.queryParams("superior");
+        
+        employeeDao.update(
+                id,
+                superior == null || superior.isEmpty() ? null : UUID.fromString(superior), 
+                req.queryParams("fullName"), 
+                req.queryParams("username"), 
+                req.queryParams("password"), 
+                Double.parseDouble(req.queryParams("contract"))
+        );
+        
+        res.redirect("/employees", 303);
+        
+        return "";
+    };
 }

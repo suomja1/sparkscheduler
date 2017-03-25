@@ -6,13 +6,14 @@
         
         <h4>Työntekijän tiedot</h4>
         
-        <form class="form-horizontal" method="post">
+        <form class="form-horizontal" method="post" th:action="@{~/employee/{id}(id=${employee.id})}">
             <div th:replace="layout :: fullNameInput (fullNameValue=${employee.fullName})"/>
             
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="superior">Esimies:</label>
                 <div class="col-sm-9">
                     <select class="form-control" id="superior" name="superior">
+                        <option disabled="" selected="" value=""> -- valitse -- </option>
                         <option th:each="s : ${superiors}" th:text="${s.fullName}" th:value="${s.id}" th:selected="${s.id.equals(employee.superior)}">superior name</option>
                     </select>
                 </div>
