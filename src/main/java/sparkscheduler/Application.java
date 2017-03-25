@@ -14,6 +14,7 @@ import sparkscheduler.dao.EmployeeDao;
 import sparkscheduler.dao.ShiftDao;
 import static spark.Spark.get;
 import static spark.Spark.notFound;
+import static spark.Spark.post;
 
 public class Application {
     // Dependencies
@@ -38,6 +39,7 @@ public class Application {
         get("/shift", ShiftController.fetchShift);
         get("/shifts", ShiftController.fetchShifts);
         get("/employee", EmployeeController.fetchEmployee);
+        post("/employee", EmployeeController.handleAddEmployee);
         get("/employees", EmployeeController.fetchEmployees);
 
         notFound(ExceptionController.serveNotFoundPage);
