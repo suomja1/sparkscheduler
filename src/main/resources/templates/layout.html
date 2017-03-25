@@ -55,9 +55,7 @@
                 <div class="col-sm-9">
                     <select class="form-control" id="superior" name="superior">
                         <option disabled="" selected="" value=""> -- valitse -- </option>
-                        <option value="esimes1">Esko Esimies</option>
-                        <option value="merima1">Matti Meri</option>
-                        <option value="jaynjo1">Johanna Jäynä</option>
+                        <option th:each="s : ${superiors}" th:text="${s.fullName}" th:value="${s.id}">superior name</option>
                     </select>
                 </div>
             </div>

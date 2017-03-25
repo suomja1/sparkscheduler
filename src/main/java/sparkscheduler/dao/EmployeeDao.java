@@ -89,6 +89,17 @@ public class EmployeeDao {
             return employees;
         }
     }
+    
+    public List<Employee> findBySuperiorIsNullOrderByLastName() {
+        try (Connection c = sql2o.open()) {
+            List<Employee> employees = c.createQuery("SELECT * FROM Employee WHERE superior IS NULL ORDER BY SUBSTRING(fullName, E'([^\\s]+)(,|$)')")
+                    .executeAndFetch(Employee.class);
+
+            employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));
+
+            return employees;
+        }
+    }
 
     public Integer count() {
         try (Connection c = sql2o.open()) {

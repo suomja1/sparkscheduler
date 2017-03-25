@@ -1,5 +1,7 @@
 package sparkscheduler.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import spark.Request;
 import spark.Response;
@@ -13,7 +15,9 @@ public class EmployeeController {
     };
 
     public static Route fetchEmployees = (Request req, Response res) -> {
-        return render("employees");
+        Map map = new HashMap<>();
+        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByLastName());
+        return render(map, "employees");
     };
     
     public static Route handleAddEmployee = (Request req, Response res) -> {
