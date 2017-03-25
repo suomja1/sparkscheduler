@@ -37,7 +37,7 @@ public class EmployeeController {
             employeeDao.save(UUID.fromString(superior), fullName, username, password, Double.parseDouble(contract));
         }
         
-        res.redirect("/employees");
+        res.redirect("/employees", 303);
         
         return "";
     };
