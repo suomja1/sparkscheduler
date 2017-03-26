@@ -16,6 +16,7 @@ import static spark.Spark.get;
 import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.post;
+import static spark.Spark.delete;
 
 public class Application {
     // Dependencies
@@ -44,7 +45,7 @@ public class Application {
         
         get("/employee/:id", EmployeeController.fetchEmployee);
         post("/employee/:id", EmployeeController.handleUpdateEmployee);
-        post("/employee/:id/delete", EmployeeController.handleDeleteEmployee);
+        delete("/employee/:id", EmployeeController.handleDeleteEmployee);
         post("/employee", EmployeeController.handleAddEmployee);
         
         get("/employees", EmployeeController.fetchEmployees);

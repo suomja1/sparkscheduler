@@ -27,7 +27,8 @@
                             <button class="btn-xs btn-info">Muokkaa</button>
                         </a>
                     </td>
-                    <td><form method="post" th:action="@{~/employee/{id}/delete(id=${e.id})}">
+                    <td><form method="post" th:action="@{~/employee/{id}(id=${e.id})}">
+                            <input type="hidden" name="_method" value="delete" />
                             <button class="btn-xs btn-danger">Poista</button>
                         </form>
                     </td>
