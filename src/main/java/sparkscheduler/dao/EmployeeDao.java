@@ -123,6 +123,10 @@ public class EmployeeDao {
             c.createQuery("DELETE FROM EmployeeShift WHERE employee = :employee")
                     .addParameter("employee", id)
                     .executeUpdate();
+            
+            c.createQuery("UPDATE Employee SET superior = NULL WHERE superior = :id")
+                    .addParameter("id", id)
+                    .executeUpdate();
 
             c.createQuery("DELETE FROM Employee WHERE id = :id")
                     .addParameter("id", id)
