@@ -16,7 +16,6 @@ import static spark.Spark.get;
 import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.post;
-import static spark.Spark.delete;
 
 public class Application {
     // Dependencies
@@ -43,12 +42,11 @@ public class Application {
         get("/shift", ShiftController.fetchShift);
         get("/shifts", ShiftController.fetchShifts);
         
+        get("/employee", EmployeeController.fetchEmployees);
         get("/employee/:id", EmployeeController.fetchEmployee);
-        post("/employee/:id", EmployeeController.handleUpdateEmployee);
-        delete("/employee/:id", EmployeeController.handleDeleteEmployee);
+        post("/employee/:id/edit", EmployeeController.handleUpdateEmployee);
+        post("/employee/:id/delete", EmployeeController.handleDeleteEmployee);
         post("/employee", EmployeeController.handleAddEmployee);
-        
-        get("/employees", EmployeeController.fetchEmployees);
 
         notFound(ExceptionController.serveNotFoundPage);
         internalServerError(ExceptionController.serveServerErrorPage);

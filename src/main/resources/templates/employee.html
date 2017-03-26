@@ -6,7 +6,7 @@
         
         <h4>Työntekijän tiedot</h4>
         
-        <form class="form-horizontal" method="post" th:action="@{~/employee/{id}(id=${employee.id})}">
+        <form class="form-horizontal" method="post" th:action="@{~/employee/{id}/edit(id=${employee.id})}">
             <div th:replace="layout :: fullNameInput (fullNameValue=${employee.fullName})"/>
             
             <div class="form-group">
