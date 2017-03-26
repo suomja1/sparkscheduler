@@ -53,9 +53,9 @@ public class EmployeeDao {
         }
     }
 
-    public List<Employee> findAllByOrderByLastName() {
+    public List<Employee> findAllByOrderByFullName() {
         try (Connection c = sql2o.open()) {
-            List<Employee> employees = c.createQuery("SELECT * FROM Employee ORDER BY SUBSTRING(fullName, E'([^\\s]+)(,|$)')")
+            List<Employee> employees = c.createQuery("SELECT * FROM Employee ORDER BY fullName")
                     .executeAndFetch(Employee.class);
 
             employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));
@@ -64,13 +64,13 @@ public class EmployeeDao {
         }
     }
     
-    public List<Employee> findByUnitOrderByLastName(UUID unit) {
+    public List<Employee> findByUnitOrderByFullName(UUID unit) {
         try (Connection c = sql2o.open()) {
             String SQL = "SELECT e.id, e.superior, e.fullName, e.username, e.password, e.contract FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
                     + "AND s.unit = :unit "
-                    + "ORDER BY SUBSTRING(e.fullName, E'([^\\s]+)(,|$)')";
+                    + "ORDER BY e.fullName";
             
             List<Employee> employees = c.createQuery(SQL)
                     .addParameter("unit", unit)
@@ -82,14 +82,14 @@ public class EmployeeDao {
         }
     }
     
-    public List<Employee> findByUnitOrderByLastName(List<UUID> units) {
+    public List<Employee> findByUnitOrderByFullName(List<UUID> units) {
         try (Connection c = sql2o.open()) {
             String SQL = "SELECT e.id, e.superior, e.fullName, e.username, e.password, e.contract FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
                     + String.format("AND s.unit IN (%s) ",
                             units.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", ")))
-                    + "ORDER BY SUBSTRING(e.fullName, E'([^\\s]+)(,|$)')";
+                    + "ORDER BY e.fullName";
 
             List<Employee> employees = c.createQuery(SQL)
                     .executeAndFetch(Employee.class);
@@ -100,9 +100,9 @@ public class EmployeeDao {
         }
     }
     
-    public List<Employee> findBySuperiorIsNullOrderByLastName() {
+    public List<Employee> findBySuperiorIsNullOrderByFullName() {
         try (Connection c = sql2o.open()) {
-            List<Employee> employees = c.createQuery("SELECT * FROM Employee WHERE superior IS NULL ORDER BY SUBSTRING(fullName, E'([^\\s]+)(,|$)')")
+            List<Employee> employees = c.createQuery("SELECT * FROM Employee WHERE superior IS NULL ORDER BY fullName")
                     .executeAndFetch(Employee.class);
 
             employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));

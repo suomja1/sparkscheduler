@@ -8,19 +8,34 @@ import spark.Response;
 import spark.Route;
 import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
+import static sparkscheduler.util.ViewUtil.render;
 
 public class EmployeeController {
     public static Route fetchEmployee = (Request req, Response res) -> {
         Map map = new HashMap<>();
         map.put("employee", employeeDao.findOne(UUID.fromString(req.params(":id"))));
-        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByLastName());
+        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
         return render(map, "employee");
     };
 
     public static Route fetchEmployees = (Request req, Response res) -> {
         Map map = new HashMap<>();
-        map.put("employees", employeeDao.findAllByOrderByLastName());
-        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByLastName());
+        map.put("employees", employeeDao.findAllByOrderByFullName());
+        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
         return render(map, "employees");
     };
     
