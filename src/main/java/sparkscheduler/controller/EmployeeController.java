@@ -19,6 +19,7 @@ public class EmployeeController {
 
     public static Route fetchEmployees = (Request req, Response res) -> {
         Map map = new HashMap<>();
+        map.put("employees", employeeDao.findAllByOrderByLastName());
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByLastName());
         return render(map, "employees");
     };
@@ -55,6 +56,12 @@ public class EmployeeController {
         
         res.redirect("/employees", 303);
         
+        return "";
+    };
+    
+    public static Route handleDeleteEmployee = (Request req, Response res) -> {
+        employeeDao.delete(UUID.fromString(req.params(":id")));
+        res.redirect("/employees", 303);
         return "";
     };
 }

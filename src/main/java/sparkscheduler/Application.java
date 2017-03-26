@@ -41,6 +41,7 @@ public class Application {
         get("/shifts", ShiftController.fetchShifts);
         get("/employee/:id", EmployeeController.fetchEmployee);
         post("/employee/:id", EmployeeController.handleUpdateEmployee);
+        post("/employee/:id/delete", EmployeeController.handleDeleteEmployee);
         post("/employee", EmployeeController.handleAddEmployee);
         get("/employees", EmployeeController.fetchEmployees);
 
