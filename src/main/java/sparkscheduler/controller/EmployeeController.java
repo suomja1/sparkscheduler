@@ -36,7 +36,7 @@ public class EmployeeController {
                 contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
         );
         
-        res.redirect("/employees", 303);
+        res.redirect("/employee", 303);
         
         return "";
     };
@@ -54,14 +54,14 @@ public class EmployeeController {
                 Double.parseDouble(req.queryParams("contract"))
         );
         
-        res.redirect("/employees", 303);
+        res.redirect("/employee", 303);
         
         return "";
     };
     
     public static Route handleDeleteEmployee = (Request req, Response res) -> {
         employeeDao.delete(UUID.fromString(req.params(":id")));
-        res.redirect("/employees", 303);
+        res.redirect("/employee", 303);
         return "";
     };
 }
