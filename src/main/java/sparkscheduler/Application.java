@@ -36,13 +36,17 @@ public class Application {
         
         // Routes
         get("/", IndexController.serveIndexPage);
+        
         get("/login", LoginController.serveLoginPage);
+        
         get("/shift", ShiftController.fetchShift);
         get("/shifts", ShiftController.fetchShifts);
+        
         get("/employee/:id", EmployeeController.fetchEmployee);
         post("/employee/:id", EmployeeController.handleUpdateEmployee);
         post("/employee/:id/delete", EmployeeController.handleDeleteEmployee);
         post("/employee", EmployeeController.handleAddEmployee);
+        
         get("/employees", EmployeeController.fetchEmployees);
 
         notFound(ExceptionController.serveNotFoundPage);
