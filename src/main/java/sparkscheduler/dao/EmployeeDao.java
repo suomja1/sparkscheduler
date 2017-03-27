@@ -41,6 +41,10 @@ public class EmployeeDao {
         }
     }
 
+    /**
+     * @throws NullPointerException Employee with given id can't be found, that
+     * is the fetched list is empty
+     */
     public Employee findOne(UUID id) {
         try (Connection c = sql2o.open()) {
             Employee employee = c.createQuery("SELECT * FROM Employee WHERE id = :id")
@@ -82,6 +86,9 @@ public class EmployeeDao {
         }
     }
     
+    /**
+     * @deprecated  Experimental – not tested!
+     */
     public List<Employee> findByUnitOrderByFullName(List<UUID> units) {
         try (Connection c = sql2o.open()) {
             String SQL = "SELECT e.id, e.superior, e.fullName, e.username, e.password, e.contract FROM Employee e "
@@ -100,6 +107,10 @@ public class EmployeeDao {
         }
     }
     
+    /**
+     * Find all superiors. The method searches the database for employees who
+     * don't have a superior.
+     */
     public List<Employee> findBySuperiorIsNullOrderByFullName() {
         try (Connection c = sql2o.open()) {
             List<Employee> employees = c.createQuery("SELECT * FROM Employee WHERE superior IS NULL ORDER BY fullName")

@@ -23,42 +23,44 @@ public class EmployeeController {
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
         return render(map, "employees");
     };
-    
+
     public static Route handleAddEmployee = (Request req, Response res) -> {
         String superior = req.queryParams("superior");
         String contract = req.queryParams("contract");
+        String username = req.queryParams("username");
         
-        employeeDao.save(
-                superior == null || superior.isEmpty() ? null : UUID.fromString(superior), 
-                req.queryParams("fullName"), 
-                req.queryParams("username"), 
-                req.queryParams("password"), 
-                contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
-        );
-        
+        if (!employeeDao.existsByUsername(username)) {
+            employeeDao.save(superior == null || superior.isEmpty() ? null : UUID.fromString(superior),
+                    req.queryParams("fullName"),
+                    username,
+                    req.queryParams("password"),
+                    contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
+            );
+        }
+
         res.redirect("/employee", 303);
         
         return "";
     };
-    
+
     public static Route handleUpdateEmployee = (Request req, Response res) -> {
         UUID id = UUID.fromString(req.params(":id"));
         String superior = req.queryParams("superior");
-        
+
         employeeDao.update(
                 id,
-                superior == null || superior.isEmpty() ? null : UUID.fromString(superior), 
-                req.queryParams("fullName"), 
-                req.queryParams("username"), 
-                req.queryParams("password"), 
+                superior == null || superior.isEmpty() ? null : UUID.fromString(superior),
+                req.queryParams("fullName"),
+                req.queryParams("username"),
+                req.queryParams("password"),
                 Double.parseDouble(req.queryParams("contract"))
         );
-        
+
         res.redirect("/employee", 303);
-        
+
         return "";
     };
-    
+
     public static Route handleDeleteEmployee = (Request req, Response res) -> {
         employeeDao.delete(UUID.fromString(req.params(":id")));
         res.redirect("/employee", 303);
