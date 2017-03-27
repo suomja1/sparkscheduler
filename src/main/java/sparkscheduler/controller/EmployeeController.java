@@ -8,21 +8,6 @@ import spark.Response;
 import spark.Route;
 import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
-import static sparkscheduler.util.ViewUtil.render;
 
 public class EmployeeController {
     public static Route fetchEmployee = (Request req, Response res) -> {

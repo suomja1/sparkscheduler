@@ -5,8 +5,8 @@ import java.util.Map;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import static sparkscheduler.util.ViewUtil.render;
 import static sparkscheduler.Application.unitDao;
+import static sparkscheduler.util.ViewUtil.render;
 
 public class IndexController {
     public static Route serveIndexPage = (Request req, Response res) -> {
