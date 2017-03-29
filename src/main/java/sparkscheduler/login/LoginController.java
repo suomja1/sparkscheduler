@@ -1,4 +1,4 @@
-package sparkscheduler.controller;
+package sparkscheduler.login;
 
 import spark.Request;
 import spark.Response;

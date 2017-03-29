@@ -1,4 +1,4 @@
-package sparkscheduler.dao;
+package sparkscheduler.shift;
 
 import org.sql2o.Sql2o;
 

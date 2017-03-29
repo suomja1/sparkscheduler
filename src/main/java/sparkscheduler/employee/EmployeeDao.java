@@ -1,11 +1,10 @@
-package sparkscheduler.dao;
+package sparkscheduler.employee;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-import sparkscheduler.model.Employee;
 
 /**
  * Provides sophisticated CRUD functionality for the entity class Employee.
@@ -18,6 +17,10 @@ public class EmployeeDao {
         this.sql2o = sql2o;
     }
 
+    /**
+     * Save employee to database. Since the entity has an optional parameter 
+     * contract, the method must work with a null contract value.
+     */
     public UUID save(UUID superior, String fullName, String username, String password, Double contract) {
         try (Connection c = sql2o.open()) {
             if (contract == null) {

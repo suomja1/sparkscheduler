@@ -1,4 +1,4 @@
-package sparkscheduler.controller;
+package sparkscheduler.employee;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +17,10 @@ public class EmployeeController {
         return render(map, "employee");
     };
 
+    /**
+     * Controller for the list view of employees. For now the controller views
+     * all employees at the same time.
+     */
     public static Route fetchEmployees = (Request req, Response res) -> {
         Map map = new HashMap<>();
         map.put("employees", employeeDao.findAllByOrderByFullName());

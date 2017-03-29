@@ -1,4 +1,4 @@
-package sparkscheduler.controller;
+package sparkscheduler.shift;
 
 import spark.Request;
 import spark.Response;
