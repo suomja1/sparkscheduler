@@ -31,17 +31,27 @@ public class EmployeeController {
     public static Route handleAddEmployee = (Request req, Response res) -> {
         String superior = req.queryParams("superior");
         String contract = req.queryParams("contract");
-        String username = req.queryParams("username");
         
-        if (!employeeDao.existsByUsername(username)) {
-            employeeDao.save(superior == null || superior.isEmpty() ? null : UUID.fromString(superior),
-                    req.queryParams("fullName"),
-                    username,
-                    req.queryParams("password"),
-                    contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
-            );
+        NewEmployeePayload nep = new NewEmployeePayload(
+                superior == null || superior.isEmpty() ? null : UUID.fromString(superior),
+                req.queryParams("fullName"),
+                req.queryParams("username"),
+                req.queryParams("password")
+        );
+        
+        if (!nep.isValid()) {
+            res.status(400);
+            return "";
         }
-
+        
+        employeeDao.save(
+                nep.getSuperior(),
+                nep.getFullName(),
+                nep.getUsername(),
+                nep.getPassword(),
+                contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
+        );
+        
         res.redirect("/employee", 303);
         
         return "";
