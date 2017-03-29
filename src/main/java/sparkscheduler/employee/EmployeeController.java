@@ -1,6 +1,5 @@
 package sparkscheduler.employee;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -30,19 +29,18 @@ public class EmployeeController {
     };
 
     public static Route handleAddEmployee = (Request req, Response res) -> {
-        NewEmployeePayload creation = new ObjectMapper().readValue(req.body(), NewEmployeePayload.class);
+        String superior = req.queryParams("superior");
+        String contract = req.queryParams("contract");
+        String username = req.queryParams("username");
         
-        if (!creation.isValid()) {
-            res.status(400);
-            return "";
+        if (!employeeDao.existsByUsername(username)) {
+            employeeDao.save(superior == null || superior.isEmpty() ? null : UUID.fromString(superior),
+                    req.queryParams("fullName"),
+                    username,
+                    req.queryParams("password"),
+                    contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
+            );
         }
-        
-        employeeDao.save(creation.getSuperior(),
-                creation.getFullName(),
-                creation.getUsername(),
-                creation.getPassword(),
-                creation.getContract()
-        );
 
         res.redirect("/employee", 303);
         
