@@ -37,14 +37,9 @@ public class EmployeeController {
     public static Route handleAddEmployee = (Request req, Response res) -> {
         Employee employee = new Employee();
         
-        try {
             MultiMap<String> params = new MultiMap<>();
             UrlEncoded.decodeTo(req.body(), params, "UTF-8");
             BeanUtils.populate(employee, params);
-        } catch (Exception e) {
-            res.redirect("/employee", 400);
-            return "";
-        }
         
         if (!employee.isValidForCreation()
                 || (employee.getSuperior() != null && !employeeDao.exists(employee.getSuperior()))
