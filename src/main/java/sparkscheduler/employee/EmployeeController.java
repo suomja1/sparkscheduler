@@ -8,6 +8,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import static spark.Spark.halt;
+import spark.utils.StringUtils;
 import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
 
@@ -34,26 +35,29 @@ public class EmployeeController {
     };
     
     public static Filter validateAddEmployee = (Request req, Response res) -> {
-        UUID superior = null;
-        Double contract= null;
+        String superior = req.queryParams("superior");
+        String contract = req.queryParams("contract");
+        
+        UUID superiorUUID = null;
+        Double contractDouble = null;
         
         try {
-            superior = UUID.fromString(req.queryParams("superior"));
-            contract = Double.parseDouble(req.queryParams("contract"));
+            superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
+            contractDouble = StringUtils.isEmpty(contract) ? null : Double.parseDouble(contract);
         } catch (IllegalArgumentException e) {
             halt(400);
         }
         
         Employee employee = new Employee(
-                superior, 
+                superiorUUID, 
                 req.queryParams("fullName"), 
                 req.queryParams("username"), 
                 req.queryParams("password"), 
-                contract
+                contractDouble
         );
         
         if (!employee.isValidForCreation()
-                || (superior != null && !employeeDao.exists(superior))
+                || (superiorUUID != null && !employeeDao.exists(superiorUUID))
                 || employeeDao.existsByUsername(employee.getUsername())) {
             halt(400);
         }
@@ -63,11 +67,11 @@ public class EmployeeController {
         String superior = req.queryParams("superior");
         String contract = req.queryParams("contract");
 
-        employeeDao.save(superior.isEmpty() ? null : UUID.fromString(superior),
+        employeeDao.save(StringUtils.isEmpty(superior) ? null : UUID.fromString(superior),
                 req.queryParams("fullName"),
                 req.queryParams("username"),
                 req.queryParams("password"),
-                contract.isEmpty() ? null : Double.parseDouble(contract)
+                StringUtils.isEmpty(contract) ? null : Double.parseDouble(contract)
         );
 
         res.redirect("/employee", 303);
