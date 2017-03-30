@@ -16,6 +16,7 @@ import static spark.Spark.get;
 import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.post;
+import static spark.Spark.before;
 
 public class Application {
     // Dependencies
@@ -44,9 +45,12 @@ public class Application {
         
         get("/employee", EmployeeController.fetchEmployees);
         get("/employee/:id", EmployeeController.fetchEmployee);
+        
         post("/employee/:id/edit", EmployeeController.handleUpdateEmployee);
         post("/employee/:id/delete", EmployeeController.handleDeleteEmployee);
-        post("/employee", EmployeeController.handleAddEmployee);
+        
+        before("/employee/add", EmployeeController.validateAddEmployee);
+        post("/employee/add", EmployeeController.handleAddEmployee);
 
         notFound(ViewUtil.notFound);
         internalServerError(ViewUtil.internalServerError);

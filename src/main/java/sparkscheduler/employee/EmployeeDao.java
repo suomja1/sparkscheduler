@@ -73,7 +73,7 @@ public class EmployeeDao {
     
     public List<Employee> findByUnitOrderByFullName(UUID unit) {
         try (Connection c = sql2o.open()) {
-            String SQL = "SELECT e.id, e.superior, e.fullName, e.username, e.password, e.contract FROM Employee e "
+            String SQL = "SELECT * FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
                     + "AND s.unit = :unit "
@@ -94,7 +94,7 @@ public class EmployeeDao {
      */
     public List<Employee> findByUnitOrderByFullName(List<UUID> units) {
         try (Connection c = sql2o.open()) {
-            String SQL = "SELECT e.id, e.superior, e.fullName, e.username, e.password, e.contract FROM Employee e "
+            String SQL = "SELECT * FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
                     + String.format("AND s.unit IN (%s) ",

@@ -3,9 +3,11 @@ package sparkscheduler.employee;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import spark.Filter;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import static spark.Spark.halt;
 import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
 
@@ -30,17 +32,42 @@ public class EmployeeController {
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
         return render(map, "employees");
     };
+    
+    public static Filter validateAddEmployee = (Request req, Response res) -> {
+        UUID superior = null;
+        Double contract= null;
+        
+        try {
+            superior = UUID.fromString(req.queryParams("superior"));
+            contract = Double.parseDouble(req.queryParams("contract"));
+        } catch (IllegalArgumentException e) {
+            halt(400);
+        }
+        
+        Employee employee = new Employee(
+                superior, 
+                req.queryParams("fullName"), 
+                req.queryParams("username"), 
+                req.queryParams("password"), 
+                contract
+        );
+        
+        if (!employee.isValidForCreation()
+                || (superior != null && !employeeDao.exists(superior))
+                || employeeDao.existsByUsername(employee.getUsername())) {
+            halt(400);
+        }
+    };
 
     public static Route handleAddEmployee = (Request req, Response res) -> {
         String superior = req.queryParams("superior");
         String contract = req.queryParams("contract");
-        String username = req.queryParams("username");
 
-        employeeDao.save(superior == null || superior.isEmpty() ? null : UUID.fromString(superior),
+        employeeDao.save(superior.isEmpty() ? null : UUID.fromString(superior),
                 req.queryParams("fullName"),
-                username,
+                req.queryParams("username"),
                 req.queryParams("password"),
-                contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
+                contract.isEmpty() ? null : Double.parseDouble(contract)
         );
 
         res.redirect("/employee", 303);
