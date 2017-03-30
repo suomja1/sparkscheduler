@@ -8,7 +8,13 @@ import spark.Response;
 import spark.Route;
 import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
+import org.apache.commons.beanutils.BeanUtils;
+import org.eclipse.jetty.util.MultiMap;
+import org.eclipse.jetty.util.UrlEncoded;
 
+/**
+ * Controller for the Employee entity. For now none of the routes is validated.
+ */
 public class EmployeeController {
     public static Route fetchEmployee = (Request req, Response res) -> {
         Map map = new HashMap<>();
@@ -29,19 +35,33 @@ public class EmployeeController {
     };
 
     public static Route handleAddEmployee = (Request req, Response res) -> {
-        String superior = req.queryParams("superior");
-        String contract = req.queryParams("contract");
-        String username = req.queryParams("username");
-
-        employeeDao.save(superior == null || superior.isEmpty() ? null : UUID.fromString(superior),
-                req.queryParams("fullName"),
-                username,
-                req.queryParams("password"),
-                contract == null || contract.isEmpty() ? null : Double.parseDouble(contract)
+        Employee employee = new Employee();
+        
+        try {
+            MultiMap<String> params = new MultiMap<>();
+            UrlEncoded.decodeTo(req.body(), params, "UTF-8");
+            BeanUtils.populate(employee, params);
+        } catch (Exception e) {
+            res.redirect("/employee", 400);
+            return "";
+        }
+        
+        if (!employee.isValidForCreation()
+                || (employee.getSuperior() != null && !employeeDao.exists(employee.getSuperior()))
+                || employeeDao.existsByUsername(employee.getUsername())) {
+            res.redirect("/employee", 400);
+            return "";
+        }
+        
+        employeeDao.save(
+                employee.getSuperior(),
+                employee.getFullName(),
+                employee.getUsername(),
+                employee.getPassword(),
+                employee.getContract()
         );
 
         res.redirect("/employee", 303);
-
         return "";
     };
 
