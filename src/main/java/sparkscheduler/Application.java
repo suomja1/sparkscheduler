@@ -45,7 +45,7 @@ public class Application {
         DirectFormClient directFormClient = new DirectFormClient(new SimpleTestUsernamePasswordAuthenticator());
         Config config = new Config(directFormClient);
         config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
-        config.addMatcher("excludedPath", new PathMatcher().excludePath("https://onlinescheduler.herokuapp.com/login"));
+        config.addMatcher("excludedPath", new PathMatcher().excludePath("/login"));
         before("*", new SecurityFilter(config, "DirectFormClient", "", "excludedPath"));
         
         // Routes
