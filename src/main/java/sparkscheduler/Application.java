@@ -1,11 +1,5 @@
 package sparkscheduler;
 
-import org.pac4j.core.authorization.authorizer.RequireAnyRoleAuthorizer;
-import org.pac4j.core.config.Config;
-import org.pac4j.core.matching.PathMatcher;
-import org.pac4j.http.client.direct.DirectFormClient;
-import org.pac4j.http.credentials.authenticator.test.SimpleTestUsernamePasswordAuthenticator;
-import org.pac4j.sparkjava.SecurityFilter;
 import org.sql2o.Sql2o;
 import static spark.Spark.staticFiles;
 import sparkscheduler.employee.EmployeeController;
@@ -41,12 +35,6 @@ public class Application {
         shiftDao = new ShiftDao(sql2o);
         
         getHerokuAssignedPort();
-        
-        DirectFormClient directFormClient = new DirectFormClient(new SimpleTestUsernamePasswordAuthenticator());
-        Config config = new Config(directFormClient);
-        config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
-        config.addMatcher("excludedPath", new PathMatcher().excludePath("/login"));
-        before("*", new SecurityFilter(config, "DirectFormClient", "", "excludedPath"));
         
         // Routes
         get("/", IndexController.serveIndexPage);
