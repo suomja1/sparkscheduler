@@ -36,30 +36,32 @@ public class EmployeeController {
     
     public static Filter validateAddEmployee = (Request req, Response res) -> {
         String superior = req.queryParams("superior");
-        String contract = req.queryParams("contract");
+        String username = req.queryParams("username");
         
-        UUID superiorUUID = null;
-        Double contractDouble = null;
-        
-        try {
-            superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
-            contractDouble = StringUtils.isEmpty(contract) ? null : Double.parseDouble(contract);
-        } catch (IllegalArgumentException e) {
-            halt(400);
-        }
-        
-        Employee employee = new Employee(
-                superiorUUID, 
-                req.queryParams("fullName"), 
-                req.queryParams("username"), 
+        NewEmployeePayload nep = new NewEmployeePayload(
+                null, 
+                superior, 
+                req.queryParams("fullName"),
+                username, 
                 req.queryParams("password"), 
-                contractDouble
+                req.queryParams("contract")
         );
         
-        if (!employee.isValidForCreation()
-                || (superiorUUID != null && !employeeDao.exists(superiorUUID))
-                || employeeDao.existsByUsername(employee.getUsername())) {
+        String error = nep.isValidForCreation();
+        
+        if (StringUtils.isEmpty(error)) {
+            UUID superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
+            
+            if (superiorUUID != null && !employeeDao.exists(superiorUUID)) {
+                error = "Syöttämääsi esimiestä ei ole olemassa!";
+            } else if (employeeDao.existsByUsername(username)) {
+                error = "Käyttäjänimi on jo käytössä!";
+            }
+        }
+        
+        if (!StringUtils.isEmpty(error)) {
             halt(400);
+            // Do something?
         }
     };
 
