@@ -44,8 +44,8 @@ public class Application {
         get("/shift", ShiftController.fetchShift);
         get("/shifts", ShiftController.fetchShifts);
         
+        get("/employee", EmployeeController.fetchEmployees);
         path("/employee", () -> {
-            get("/", EmployeeController.fetchEmployees);
             get("/:id", EmployeeController.fetchEmployee);
 
             post("/:id/edit", EmployeeController.handleUpdateEmployee);
