@@ -1,6 +1,5 @@
 package sparkscheduler.employee;
 
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import spark.utils.StringUtils;
@@ -20,15 +19,15 @@ public class NewEmployeePayload implements Validable {
     public String isValidForCreation() {
         String error = null;
         
-        if (StringUtils.isEmpty(fullName)) {
+        if (StringUtils.isEmpty(this.fullName)) {
             error = "Nimi ei voi olla tyhjä!";
-        } else if (StringUtils.isEmpty(username)) {
+        } else if (StringUtils.isEmpty(this.username)) {
             error = "Käyttäjänimi ei voi olla tyhjä!";
-        } else if (StringUtils.isEmpty(password)) {
+        } else if (StringUtils.isEmpty(this.password)) {
             error = "Salasana ei voi olla tyhjä!";
-        } else if (!StringUtils.isEmpty(superior) && !idIsParsable(superior)) {
+        } else if (!StringUtils.isEmpty(this.superior) && !this.uuidIsParsable(this.superior)) {
             error = "Syöttämääsi esimiestä ei ole olemassa!";
-        } else if (!StringUtils.isEmpty(contract) && !contractIsParsable(contract)) {
+        } else if (!StringUtils.isEmpty(this.contract) && !this.doubleIsParsable(this.contract)) {
             error = "Sopimus ei ole kelvollinen desimaaliluku!";
         }
         
@@ -37,30 +36,16 @@ public class NewEmployeePayload implements Validable {
 
     @Override
     public String isValidForUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    private boolean idIsParsable(String id){
-        boolean parsable = true;
-        
+    private boolean doubleIsParsable(String doubl){
         try {
-            UUID.fromString(id);
-        } catch (IllegalArgumentException e) {
-            parsable = false; 
-        }
-        
-        return parsable;
-    }
-    
-    private boolean contractIsParsable(String contract){
-        boolean parsable = true;
-        
-        try {
-            Double.parseDouble(contract);
+            Double.parseDouble(doubl);
         } catch (NumberFormatException e) {
-            parsable = false; 
+            return false; 
         }
         
-        return parsable;
+        return true;
     }
 }

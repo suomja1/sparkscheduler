@@ -22,7 +22,7 @@ public class EmployeeDao {
      * contract, the method must work with a null contract value.
      */
     public UUID save(UUID superior, String fullName, String username, String password, Double contract) {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             if (contract == null) {
                 return c.createQuery("INSERT INTO Employee (superior, fullName, username, password) VALUES (:superior, :fullName, :username, :password)", true)
                         .addParameter("superior", superior)
@@ -49,7 +49,7 @@ public class EmployeeDao {
      * is the fetched list is empty
      */
     public Employee findOne(UUID id) {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             Employee employee = c.createQuery("SELECT * FROM Employee WHERE id = :id")
                     .addParameter("id", id)
                     .executeAndFetchFirst(Employee.class);
@@ -61,18 +61,18 @@ public class EmployeeDao {
     }
 
     public List<Employee> findAllByOrderByFullName() {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             List<Employee> employees = c.createQuery("SELECT * FROM Employee ORDER BY fullName")
                     .executeAndFetch(Employee.class);
 
-            employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));
+            employees.forEach(employee -> employee.setShifts(this.getShiftsFor(c, employee.getId())));
 
             return employees;
         }
     }
     
     public List<Employee> findByUnitOrderByFullName(UUID unit) {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             String SQL = "SELECT * FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
@@ -83,7 +83,7 @@ public class EmployeeDao {
                     .addParameter("unit", unit)
                     .executeAndFetch(Employee.class);
 
-            employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));
+            employees.forEach(employee -> employee.setShifts(this.getShiftsFor(c, employee.getId())));
 
             return employees;
         }
@@ -93,7 +93,7 @@ public class EmployeeDao {
      * @deprecated  Experimental – not tested!
      */
     public List<Employee> findByUnitOrderByFullName(List<UUID> units) {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             String SQL = "SELECT * FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
@@ -104,7 +104,7 @@ public class EmployeeDao {
             List<Employee> employees = c.createQuery(SQL)
                     .executeAndFetch(Employee.class);
 
-            employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));
+            employees.forEach(employee -> employee.setShifts(this.getShiftsFor(c, employee.getId())));
 
             return employees;
         }
@@ -115,25 +115,25 @@ public class EmployeeDao {
      * don't have a superior.
      */
     public List<Employee> findBySuperiorIsNullOrderByFullName() {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             List<Employee> employees = c.createQuery("SELECT * FROM Employee WHERE superior IS NULL ORDER BY fullName")
                     .executeAndFetch(Employee.class);
 
-            employees.forEach(employee -> employee.setShifts(getShiftsFor(c, employee.getId())));
+            employees.forEach(employee -> employee.setShifts(this.getShiftsFor(c, employee.getId())));
 
             return employees;
         }
     }
 
     public Integer count() {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             return c.createQuery("SELECT COUNT(*) FROM Employee")
                     .executeScalar(Integer.class);
         }
     }
 
     public void delete(UUID id) {
-        try (Connection c = sql2o.beginTransaction()) {
+        try (Connection c = this.sql2o.beginTransaction()) {
             c.createQuery("DELETE FROM EmployeeShift WHERE employee = :employee")
                     .addParameter("employee", id)
                     .executeUpdate();
@@ -151,7 +151,7 @@ public class EmployeeDao {
     }
 
     public boolean exists(UUID id) {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             return !c.createQuery("SELECT * FROM Employee WHERE id = :id")
                     .addParameter("id", id)
                     .executeAndFetch(Employee.class)
@@ -160,7 +160,7 @@ public class EmployeeDao {
     }
     
     public boolean existsByUsername(String username) {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             return !c.createQuery("SELECT * FROM Employee WHERE username = :username")
                     .addParameter("username", username)
                     .executeAndFetch(Employee.class)
@@ -169,7 +169,7 @@ public class EmployeeDao {
     }
 
     public void update(UUID id, UUID superior, String fullName, String username, String password, Double contract) {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             c.createQuery("UPDATE Employee SET superior = :superior, fullName = :fullName, username = :username, password = :password, contract = :contract WHERE id = :id")
                     .addParameter("id", id)
                     .addParameter("superior", superior)

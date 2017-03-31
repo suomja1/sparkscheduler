@@ -12,7 +12,7 @@ public class UnitDao {
     }
     
     public List<Unit> findAllByOrderByName() {
-        try (Connection c = sql2o.open()) {
+        try (Connection c = this.sql2o.open()) {
             return c.createQuery("SELECT * FROM Unit ORDER BY name")
                     .executeAndFetch(Unit.class);
         }
