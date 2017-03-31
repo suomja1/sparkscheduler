@@ -60,8 +60,8 @@ public class EmployeeController {
         }
         
         if (!StringUtils.isEmpty(error)) {
-            halt(400);
             // Do something?
+            halt(400);
         }
     };
 
