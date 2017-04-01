@@ -13,3 +13,4 @@ Yleisiä linkkejä:
  - [Työvuorojen listaussivu](https://onlinescheduler.herokuapp.com/shifts)
  - [Työntekijöiden listaussivu](https://onlinescheduler.herokuapp.com/employee)
  - [Työvuoron esittely- ja muokkaussivu](https://onlinescheduler.herokuapp.com/shift)
+ - [Työntekijän lisäyssivu](https://onlinescheduler.herokuapp.com/employee/add)
