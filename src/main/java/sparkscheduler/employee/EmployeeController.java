@@ -71,7 +71,8 @@ public class EmployeeController {
     };
     
     public static Route handleUpdateEmployee = (Request req, Response res) -> {
-        UUID employee = UUID.fromString(req.params(":id"));
+        UUID id = UUID.fromString(req.params(":id"));
+        Employee employee = employeeDao.findOne(id);
         
         NewEmployeePayload nep = new NewEmployeePayload(
                 req.queryParams("superior"), 
@@ -88,10 +89,10 @@ public class EmployeeController {
             
             if (superior != null && !employeeDao.exists(superior)) {
                 error = "Syöttämääsi esimiestä ei ole olemassa!";
-            } else if (employeeDao.existsByUsername(nep.getUsername())) {
+            } else if (!employee.getUsername().equals(nep.getUsername()) && employeeDao.existsByUsername(nep.getUsername())) {
                 error = "Käyttäjänimi on jo käytössä!";
             } else {
-                employeeDao.update(employee, superior, nep.getFullName(), nep.getUsername(), nep.getPassword(),
+                employeeDao.update(id, superior, nep.getFullName(), nep.getUsername(), nep.getPassword(),
                         Double.parseDouble(nep.getContract()));
                 res.redirect("/employee", 303);
                 return "";
@@ -100,7 +101,7 @@ public class EmployeeController {
         
         Map map = new HashMap<>();
         map.put("error", error);
-        map.put("employee", employeeDao.findOne(employee));
+        map.put("employee", employee);
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
         return render(req, map, "employee");
     };
