@@ -11,7 +11,7 @@ import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
 
 /**
- * Controller for the Employee entity. For now none of the routes is validated.
+ * Controller for the Employee entity. For now only some of the routes is validated.
  */
 public class EmployeeController {
     public static Route fetchEmployee = (Request req, Response res) -> {
@@ -28,7 +28,6 @@ public class EmployeeController {
     public static Route fetchEmployees = (Request req, Response res) -> {
         Map map = new HashMap<>();
         map.put("employees", employeeDao.findAllByOrderByFullName());
-        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
         return render(req, map, "employees");
     };
     
@@ -39,32 +38,32 @@ public class EmployeeController {
     };
     
     public static Route handleAddEmployee = (Request req, Response res) -> {
-        Map map = new HashMap<>();
-        String superior = req.queryParams("superior");
-        String username = req.queryParams("username");
-        String contract = req.queryParams("contract");
-        String fullName = req.queryParams("fullName");
-        String password = req.queryParams("password");
-
-        NewEmployeePayload nep = new NewEmployeePayload(null, superior, fullName, username, password, contract);
+        NewEmployeePayload nep = new NewEmployeePayload(
+                req.queryParams("superior"), 
+                req.queryParams("fullName"), 
+                req.queryParams("username"), 
+                req.queryParams("password"), 
+                req.queryParams("contract")
+        );
 
         String error = nep.isValidForCreation();
         
         if (StringUtils.isEmpty(error)) {
-            UUID superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
+            UUID superior = StringUtils.isEmpty(nep.getSuperior()) ? null : UUID.fromString(nep.getSuperior());
             
-            if (superiorUUID != null && !employeeDao.exists(superiorUUID)) {
+            if (superior != null && !employeeDao.exists(superior)) {
                 error = "Syöttämääsi esimiestä ei ole olemassa!";
-            } else if (employeeDao.existsByUsername(username)) {
+            } else if (employeeDao.existsByUsername(nep.getUsername())) {
                 error = "Käyttäjänimi on jo käytössä!";
             } else {
-                employeeDao.save(superiorUUID, fullName, username, password,
-                        StringUtils.isEmpty(contract) ? null : Double.parseDouble(contract));
+                employeeDao.save(superior, nep.getFullName(), nep.getUsername(), nep.getPassword(),
+                        StringUtils.isEmpty(nep.getContract()) ? null : Double.parseDouble(nep.getContract()));
                 res.redirect("/employee", 303);
                 return "";
             }
         }
         
+        Map map = new HashMap<>();
         map.put("error", error);
         map.put("nep", nep);
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
@@ -72,21 +71,38 @@ public class EmployeeController {
     };
     
     public static Route handleUpdateEmployee = (Request req, Response res) -> {
-        UUID id = UUID.fromString(req.params(":id"));
-        String superior = req.queryParams("superior");
-
-        employeeDao.update(
-                id,
-                superior == null || superior.isEmpty() ? null : UUID.fromString(superior),
-                req.queryParams("fullName"),
-                req.queryParams("username"),
-                req.queryParams("password"),
-                Double.parseDouble(req.queryParams("contract"))
+        UUID employee = UUID.fromString(req.params(":id"));
+        
+        NewEmployeePayload nep = new NewEmployeePayload(
+                req.queryParams("superior"), 
+                req.queryParams("fullName"), 
+                req.queryParams("username"), 
+                req.queryParams("password"), 
+                req.queryParams("contract")
         );
-
-        res.redirect("/employee", 303);
-
-        return "";
+        
+        String error = nep.isValidForUpdate();
+        
+        if (StringUtils.isEmpty(error)) {
+            UUID superior = StringUtils.isEmpty(nep.getSuperior()) ? null : UUID.fromString(nep.getSuperior());
+            
+            if (superior != null && !employeeDao.exists(superior)) {
+                error = "Syöttämääsi esimiestä ei ole olemassa!";
+            } else if (employeeDao.existsByUsername(nep.getUsername())) {
+                error = "Käyttäjänimi on jo käytössä!";
+            } else {
+                employeeDao.update(employee, superior, nep.getFullName(), nep.getUsername(), nep.getPassword(),
+                        Double.parseDouble(nep.getContract()));
+                res.redirect("/employee", 303);
+                return "";
+            }
+        }
+        
+        Map map = new HashMap<>();
+        map.put("error", error);
+        map.put("employee", employeeDao.findOne(employee));
+        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
+        return render(req, map, "employee");
     };
 
     public static Route handleDeleteEmployee = (Request req, Response res) -> {

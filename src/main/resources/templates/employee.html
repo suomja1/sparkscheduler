@@ -6,6 +6,8 @@
         
         <h4>Työntekijän tiedot</h4>
         
+        <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">error message</p>
+        
         <form class="form-horizontal" method="post" th:action="@{~/employee/{id}/edit(id=${employee.id})}">
             <div th:replace="layout :: fullNameInput (fullNameValue=${employee.fullName})"/>
             

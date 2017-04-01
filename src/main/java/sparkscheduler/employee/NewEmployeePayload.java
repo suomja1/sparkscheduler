@@ -8,7 +8,6 @@ import sparkscheduler.Validable;
 @Data
 @AllArgsConstructor
 public class NewEmployeePayload implements Validable {
-    private String id;
     private String superior;
     private String fullName;
     private String username;
@@ -36,7 +35,15 @@ public class NewEmployeePayload implements Validable {
 
     @Override
     public String isValidForUpdate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String error = this.isValidForCreation();
+        
+        if (StringUtils.isEmpty(error)) {
+            if (StringUtils.isEmpty(this.contract)) {
+                error = "Sopimus ei voi olla tyhjä!";
+            }
+        }
+        
+        return error;
     }
     
     private boolean doubleIsParsable(String doubl){
