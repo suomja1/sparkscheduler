@@ -48,11 +48,11 @@ public class Application {
         
         path("/employee", () -> {
             get("", EmployeeController.fetchEmployees);
-            get("/:id", EmployeeController.fetchEmployee);
             get("/add", EmployeeController.serveAddEmployeePage);
+            post("/add", EmployeeController.handleAddEmployee);
+            get("/:id", EmployeeController.fetchEmployee);
             post("/:id/edit", EmployeeController.handleUpdateEmployee);
             post("/:id/delete", EmployeeController.handleDeleteEmployee);
-            post("/add", EmployeeController.handleAddEmployee);
         });
         
         notFound(ViewUtil.notFound);

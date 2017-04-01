@@ -66,6 +66,7 @@ public class EmployeeController {
         
         if (!StringUtils.isEmpty(error)) {
             map.put("error", error);
+            map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
             return render(req, map, "addEmployee");
         }
         

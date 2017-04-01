@@ -4,7 +4,7 @@
     <body class="container-fluid">
         <header th:replace="layout :: header" />
 
-        <h4 id="add">Lisää työntekijä</h4>
+        <h4>Lisää työntekijä</h4>
         
         <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">virheviesti</p>
 
