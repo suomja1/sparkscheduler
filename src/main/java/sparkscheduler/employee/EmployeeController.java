@@ -43,44 +43,32 @@ public class EmployeeController {
         String superior = req.queryParams("superior");
         String username = req.queryParams("username");
         String contract = req.queryParams("contract");
+        String fullName = req.queryParams("fullName");
+        String password = req.queryParams("password");
 
-        NewEmployeePayload nep = new NewEmployeePayload(
-                null,
-                superior,
-                req.queryParams("fullName"),
-                username,
-                req.queryParams("password"),
-                contract
-        );
+        NewEmployeePayload nep = new NewEmployeePayload(null, superior, fullName, username, password, contract);
 
         String error = nep.isValidForCreation();
-        UUID superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
         
         if (StringUtils.isEmpty(error)) {
+            UUID superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
+            
             if (superiorUUID != null && !employeeDao.exists(superiorUUID)) {
                 error = "Syöttämääsi esimiestä ei ole olemassa!";
             } else if (employeeDao.existsByUsername(username)) {
                 error = "Käyttäjänimi on jo käytössä!";
+            } else {
+                employeeDao.save(superiorUUID, fullName, username, password,
+                        StringUtils.isEmpty(contract) ? null : Double.parseDouble(contract));
+                res.redirect("/employee", 303);
+                return "";
             }
         }
         
-        if (!StringUtils.isEmpty(error)) {
-            map.put("error", error);
-            map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
-            return render(req, map, "addEmployee");
-        }
-        
-        employeeDao.save(
-                superiorUUID,
-                req.queryParams("fullName"),
-                username,
-                req.queryParams("password"),
-                StringUtils.isEmpty(contract) ? null : Double.parseDouble(contract)
-        );
-
-        res.redirect("/employee", 303);
-
-        return "";
+        map.put("error", error);
+        map.put("nep", nep);
+        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
+        return render(req, map, "addEmployee");
     };
     
     public static Route handleUpdateEmployee = (Request req, Response res) -> {

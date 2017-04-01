@@ -5,9 +5,32 @@
         <header th:replace="layout :: header" />
 
         <h4>Lisää työntekijä</h4>
-        
-        <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">virheviesti</p>
 
-        <form th:replace="layout :: addEmployee"/>
+        <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">error message</p>
+
+        <div th:if="${nep == null}">
+            <form th:replace="layout :: addEmployee"/>
+        </div>
+
+        <div th:unless="${nep == null}">
+            <form class="form-horizontal" method="post" th:action="@{~/employee/add}">
+                <div th:replace="layout :: fullNameInput (fullNameValue=${nep.fullName})"/>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="superior">Esimies:</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="superior" name="superior">
+                            <option disabled="" selected="" value=""> -- valitse -- </option>
+                            <option th:each="s : ${superiors}" th:text="${s.fullName}" th:value="${s.id}" th:selected="${#strings.toString(s.id).equals(nep.superior)}">superior name</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div th:replace="layout :: contractInput (contractValue=${nep.contract})"/>
+                <div th:replace="layout :: usernameInput (usernameValue=${nep.username})"/>
+                <div th:replace="layout :: passwordInput (passwordValue=${nep.password})"/>
+                <div th:replace="layout :: submitButton ('Lisää')"/>
+            </form>
+        </div>
     </body>
 </html>
