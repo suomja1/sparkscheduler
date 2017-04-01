@@ -124,7 +124,8 @@ public class EmployeeDao {
     
     /**
      * Find all superiors. The method searches the database for employees who
-     * don't have a superior.
+     * don't have a superior. This is silly: Consider employee A with superior B.
+     * If we delete B, A doesn't have a superior anymore and thus becomes one!
      */
     public List<Employee> findBySuperiorIsNullOrderByFullName() {
         try (Connection c = this.sql2o.open()) {

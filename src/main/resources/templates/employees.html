@@ -36,6 +36,8 @@
         </table>
 
         <h4 id="add">Lisää työntekijä</h4>
+        
+        <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">virheviesti</p>
 
         <form th:replace="layout :: addEmployee"/>
     </body>

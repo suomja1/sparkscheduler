@@ -10,7 +10,6 @@ import spark.Route;
 import static spark.Spark.halt;
 import spark.utils.StringUtils;
 import static sparkscheduler.Application.employeeDao;
-import static sparkscheduler.login.LoginController.ensureUserIsLoggedIn;
 import static sparkscheduler.util.ViewUtil.render;
 
 /**
@@ -29,8 +28,6 @@ public class EmployeeController {
      * all employees at the same time.
      */
     public static Route fetchEmployees = (Request req, Response res) -> {
-        ensureUserIsLoggedIn(req, res);
-        
         Map map = new HashMap<>();
         map.put("employees", employeeDao.findAllByOrderByFullName());
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
@@ -38,38 +35,13 @@ public class EmployeeController {
         return render(req, map, "employees");
     };
     
-    public static Filter validateAddEmployee = (Request req, Response res) -> {
-        String superior = req.queryParams("superior");
-        String username = req.queryParams("username");
-        
-        NewEmployeePayload nep = new NewEmployeePayload(
-                null, 
-                superior, 
-                req.queryParams("fullName"),
-                username, 
-                req.queryParams("password"), 
-                req.queryParams("contract")
-        );
-        
-        String error = nep.isValidForCreation();
-        
-        if (StringUtils.isEmpty(error)) {
-            UUID superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
-            
-            if (superiorUUID != null && !employeeDao.exists(superiorUUID)) {
-                error = "Syöttämääsi esimiestä ei ole olemassa!";
-            } else if (employeeDao.existsByUsername(username)) {
-                error = "Käyttäjänimi on jo käytössä!";
-            }
-        }
-        
-        if (!StringUtils.isEmpty(error)) {
-            // Do something?
-            halt(400);
-        }
-    };
-
     public static Route handleAddEmployee = (Request req, Response res) -> {
+        String validate = validateAddEmployee(req, res);
+        
+        if (!StringUtils.isEmpty(validate)) {
+            return validate;
+        }
+        
         String superior = req.queryParams("superior");
         String contract = req.queryParams("contract");
 
@@ -84,6 +56,40 @@ public class EmployeeController {
 
         return "";
     };
+    
+    private static String validateAddEmployee(Request req, Response res) {
+        Map map = new HashMap<>();
+        String superior = req.queryParams("superior");
+        String username = req.queryParams("username");
+
+        NewEmployeePayload nep = new NewEmployeePayload(
+                null,
+                superior,
+                req.queryParams("fullName"),
+                username,
+                req.queryParams("password"),
+                req.queryParams("contract")
+        );
+
+        String error = nep.isValidForCreation();
+
+        if (StringUtils.isEmpty(error)) {
+            UUID superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
+
+            if (superiorUUID != null && !employeeDao.exists(superiorUUID)) {
+                error = "Syöttämääsi esimiestä ei ole olemassa!";
+            } else if (employeeDao.existsByUsername(username)) {
+                error = "Käyttäjänimi on jo käytössä!";
+            }
+        }
+
+        if (!StringUtils.isEmpty(error)) {
+            map.put("error", error);
+            return render(req, map, "employees");
+        }
+        
+        return "";
+    }
 
     public static Route handleUpdateEmployee = (Request req, Response res) -> {
         UUID id = UUID.fromString(req.params(":id"));

@@ -53,7 +53,6 @@ public class Application {
             post("/:id/edit", EmployeeController.handleUpdateEmployee);
             post("/:id/delete", EmployeeController.handleDeleteEmployee);
 
-            before("/add", EmployeeController.validateAddEmployee);
             post("/add", EmployeeController.handleAddEmployee);
         });
         
