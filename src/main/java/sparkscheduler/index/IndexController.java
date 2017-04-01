@@ -12,6 +12,6 @@ public class IndexController {
     public static Route serveIndexPage = (Request req, Response res) -> {
         Map map = new HashMap<>();
         map.put("units", unitDao.findAllByOrderByName());
-        return render(map, "index");
+        return render(req, map, "index");
     };
 }

@@ -59,6 +59,18 @@ public class EmployeeDao {
             return employee;
         }
     }
+    
+    public Employee findOneByUsername(String username) {
+        try (Connection c = this.sql2o.open()) {
+            Employee employee = c.createQuery("SELECT * FROM Employee WHERE username = :username")
+                    .addParameter("username", username)
+                    .executeAndFetchFirst(Employee.class);
+
+            employee.setShifts(getShiftsFor(c, employee.getId()));
+
+            return employee;
+        }
+    }
 
     public List<Employee> findAllByOrderByFullName() {
         try (Connection c = this.sql2o.open()) {

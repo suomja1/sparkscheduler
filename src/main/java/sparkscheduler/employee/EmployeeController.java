@@ -10,6 +10,7 @@ import spark.Route;
 import static spark.Spark.halt;
 import spark.utils.StringUtils;
 import static sparkscheduler.Application.employeeDao;
+import static sparkscheduler.login.LoginController.ensureUserIsLoggedIn;
 import static sparkscheduler.util.ViewUtil.render;
 
 /**
@@ -20,7 +21,7 @@ public class EmployeeController {
         Map map = new HashMap<>();
         map.put("employee", employeeDao.findOne(UUID.fromString(req.params(":id"))));
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
-        return render(map, "employee");
+        return render(req, map, "employee");
     };
 
     /**
@@ -28,10 +29,13 @@ public class EmployeeController {
      * all employees at the same time.
      */
     public static Route fetchEmployees = (Request req, Response res) -> {
+        ensureUserIsLoggedIn(req, res);
+        
         Map map = new HashMap<>();
         map.put("employees", employeeDao.findAllByOrderByFullName());
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
-        return render(map, "employees");
+        
+        return render(req, map, "employees");
     };
     
     public static Filter validateAddEmployee = (Request req, Response res) -> {
@@ -104,4 +108,14 @@ public class EmployeeController {
         res.redirect("/employee", 303);
         return "";
     };
+    
+    public static boolean authenticate(String username, String password) {
+        if (StringUtils.isEmpty(username)
+                || StringUtils.isEmpty(password)
+                || !employeeDao.existsByUsername(username)) {
+            return false;
+        }
+        
+        return employeeDao.findOneByUsername(username).getPassword().equals(password);
+    }
 }

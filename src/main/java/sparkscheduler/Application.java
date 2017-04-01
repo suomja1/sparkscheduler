@@ -40,6 +40,8 @@ public class Application {
         get("/", IndexController.serveIndexPage);
         
         get("/login", LoginController.serveLoginPage);
+        post("/login", LoginController.handleLogin);
+        post("/logout", LoginController.handleLogout);
         
         get("/shift", ShiftController.fetchShift);
         get("/shifts", ShiftController.fetchShifts);

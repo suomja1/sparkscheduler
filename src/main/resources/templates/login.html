@@ -6,9 +6,18 @@
         
         <h4>Kirjaudu sisään</h4>
         
+        <p th:if="${authenticationFailed}" class="text-warning">Sisäänkirjautuminen epäonnistui.</p>
+        <p th:if="${not authenticationFailed and authenticationSucceeded}" class="text-success">Sisäänkirjautuminen onnistui.</p>
+        <p th:if="${not authenticationFailed and not authenticationSucceeded and loggedOut}" class="text-info">Kirjauduttu ulos.</p>
+        
         <form class="form-horizontal" method="post">
             <div th:replace="layout :: usernameInput"/>
             <div th:replace="layout :: passwordInput"/>
+            
+            <div th:if="${loginRedirect}">
+                <input type="hidden" name="loginRedirect" value="${loginRedirect}"/>
+            </div>
+            
             <div th:replace="layout :: submitButton ('Kirjaudu')"/>
         </form>
     </body>
