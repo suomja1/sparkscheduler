@@ -57,7 +57,7 @@ public class LoginController {
     public static void ensureUserIsLoggedIn(Request req, Response res) {
         if (req.session().attribute("currentUser") == null) {
             req.session().attribute("loginRedirect", req.pathInfo());
-            res.redirect("/login", 401);
+            res.redirect("/login");
         }
     };
 }
