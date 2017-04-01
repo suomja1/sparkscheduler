@@ -3,11 +3,9 @@ package sparkscheduler.employee;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import spark.Filter;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import static spark.Spark.halt;
 import spark.utils.StringUtils;
 import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
@@ -31,23 +29,50 @@ public class EmployeeController {
         Map map = new HashMap<>();
         map.put("employees", employeeDao.findAllByOrderByFullName());
         map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
-        
         return render(req, map, "employees");
     };
     
+    public static Route serveAddEmployeePage = (Request req, Response res) -> {
+        Map map = new HashMap<>();
+        map.put("superiors", employeeDao.findBySuperiorIsNullOrderByFullName());
+        return render(req, map, "addEmployee");
+    };
+    
     public static Route handleAddEmployee = (Request req, Response res) -> {
-        String validate = validateAddEmployee(req, res);
-        
-        if (!StringUtils.isEmpty(validate)) {
-            return validate;
-        }
-        
+        Map map = new HashMap<>();
         String superior = req.queryParams("superior");
+        String username = req.queryParams("username");
         String contract = req.queryParams("contract");
 
-        employeeDao.save(StringUtils.isEmpty(superior) ? null : UUID.fromString(superior),
+        NewEmployeePayload nep = new NewEmployeePayload(
+                null,
+                superior,
                 req.queryParams("fullName"),
-                req.queryParams("username"),
+                username,
+                req.queryParams("password"),
+                contract
+        );
+
+        String error = nep.isValidForCreation();
+        UUID superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
+        
+        if (StringUtils.isEmpty(error)) {
+            if (superiorUUID != null && !employeeDao.exists(superiorUUID)) {
+                error = "Syöttämääsi esimiestä ei ole olemassa!";
+            } else if (employeeDao.existsByUsername(username)) {
+                error = "Käyttäjänimi on jo käytössä!";
+            }
+        }
+        
+        if (!StringUtils.isEmpty(error)) {
+            map.put("error", error);
+            return render(req, map, "addEmployee");
+        }
+        
+        employeeDao.save(
+                superiorUUID,
+                req.queryParams("fullName"),
+                username,
                 req.queryParams("password"),
                 StringUtils.isEmpty(contract) ? null : Double.parseDouble(contract)
         );
@@ -57,40 +82,6 @@ public class EmployeeController {
         return "";
     };
     
-    private static String validateAddEmployee(Request req, Response res) {
-        Map map = new HashMap<>();
-        String superior = req.queryParams("superior");
-        String username = req.queryParams("username");
-
-        NewEmployeePayload nep = new NewEmployeePayload(
-                null,
-                superior,
-                req.queryParams("fullName"),
-                username,
-                req.queryParams("password"),
-                req.queryParams("contract")
-        );
-
-        String error = nep.isValidForCreation();
-
-        if (StringUtils.isEmpty(error)) {
-            UUID superiorUUID = StringUtils.isEmpty(superior) ? null : UUID.fromString(superior);
-
-            if (superiorUUID != null && !employeeDao.exists(superiorUUID)) {
-                error = "Syöttämääsi esimiestä ei ole olemassa!";
-            } else if (employeeDao.existsByUsername(username)) {
-                error = "Käyttäjänimi on jo käytössä!";
-            }
-        }
-
-        if (!StringUtils.isEmpty(error)) {
-            map.put("error", error);
-            return render(req, map, "employees");
-        }
-        
-        return "";
-    }
-
     public static Route handleUpdateEmployee = (Request req, Response res) -> {
         UUID id = UUID.fromString(req.params(":id"));
         String superior = req.queryParams("superior");

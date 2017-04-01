@@ -49,10 +49,9 @@ public class Application {
         path("/employee", () -> {
             get("", EmployeeController.fetchEmployees);
             get("/:id", EmployeeController.fetchEmployee);
-
+            get("/add", EmployeeController.serveAddEmployeePage);
             post("/:id/edit", EmployeeController.handleUpdateEmployee);
             post("/:id/delete", EmployeeController.handleDeleteEmployee);
-
             post("/add", EmployeeController.handleAddEmployee);
         });
         
