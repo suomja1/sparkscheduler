@@ -3,6 +3,7 @@ package sparkscheduler.shift;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,10 +31,14 @@ public class ShiftController {
     };
     
     public static Route handleUpdateShift = (Request req, Response res) -> {
+        List<UUID> list = Arrays.stream(req.queryParams("employees").split(",")).map(i -> UUID.fromString(i)).collect(Collectors.toList());
+        
+        System.out.println(list);
+        
         shiftDao.update(
                 UUID.fromString(req.params(":id")),
                 UUID.fromString(req.queryParams("unit")),
-                Arrays.stream(req.queryParams("employees").split(",")).map(i -> UUID.fromString(i)).collect(Collectors.toList()),
+                list,
                 Timestamp.valueOf(req.queryParams("from").replace("T", " ")),
                 Timestamp.valueOf(req.queryParams("to").replace("T", " "))
         );
