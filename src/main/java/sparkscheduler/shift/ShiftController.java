@@ -1,8 +1,11 @@
 package sparkscheduler.shift;
 
+import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -24,5 +27,17 @@ public class ShiftController {
     
     public static Route fetchShifts = (Request req, Response res) -> {
         return render(req, new HashMap<>(), "shifts");
+    };
+    
+    public static Route handleUpdateShift = (Request req, Response res) -> {
+        shiftDao.update(
+                UUID.fromString(req.params(":id")),
+                UUID.fromString(req.queryParams("unit")),
+                Arrays.stream(req.queryParams("employees").split(",")).map(i -> UUID.fromString(i)).collect(Collectors.toList()),
+                Timestamp.valueOf(req.queryParams("from").replace("T", " ")),
+                Timestamp.valueOf(req.queryParams("to").replace("T", " "))
+        );
+        res.redirect("/shift", 303);
+        return "";
     };
 }
