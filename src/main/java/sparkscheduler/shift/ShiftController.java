@@ -27,20 +27,18 @@ public class ShiftController {
     };
     
     public static Route fetchShifts = (Request req, Response res) -> {
-        return render(req, new HashMap<>(), "shifts");
+        Map map = new HashMap<>();
+        
+        
+        
+        return render(req, map, "shifts");
     };
     
     public static Route handleUpdateShift = (Request req, Response res) -> {
-        String[] employees = req.queryParamsValues("employees");
-        System.out.println(Arrays.toString(employees));
-        
-        List<UUID> list = Arrays.stream(employees).map(i -> UUID.fromString(i)).collect(Collectors.toList());
-        System.out.println(list);
-        
         shiftDao.update(
                 UUID.fromString(req.params(":id")),
                 UUID.fromString(req.queryParams("unit")),
-                list,
+                Arrays.stream(req.queryParamsValues("employees")).map(i -> UUID.fromString(i)).collect(Collectors.toList()),
                 Timestamp.valueOf(req.queryParams("from").replace("T", " ")),
                 Timestamp.valueOf(req.queryParams("to").replace("T", " "))
         );

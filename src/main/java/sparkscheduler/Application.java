@@ -43,6 +43,7 @@ public class Application {
         post("/logout", LoginController.handleLogout);
         
         path("/shift", () -> {
+            get("", ShiftController.fetchShifts);
             get("/:id", ShiftController.fetchShift);
             post("/:id/edit", ShiftController.handleUpdateShift);
         });
