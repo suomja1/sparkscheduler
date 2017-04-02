@@ -31,10 +31,10 @@ public class ShiftController {
     };
     
     public static Route handleUpdateShift = (Request req, Response res) -> {
-        String employees = req.queryParams("employees");
-        System.out.println(employees);
+        String[] employees = req.queryParamsValues("employees");
+        System.out.println(Arrays.toString(employees));
         
-        List<UUID> list = Arrays.stream(employees.split(",")).map(i -> UUID.fromString(i)).collect(Collectors.toList());
+        List<UUID> list = Arrays.stream(employees).map(i -> UUID.fromString(i)).collect(Collectors.toList());
         System.out.println(list);
         
         shiftDao.update(
