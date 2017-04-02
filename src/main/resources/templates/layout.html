@@ -70,14 +70,14 @@
         <div th:fragment="timeFromInput" class="form-group">
             <label class="col-sm-3 control-label" for="from">Alkamisaika:</label>
             <div class="col-sm-9">
-                <input class="form-control" id="from" name="from" type="datetime" th:value="${timeFromValue}" />
+                <input class="form-control" id="from" name="from" type="datetime-local" th:value="${timeFromValue}" />
             </div>
         </div>
 
         <div th:fragment="timeToInput" class="form-group">
             <label class="col-sm-3 control-label" for="to">Päättymisaika:</label>
             <div class="col-sm-9">
-                <input class="form-control" id="to" name="to" type="datetime" th:value="${timeToValue}" />
+                <input class="form-control" id="to" name="to" type="datetime-local" th:value="${timeToValue}" />
             </div>
         </div>
 
