@@ -1,43 +1,32 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout :: head ('Paikka ja aika')" />
+    <head th:replace="layout :: head (${unit.name} + ', ' + ${shift.startTime})" />
     <body class="container-fluid">
         <header th:replace="layout :: header" />
 
         <h4>Työvuoron tiedot</h4>
 
-        <form class="form-horizontal" method="post">
+        <form class="form-horizontal" method="post" th:action="@{~/shift/{id}/edit(id=${shift.id})}">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="unit">Toimintayksikkö:</label>
                 <div class="col-sm-9">
-                        <select id="unit" name="unit" class="form-control">
-                            <option value="malmi">Malmi</option>
-                            <option value="petikko">Petikko</option>
-                            <option value="olari">Olari</option>
-                            <option selected="" value="itäkeskus">Itäkeskus</option>
-                            <option value="tampere">Tampere</option>
-                            <option value="turku">Turku</option>
-                        </select>
+                    <select id="unit" name="unit" class="form-control">
+                        <option th:each="u : ${units}" th:text="${u.name}" th:value="${u.id}" th:selected="${u.id.equals(shift.unit)}">unit name</option>
+                    </select>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
                 <div class="col-sm-9">
-                        <select class="form-control" id="employees" name="employees" multiple="">
-                            <option value="esimes1">Esko Esimies</option>
-                            <option value="nn">NN</option>
-                            <option selected="" value="merima1">Matti Meri</option>
-                            <option value="mm">MM</option>
-                            <option selected="" value="jaynjo1">Johanna Jäynä</option>
-                            <option value="aa">AA</option>
-                        </select>
+                    <select class="form-control" id="employees" name="employees" multiple="">
+                        <option th:each="e : ${employees}" th:text="${e.fullName}" th:value="${e.id}" th:selected="${#lists.contains(shift.employees, e.id)}">employee name</option>
+                    </select>
                 </div>
             </div>
-            
-            <div th:replace="layout :: dateInput (dateValue='2017-03-21')"/>
-            <div th:replace="layout :: timeFromInput (timeFromValue='10:00')"/>
-            <div th:replace="layout :: timeToInput (timeToValue='18:00')"/>
+
+            <div th:replace="layout :: timeFromInput (${shift.startTime})"/>
+            <div th:replace="layout :: timeToInput (${shift.endTime})"/>
             <div th:replace="layout :: submitButton ('Tallenna')"/>
         </form>
     </body>

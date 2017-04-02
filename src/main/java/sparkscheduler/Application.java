@@ -16,7 +16,6 @@ import static spark.Spark.get;
 import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.post;
-import static spark.Spark.before;
 import static spark.Spark.path;
 
 public class Application {
@@ -43,8 +42,9 @@ public class Application {
         post("/login", LoginController.handleLogin);
         post("/logout", LoginController.handleLogout);
         
-        get("/shift", ShiftController.fetchShift);
-        get("/shifts", ShiftController.fetchShifts);
+        path("/shift", () -> {
+            get("/:id", ShiftController.fetchShift);
+        });
         
         path("/employee", () -> {
             get("", EmployeeController.fetchEmployees);

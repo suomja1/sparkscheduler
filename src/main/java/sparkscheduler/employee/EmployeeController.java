@@ -11,7 +11,7 @@ import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
 
 /**
- * Controller for the Employee entity. For now only some of the routes is validated.
+ * Controller for the Employee entity.
  */
 public class EmployeeController {
     public static Route fetchEmployee = (Request req, Response res) -> {
