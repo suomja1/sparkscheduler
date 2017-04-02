@@ -16,8 +16,6 @@ public class ShiftController {
         Map map = new HashMap<>();
         Shift shift = shiftDao.findOne(UUID.fromString(req.params(":id")));
         map.put("shift", shift);
-        map.put("timeFromValue", shift.getStartTime().toString().replace(" ", "T"));
-        map.put("timeToValue", shift.getEndTime().toString().replace(" ", "T"));
         map.put("unit", unitDao.findOne(shift.getUnit()));
         map.put("units", unitDao.findAllByOrderByName());
         map.put("employees", employeeDao.findAllByOrderByFullName());
