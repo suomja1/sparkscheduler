@@ -25,8 +25,8 @@
                 </div>
             </div>
 
-            <div th:replace="layout :: timeFromInput (${shift.startTime})"/>
-            <div th:replace="layout :: timeToInput (${shift.endTime})"/>
+            <div th:replace="layout :: timeFromInput (timeFromValue=${shift.startTime})"/>
+            <div th:replace="layout :: timeToInput (timeToValue=${shift.endTime})"/>
             <div th:replace="layout :: submitButton ('Tallenna')"/>
         </form>
     </body>
