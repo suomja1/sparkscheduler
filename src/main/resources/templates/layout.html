@@ -81,23 +81,11 @@
             </div>
         </div>
 
-        <div th:fragment="dateInput" class="form-group">
-            <label class="col-sm-3 control-label" for="date">Päivämäärä:</label>
-            <div class="col-sm-9">
-                <input class="form-control" id="date" name="date" type="date" th:value="${dateValue}" />
-            </div>
-        </div>
-
         <div th:fragment="employeesInput" class="form-group">
             <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
             <div class="col-sm-9">
                 <select class="form-control" id="employees" name="employees" multiple="">
-                    <option value="esimes1">Esko Esimies</option>
-                    <option value="nn">NN</option>
-                    <option value="merima1">Matti Meri</option>
-                    <option value="mm">MM</option>
-                    <option value="jaynjo1">Johanna Jäynä</option>
-                    <option value="aa">AA</option>
+                    <option th:each="e : ${employees}" th:text="${e.fullName}" th:value="${e.id}">employee name</option>
                 </select>
             </div>
         </div>
@@ -117,18 +105,12 @@
                 <div class="col-sm-9">
                     <select id="unit" name="unit" class="form-control">
                         <option disabled="" selected="" value=""> -- valitse -- </option>
-                        <option value="malmi">Malmi</option>
-                        <option value="petikko">Petikko</option>
-                        <option value="olari">Olari</option>
-                        <option value="itäkeskus">Itäkeskus</option>
-                        <option value="tampere">Tampere</option>
-                        <option value="turku">Turku</option>
+                        <option th:each="u : ${units}" th:text="${u.name}" th:value="${u.id}">unit name</option>
                     </select>
                 </div>
             </div>
 
             <div th:replace="layout :: employeesInput"/>
-            <div th:replace="layout :: dateInput"/>
             <div th:replace="layout :: timeFromInput"/>
             <div th:replace="layout :: timeToInput"/>
             <div th:replace="layout :: submitButton ('Lisää')"/>

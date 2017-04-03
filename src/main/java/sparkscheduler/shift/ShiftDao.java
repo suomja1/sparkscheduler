@@ -13,6 +13,23 @@ public class ShiftDao {
     public ShiftDao(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
+    
+    public UUID save(UUID unit, List<UUID> employees, Timestamp startTime, Timestamp endTime) {
+        try (Connection c = this.sql2o.beginTransaction()) {
+            UUID id = c.createQuery("INSERT INTO Shift (unit, startTime, endTime) VALUES (:unit, :startTime, :endTime)", true)
+                    .addParameter("unit", unit)
+                    .addParameter("startTime", startTime)
+                    .addParameter("endTime", endTime)
+                    .executeUpdate()
+                    .getKey(UUID.class);
+            
+            setEmployeesFor(c, employees, id);
+            
+            c.commit();
+            
+            return id;
+        }
+    }
 
     public Shift findOne(UUID id) {
         try (Connection c = this.sql2o.open()) {
@@ -50,14 +67,12 @@ public class ShiftDao {
                     .addParameter("shift", id)
                     .executeUpdate();
             
-            Query q = c.createQuery("INSERT INTO EmployeeShift VALUES (:employee, :shift)");
-            employees.forEach(e -> q.addParameter("employee", e).addParameter("shift", id).addToBatch());
-            q.executeBatch();
+            setEmployeesFor(c, employees, id);
             
             c.commit();
         }
     }
-    
+
     public void delete(UUID id) {
         try (Connection c = this.sql2o.beginTransaction()) {
             c.createQuery("DELETE FROM EmployeeShift WHERE shift = :shift")
@@ -76,5 +91,11 @@ public class ShiftDao {
         return c.createQuery("SELECT employee FROM EmployeeShift WHERE shift = :shift")
                 .addParameter("shift", id)
                 .executeAndFetch(UUID.class);
+    }
+    
+    private void setEmployeesFor(Connection c, List<UUID> employees, UUID shift) {
+        Query q = c.createQuery("INSERT INTO EmployeeShift VALUES (:employee, :shift)");
+        employees.forEach(e -> q.addParameter("employee", e).addParameter("shift", shift).addToBatch());
+        q.executeBatch();
     }
 }

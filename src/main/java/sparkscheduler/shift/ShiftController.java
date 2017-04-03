@@ -16,6 +16,9 @@ import static sparkscheduler.Application.shiftDao;
 import sparkscheduler.employee.Employee;
 import sparkscheduler.unit.Unit;
 
+/**
+ * Controller for the Shift entity. Unvalidated!
+ */
 public class ShiftController {
     public static Route fetchShift = (Request req, Response res) -> {
         Map map = new HashMap<>();
@@ -47,9 +50,27 @@ public class ShiftController {
         return "";
     };
     
+    public static Route handleAddShift = (Request req, Response res) -> {
+        shiftDao.save(
+                UUID.fromString(req.queryParams("unit")), 
+                Arrays.stream(req.queryParamsValues("employees")).map(i -> UUID.fromString(i)).collect(Collectors.toList()), 
+                Timestamp.valueOf(req.queryParams("from").replace("T", " ")), 
+                Timestamp.valueOf(req.queryParams("to").replace("T", " "))
+        );
+        res.redirect("/shift", 303);
+        return "";
+    };
+    
     public static Route handleDeleteShift = (Request req, Response res) -> {
         shiftDao.delete(UUID.fromString(req.params(":id")));
         res.redirect("/shift", 303);
         return "";
+    };
+    
+    public static Route serveAddShiftPage = (Request req, Response res) -> {
+        Map map = new HashMap<>();
+        map.put("units", unitDao.findAllByOrderByName());
+        map.put("employees", employeeDao.findAllByOrderByFullName());
+        return render(req, map, "addEmployee");
     };
 }
