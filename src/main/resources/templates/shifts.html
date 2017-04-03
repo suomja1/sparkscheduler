@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 <tr th:each="s : ${shifts}">
-                    <td th:text="*{units[${s.unit}].name}">unit</td>
+                    <td th:text="*{units[__${s.unit}__].name}">unit</td>
                     <td th:text="${s.startTime}">startTime</td>
                     <td th:text="${s.endTime}">endTime</td>
                     <td>
