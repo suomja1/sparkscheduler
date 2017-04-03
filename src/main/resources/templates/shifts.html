@@ -23,11 +23,11 @@
             </thead>
             <tbody>
                 <tr th:each="s : ${shifts}">
-                    <td th:text="${units.get(s.id).name}">unit</td>
+                    <td th:text="${units[s.id].name}">unit</td>
                     <td th:text="${s.startTime}">startTime</td>
                     <td th:text="${s.endTime}">endTime</td>
                     <td>
-                        <span th:each="e : ${s.employees}" th:text="${allEmployees.get(e).fullName}">employees</span>
+                        <span th:each="e : ${s.employees}" th:text="${allEmployees[e].fullName}">employees</span>
                     </td>
                     <td>
                         <a th:href="@{~/shift/{id}(id=${s.id})}">
