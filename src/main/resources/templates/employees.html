@@ -21,13 +21,15 @@
             </thead>
             <tbody>
                 <tr th:each="e : ${employees}">
-                    <td th:text="${e.fullName}">nimi</td>
-                    <td th:text="${e.contract}">sopimus</td>
-                    <td><a th:href="@{~/employee/{id}(id=${e.id})}">
+                    <td th:text="${e.fullName}">name</td>
+                    <td th:text="${e.contract}">contract</td>
+                    <td>
+                        <a th:href="@{~/employee/{id}(id=${e.id})}">
                             <button class="btn-xs btn-info">Muokkaa</button>
                         </a>
                     </td>
-                    <td><form method="post" th:action="@{~/employee/{id}/delete(id=${e.id})}">
+                    <td>
+                        <form method="post" th:action="@{~/employee/{id}/delete(id=${e.id})}">
                             <button class="btn-xs btn-danger">Poista</button>
                         </form>
                     </td>

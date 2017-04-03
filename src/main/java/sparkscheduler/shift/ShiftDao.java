@@ -26,6 +26,17 @@ public class ShiftDao {
         }
     }
     
+    public List<Shift> findAllByOrderByUnitAscStartTimeAsc() {
+        try (Connection c = this.sql2o.open()) {
+            List<Shift> shifts = c.createQuery("SELECT * FROM Shift ORDER BY unit, startTime")
+                    .executeAndFetch(Shift.class);
+
+            shifts.forEach(shift -> shift.setEmployees(this.getEmployeesFor(c, shift.getId())));
+
+            return shifts;
+        }
+    }
+    
     public void update(UUID id, UUID unit, List<UUID> employees, Timestamp startTime, Timestamp endTime) {
         try (Connection c = this.sql2o.beginTransaction()) {
             c.createQuery("UPDATE Shift SET unit = :unit, startTime = :startTime, endTime = :endTime WHERE id = :id")

@@ -7,31 +7,35 @@
         <h4>Työvuorot</h4>
         
         <p>
-            <a href="#add" class="btn btn-success">Lisää</a>
+            <a href="/shift/add" class="btn btn-success">Lisää</a>
         </p>
         
         <table class="table table-condensed table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Toimintayksikkö</th>
-                    <th>Päivämäärä</th>
-                    <th>Vuoro</th>
+                    <th>Alkamisaika</th>
+                    <th>Päättymisaika</th>
                     <th>Työntekijät</th>
                     <th>Muokkaa</th>
                     <th>Poista</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Malmi</td>
-                    <td>21.3.2017</td>
-                    <td>10:00–18:00</td>
-                    <td>Essi Esimerkki, Mikko Mallikas</td>
-                    <td><a>
+                <tr th:each="s : ${shifts}">
+                    <td th:text="${units.get(s.id).name}">unit</td>
+                    <td th:text="${s.startTime}">startTime</td>
+                    <td th:text="${s.endTime}">endTime</td>
+                    <td>
+                        <span th:each="e : ${s.employees}" th:text="${allEmployees.get(e).fullName}">employees</span>
+                    </td>
+                    <td>
+                        <a th:href="@{~/shift/{id}(id=${s.id})}">
                             <button class="btn-xs btn-info">Muokkaa</button>
                         </a>
                     </td>
-                    <td><form>
+                    <td>
+                        <form method="post" th:action="@{~/shift/{id}/delete(id=${s.id})}">
                             <button class="btn-xs btn-danger">Poista</button>
                         </form>
                     </td>

@@ -3,7 +3,6 @@ package sparkscheduler.shift;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -14,6 +13,8 @@ import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
 import static sparkscheduler.Application.unitDao;
 import static sparkscheduler.Application.shiftDao;
+import sparkscheduler.employee.Employee;
+import sparkscheduler.unit.Unit;
 
 public class ShiftController {
     public static Route fetchShift = (Request req, Response res) -> {
@@ -28,9 +29,9 @@ public class ShiftController {
     
     public static Route fetchShifts = (Request req, Response res) -> {
         Map map = new HashMap<>();
-        
-        
-        
+        map.put("shifts", shiftDao.findAllByOrderByUnitAscStartTimeAsc());
+        map.put("units", unitDao.findAllByOrderByName().stream().collect(Collectors.toMap(Unit::getId, u -> u)));
+        map.put("allEmployees", employeeDao.findAllByOrderByFullName().stream().collect(Collectors.toMap(Employee::getId, e -> e)));
         return render(req, map, "shifts");
     };
     
