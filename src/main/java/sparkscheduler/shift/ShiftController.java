@@ -71,6 +71,6 @@ public class ShiftController {
         Map map = new HashMap<>();
         map.put("units", unitDao.findAllByOrderByName());
         map.put("employees", employeeDao.findAllByOrderByFullName());
-        return render(req, map, "addEmployee");
+        return render(req, map, "addShift");
     };
 }
