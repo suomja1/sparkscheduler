@@ -27,7 +27,7 @@
                     <td th:text="${s.startTime}">startTime</td>
                     <td th:text="${s.endTime}">endTime</td>
                     <td>
-                        <span th:each="e : ${s.employees}" th:text="*{allEmployees[__${e}__].fullName}">employees</span>
+                        <span>employees</span>
                     </td>
                     <td>
                         <a th:href="@{~/shift/{id}(id=${s.id})}">
