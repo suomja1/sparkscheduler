@@ -26,7 +26,11 @@
                     <td th:text="${units.get(s.unit).name}">unit</td>
                     <td th:text="${s.startTime}">startTime</td>
                     <td th:text="${s.endTime}">endTime</td>
-                    <td th:text="${#strings.arrayJoin(s.employees, ', ')}">employees</td>
+                    <td>
+                        <ul>
+                            <li th:each="e : ${s.employees}" th:text="${allEmployees.get(e).fullName}">employee</li>
+                        </ul>
+                    </td>
                     <td>
                         <a th:href="@{~/shift/{id}(id=${s.id})}">
                             <button class="btn-xs btn-info">Muokkaa</button>
