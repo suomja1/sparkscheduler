@@ -39,23 +39,21 @@ public class ShiftController {
     };
     
     public static Route handleUpdateShift = (Request req, Response res) -> {
-        shiftDao.update(
-                UUID.fromString(req.params(":id")),
+        shiftDao.update(UUID.fromString(req.params(":id")),
                 UUID.fromString(req.queryParams("unit")),
                 Arrays.stream(req.queryParamsValues("employees")).map(i -> UUID.fromString(i)).collect(Collectors.toList()),
-                Timestamp.valueOf(req.queryParams("from").replace("T", " ")),
-                Timestamp.valueOf(req.queryParams("to").replace("T", " "))
+                string2Timestamp(req.queryParams("from")),
+                string2Timestamp(req.queryParams("to"))
         );
         res.redirect("/shift", 303);
         return "";
     };
-    
+
     public static Route handleAddShift = (Request req, Response res) -> {
-        shiftDao.save(
-                UUID.fromString(req.queryParams("unit")), 
+        shiftDao.save(UUID.fromString(req.queryParams("unit")), 
                 Arrays.stream(req.queryParamsValues("employees")).map(i -> UUID.fromString(i)).collect(Collectors.toList()), 
-                Timestamp.valueOf(req.queryParams("from").replace("T", " ")), 
-                Timestamp.valueOf(req.queryParams("to").replace("T", " "))
+                string2Timestamp(req.queryParams("from")),
+                string2Timestamp(req.queryParams("to"))
         );
         res.redirect("/shift", 303);
         return "";
@@ -73,4 +71,11 @@ public class ShiftController {
         map.put("employees", employeeDao.findAllByOrderByFullName());
         return render(req, map, "addShift");
     };
+    
+    private static Timestamp string2Timestamp(String string) {
+        if (string.chars().filter(c -> c == ':').count() == 1) {
+            string += ":00";
+        }
+        return Timestamp.valueOf(string.replace("T", " "));
+    }
 }
