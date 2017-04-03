@@ -151,6 +151,9 @@ public class EmployeeDao {
                     .addParameter("employee", id)
                     .executeUpdate();
             
+            c.createQuery("DELETE FROM Shift WHERE NOT EXISTS (SELECT 1 FROM EmployeeShift WHERE EmployeeShift.shift = Shift.id)")
+                    .executeUpdate();
+            
             c.createQuery("UPDATE Employee SET superior = NULL WHERE superior = :id")
                     .addParameter("id", id)
                     .executeUpdate();

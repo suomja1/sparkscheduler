@@ -46,6 +46,7 @@ public class Application {
             get("", ShiftController.fetchShifts);
             get("/:id", ShiftController.fetchShift);
             post("/:id/edit", ShiftController.handleUpdateShift);
+            post("/:id/delete", ShiftController.handleDeleteShift);
         });
         
         path("/employee", () -> {

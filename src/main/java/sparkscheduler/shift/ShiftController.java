@@ -46,4 +46,10 @@ public class ShiftController {
         res.redirect("/shift", 303);
         return "";
     };
+    
+    public static Route handleDeleteShift = (Request req, Response res) -> {
+        shiftDao.delete(UUID.fromString(req.params(":id")));
+        res.redirect("/shift", 303);
+        return "";
+    };
 }
