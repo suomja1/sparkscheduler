@@ -2,9 +2,11 @@ package sparkscheduler.login;
 
 import java.util.HashMap;
 import java.util.Map;
+import spark.Filter;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import static spark.Spark.halt;
 import static sparkscheduler.employee.EmployeeController.authenticate;
 import static sparkscheduler.util.ViewUtil.render;
 
@@ -54,10 +56,11 @@ public class LoginController {
         return "";
     };
     
-    public static void ensureUserIsLoggedIn(Request req, Response res) {
+    public static Filter ensureUserIsLoggedIn = (Request req, Response res) -> {
         if (req.session().attribute("currentUser") == null) {
             req.session().attribute("loginRedirect", req.pathInfo());
             res.redirect("/login");
+            halt();
         }
     };
 }

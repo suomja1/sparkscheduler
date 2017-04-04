@@ -1,6 +1,7 @@
 package sparkscheduler;
 
 import org.sql2o.Sql2o;
+import static spark.Spark.before;
 import static spark.Spark.staticFiles;
 import sparkscheduler.employee.EmployeeController;
 import sparkscheduler.index.IndexController;
@@ -36,28 +37,32 @@ public class Application {
         getHerokuAssignedPort();
         
         // Routes
-        get("/", IndexController.serveIndexPage);
-        
         get("/login", LoginController.serveLoginPage);
         post("/login", LoginController.handleLogin);
         post("/logout", LoginController.handleLogout);
         
-        path("/shift", () -> {
-            get("", ShiftController.fetchShifts);
-            get("/add", ShiftController.serveAddShiftPage);
-            post("/add", ShiftController.handleAddShift);
-            get("/:id", ShiftController.fetchShift);
-            post("/:id/edit", ShiftController.handleUpdateShift);
-            post("/:id/delete", ShiftController.handleDeleteShift);
-        });
+        before("/protected/*", LoginController.ensureUserIsLoggedIn);
         
-        path("/employee", () -> {
-            get("", EmployeeController.fetchEmployees);
-            get("/add", EmployeeController.serveAddEmployeePage);
-            post("/add", EmployeeController.handleAddEmployee);
-            get("/:id", EmployeeController.fetchEmployee);
-            post("/:id/edit", EmployeeController.handleUpdateEmployee);
-            post("/:id/delete", EmployeeController.handleDeleteEmployee);
+        path("/protected", () -> {
+            get("", IndexController.serveIndexPage);
+            
+            path("/shift", () -> {
+                get("", ShiftController.fetchShifts);
+                get("/add", ShiftController.serveAddShiftPage);
+                post("/add", ShiftController.handleAddShift);
+                get("/:id", ShiftController.fetchShift);
+                post("/:id/edit", ShiftController.handleUpdateShift);
+                post("/:id/delete", ShiftController.handleDeleteShift);
+            });
+
+            path("/employee", () -> {
+                get("", EmployeeController.fetchEmployees);
+                get("/add", EmployeeController.serveAddEmployeePage);
+                post("/add", EmployeeController.handleAddEmployee);
+                get("/:id", EmployeeController.fetchEmployee);
+                post("/:id/edit", EmployeeController.handleUpdateEmployee);
+                post("/:id/delete", EmployeeController.handleDeleteEmployee);
+            });
         });
         
         notFound(ViewUtil.notFound);

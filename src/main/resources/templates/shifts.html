@@ -7,7 +7,7 @@
         <h4>Työvuorot</h4>
         
         <p>
-            <a href="/shift/add" class="btn btn-success">Lisää</a>
+            <a href="/protected/shift/add" class="btn btn-success">Lisää</a>
         </p>
         
         <table class="table table-condensed table-hover table-bordered">
@@ -32,12 +32,12 @@
                         </ul>
                     </td>
                     <td>
-                        <a th:href="@{~/shift/{id}(id=${s.id})}">
+                        <a th:href="@{~/protected/shift/{id}(id=${s.id})}">
                             <button class="btn-xs btn-info">Muokkaa</button>
                         </a>
                     </td>
                     <td>
-                        <form method="post" th:action="@{~/shift/{id}/delete(id=${s.id})}">
+                        <form method="post" th:action="@{~/protected/shift/{id}/delete(id=${s.id})}">
                             <button class="btn-xs btn-danger">Poista</button>
                         </form>
                     </td>

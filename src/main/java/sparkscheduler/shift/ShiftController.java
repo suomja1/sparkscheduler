@@ -24,7 +24,6 @@ public class ShiftController {
         Map map = new HashMap<>();
         Shift shift = shiftDao.findOne(UUID.fromString(req.params(":id")));
         map.put("shift", shift);
-        map.put("unit", unitDao.findOne(shift.getUnit()));
         map.put("units", unitDao.findAllByOrderByName());
         map.put("employees", employeeDao.findAllByOrderByFullName());
         return render(req, map, "shift");
@@ -45,7 +44,7 @@ public class ShiftController {
                 string2Timestamp(req.queryParams("from")),
                 string2Timestamp(req.queryParams("to"))
         );
-        res.redirect("/shift", 303);
+        res.redirect("/protected/shift", 303);
         return "";
     };
 
@@ -55,13 +54,13 @@ public class ShiftController {
                 string2Timestamp(req.queryParams("from")),
                 string2Timestamp(req.queryParams("to"))
         );
-        res.redirect("/shift", 303);
+        res.redirect("/protected/shift", 303);
         return "";
     };
     
     public static Route handleDeleteShift = (Request req, Response res) -> {
         shiftDao.delete(UUID.fromString(req.params(":id")));
-        res.redirect("/shift", 303);
+        res.redirect("/protected/shift", 303);
         return "";
     };
     

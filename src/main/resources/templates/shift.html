@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout :: head (${unit.name} + ', ' + ${shift.startTime})" />
+    <head th:replace="layout :: head (${units.get(shift.unit).name} + ', ' + ${shift.startTime})" />
     <body class="container-fluid">
         <header th:replace="layout :: header" />
 
         <h4>Työvuoron tiedot</h4>
 
-        <form class="form-horizontal" method="post" th:action="@{~/shift/{id}/edit(id=${shift.id})}">
+        <form class="form-horizontal" method="post" th:action="@{~/protected/shift/{id}/edit(id=${shift.id})}">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="unit">Toimintayksikkö:</label>
                 <div class="col-sm-9">

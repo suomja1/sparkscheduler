@@ -1,7 +1,6 @@
 package sparkscheduler.unit;
 
 import java.util.List;
-import java.util.UUID;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -16,14 +15,6 @@ public class UnitDao {
         try (Connection c = this.sql2o.open()) {
             return c.createQuery("SELECT * FROM Unit ORDER BY name")
                     .executeAndFetch(Unit.class);
-        }
-    }
-
-    public Unit findOne(UUID id) {
-        try (Connection c = this.sql2o.open()) {
-            return c.createQuery("SELECT * FROM Unit WHERE id = :id")
-                    .addParameter("id", id)
-                    .executeAndFetchFirst(Unit.class);
         }
     }
 }

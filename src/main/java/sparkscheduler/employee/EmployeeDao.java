@@ -145,6 +145,11 @@ public class EmployeeDao {
         }
     }
 
+    /**
+     * Delete employee from database. In addition, the method takes care of cleaning
+     * up the Shift table, that is it removes all shifts to which there is no assigned
+     * employees. All subordinates of the employee become superiors.
+     */
     public void delete(UUID id) {
         try (Connection c = this.sql2o.beginTransaction()) {
             c.createQuery("DELETE FROM EmployeeShift WHERE employee = :employee")

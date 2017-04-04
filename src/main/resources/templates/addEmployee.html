@@ -13,7 +13,7 @@
         </div>
 
         <div th:unless="${nep == null}">
-            <form class="form-horizontal" method="post" th:action="@{~/employee/add}">
+            <form class="form-horizontal" method="post" th:action="@{~/protected/employee/add}">
                 <div th:replace="layout :: fullNameInput (fullNameValue=${nep.fullName})"/>
 
                 <div class="form-group">

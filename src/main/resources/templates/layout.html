@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <form th:fragment="addEmployee" class="form-horizontal" method="post" th:action="@{~/employee/add}">
+        <form th:fragment="addEmployee" class="form-horizontal" method="post" th:action="@{~/protected/employee/add}">
             <div th:replace="layout :: fullNameInput"/>
 
             <div class="form-group">
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <form th:fragment="addShift" class="form-horizontal" method="post">
+        <form th:fragment="addShift" class="form-horizontal" method="post"  th:action="@{~/protected/shift/add}">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="unit">Toimintayksikkö:</label>
                 <div class="col-sm-9">

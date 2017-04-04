@@ -58,7 +58,7 @@ public class EmployeeController {
             } else {
                 employeeDao.save(superior, nep.getFullName(), nep.getUsername(), nep.getPassword(),
                         StringUtils.isEmpty(nep.getContract()) ? null : Double.parseDouble(nep.getContract()));
-                res.redirect("/employee", 303);
+                res.redirect("/protected/employee", 303);
                 return "";
             }
         }
@@ -94,7 +94,7 @@ public class EmployeeController {
             } else {
                 employeeDao.update(id, superior, nep.getFullName(), nep.getUsername(), nep.getPassword(),
                         Double.parseDouble(nep.getContract()));
-                res.redirect("/employee", 303);
+                res.redirect("/protected/employee", 303);
                 return "";
             }
         }
@@ -108,7 +108,7 @@ public class EmployeeController {
 
     public static Route handleDeleteEmployee = (Request req, Response res) -> {
         employeeDao.delete(UUID.fromString(req.params(":id")));
-        res.redirect("/employee", 303);
+        res.redirect("/protected/employee", 303);
         return "";
     };
     
