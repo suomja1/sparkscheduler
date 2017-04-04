@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout :: head (${units.get(__${shift.unit}__).name} + ', ' + ${shift.startTime})" />
+    <head th:replace="layout :: head (${unit.name} + ', ' + ${shift.startTime})" />
     <body class="container-fluid">
         <header th:replace="layout :: header" />
 

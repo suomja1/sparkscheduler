@@ -18,10 +18,6 @@ public class LoginController {
         req.session().removeAttribute("loggedOut");
         map.put("loggedOut", loggedOut != null);
         
-        String loginRedirect = req.session().attribute("loginRedirect");
-        req.session().removeAttribute("loginRedirect");
-        map.put("loginRedirect", loginRedirect);
-        
         return render(req, map, "login");
     };
     
@@ -38,12 +34,6 @@ public class LoginController {
         map.put("authenticationSucceeded", true);
         req.session().attribute("currentUser", username);
         
-        String redirect = req.queryParams("loginRedirect");
-        
-        if (redirect != null) {
-            res.redirect(redirect, 303);
-        }
-        
         return render(req, map, "login");
     };
     
@@ -58,7 +48,6 @@ public class LoginController {
     
     public static Filter ensureUserIsLoggedIn = (Request req, Response res) -> {
         if (req.session().attribute("currentUser") == null) {
-            req.session().attribute("loginRedirect", req.pathInfo());
             res.redirect("/login");
             halt();
         }

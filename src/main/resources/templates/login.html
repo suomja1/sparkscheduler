@@ -14,11 +14,6 @@
         <form class="form-horizontal" method="post">
             <div th:replace="layout :: usernameInput"/>
             <div th:replace="layout :: passwordInput"/>
-            
-            <div th:if="${loginRedirect}">
-                <input type="hidden" name="loginRedirect" value="${loginRedirect}"/>
-            </div>
-            
             <div th:replace="layout :: submitButton ('Kirjaudu')"/>
         </form>
     </body>
