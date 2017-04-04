@@ -1,6 +1,7 @@
 package sparkscheduler;
 
 import org.sql2o.Sql2o;
+import spark.Redirect;
 import static spark.Spark.before;
 import static spark.Spark.staticFiles;
 import sparkscheduler.employee.EmployeeController;
@@ -18,6 +19,7 @@ import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.post;
 import static spark.Spark.path;
+import static spark.Spark.redirect;
 
 public class Application {
     // Dependencies
@@ -37,6 +39,8 @@ public class Application {
         getHerokuAssignedPort();
         
         // Routes
+        redirect.any("/", "/protected");
+        
         get("/login", LoginController.serveLoginPage);
         post("/login", LoginController.handleLogin);
         post("/logout", LoginController.handleLogout);

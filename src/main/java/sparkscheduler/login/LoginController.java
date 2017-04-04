@@ -34,7 +34,9 @@ public class LoginController {
         map.put("authenticationSucceeded", true);
         req.session().attribute("currentUser", username);
         
-        return render(req, map, "login");
+        res.redirect("/protected", 303);
+
+        return "";
     };
     
     public static Route handleLogout = (Request req, Response res) -> {
