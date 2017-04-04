@@ -41,6 +41,7 @@ public class Application {
         post("/login", LoginController.handleLogin);
         post("/logout", LoginController.handleLogout);
         
+        before("/protected", LoginController.ensureUserIsLoggedIn);
         before("/protected/*", LoginController.ensureUserIsLoggedIn);
         
         path("/protected", () -> {

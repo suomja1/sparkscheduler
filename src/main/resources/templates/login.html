@@ -11,7 +11,7 @@
         <p th:if="${not authenticationFailed and authenticationSucceeded}" class="text-success">Sisäänkirjautuminen onnistui.</p>
         <p th:if="${not authenticationFailed and not authenticationSucceeded and loggedOut}" class="text-info">Kirjauduttu ulos.</p>
         
-        <form class="form-horizontal" method="post"  th:action="@{~/login}">
+        <form class="form-horizontal" method="post">
             <div th:replace="layout :: usernameInput"/>
             <div th:replace="layout :: passwordInput"/>
             
