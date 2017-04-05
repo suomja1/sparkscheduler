@@ -39,7 +39,7 @@ public class Application {
         getHerokuAssignedPort();
         
         // Routes
-        redirect.any("/", "/protected");
+        redirect.any("/", "/protected", Redirect.Status.SEE_OTHER);
         
         get("/login", LoginController.serveLoginPage);
         post("/login", LoginController.handleLogin);
