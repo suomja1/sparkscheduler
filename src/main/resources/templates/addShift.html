@@ -27,7 +27,7 @@
                     <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
                     <div class="col-sm-9">
                         <select class="form-control" id="employees" name="employees" multiple="">
-                            <option th:each="e : ${employees}" th:text="${e.fullName}" th:value="${e.id}" th:selected="${#lists.contains(nsp.employees, e.id)}">employee name</option>
+                            <option th:each="e : ${employees}" th:text="${e.fullName}" th:value="${e.id}" th:selected="${#arrays.contains(nsp.employees, e.id)}">employee name</option>
                         </select>
                     </div>
                 </div>
