@@ -60,6 +60,9 @@ public class ShiftController {
                 req.queryParams("to")
         );
         
+        System.out.println(Arrays.toString(req.queryParamsValues("employees")));
+        System.out.println(Arrays.toString(nsp.getEmployees()));
+        
         String error = nsp.isValidForCreation();
         
         if (StringUtils.isEmpty(error)) {
