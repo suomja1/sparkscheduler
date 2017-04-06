@@ -88,7 +88,7 @@ public class ShiftDao {
         }
     }
     
-    public Boolean overlaps(List<UUID> employees, Timestamp startTime, Timestamp endTime) {
+    public boolean overlaps(List<UUID> employees, Timestamp startTime, Timestamp endTime) {
         try (Connection c = this.sql2o.open()) {
             String SQL = "SELECT EXISTS (SELECT * FROM Shift "
                     + "INNER JOIN EmployeeShift ON id = shift "

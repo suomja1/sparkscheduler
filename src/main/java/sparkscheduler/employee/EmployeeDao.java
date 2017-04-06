@@ -173,19 +173,17 @@ public class EmployeeDao {
 
     public boolean exists(UUID id) {
         try (Connection c = this.sql2o.open()) {
-            return !c.createQuery("SELECT * FROM Employee WHERE id = :id")
+            return c.createQuery("SELECT EXISTS (SELECT * FROM Employee WHERE id = :id)")
                     .addParameter("id", id)
-                    .executeAndFetch(Employee.class)
-                    .isEmpty();
+                    .executeAndFetchFirst(Boolean.class);
         }
     }
     
     public boolean existsByUsername(String username) {
         try (Connection c = this.sql2o.open()) {
-            return !c.createQuery("SELECT * FROM Employee WHERE username = :username")
+            return c.createQuery("SELECT EXISTS (SELECT * FROM Employee WHERE username = :username)")
                     .addParameter("username", username)
-                    .executeAndFetch(Employee.class)
-                    .isEmpty();
+                    .executeAndFetchFirst(Boolean.class);
         }
     }
     
