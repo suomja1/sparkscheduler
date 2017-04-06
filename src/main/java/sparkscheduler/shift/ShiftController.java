@@ -65,20 +65,17 @@ public class ShiftController {
         if (StringUtils.isEmpty(error)) {
             UUID unit = UUID.fromString(nsp.getUnit());
             List<UUID> employees = Arrays.stream(nsp.getEmployees()).map(i -> UUID.fromString(i)).collect(Collectors.toList());
-            
-            System.out.println(employees);
+            Timestamp startTime = string2Timestamp(nsp.getStartTime());
+            Timestamp endTime = string2Timestamp(nsp.getEndTime());
             
             if (!unitDao.exists(unit)) {
                 error = "Syöttämääsi toimipistettä ei ole olemassa!";
             } else if (!employeeDao.exists(employees)) {
-                error = "Syöttämääsi työntekijää ei ole olemassa!!!";
+                error = "Syöttämääsi työntekijää ei ole olemassa!";
+            } else if (shiftDao.overlaps(employees, startTime, endTime)) {
+                error = "Vuoro on päällekkäin työntekijän toisen vuoron kanssa!";
             } else {
-                shiftDao.save(
-                        unit,
-                        employees,
-                        string2Timestamp(nsp.getStartTime()),
-                        string2Timestamp(nsp.getEndTime())
-                );
+                shiftDao.save(unit,employees,startTime,endTime);
                 res.redirect("/protected/shift", 303);
                 return "";
             }

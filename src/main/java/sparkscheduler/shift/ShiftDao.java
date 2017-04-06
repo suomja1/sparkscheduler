@@ -3,6 +3,7 @@ package sparkscheduler.shift;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
@@ -84,6 +85,20 @@ public class ShiftDao {
                     .executeUpdate();
 
             c.commit();
+        }
+    }
+    
+    public Boolean overlaps(List<UUID> employees, Timestamp startTime, Timestamp endTime) {
+        try (Connection c = this.sql2o.open()) {
+            String SQL = "SELECT EXISTS (SELECT * FROM Shift "
+                    + "INNER JOIN EmployeeShift ON id = shift "
+                    + String.format("AND employee IN (%s) ",
+                            employees.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", ")))
+                    + "WHERE (startTime, endTime) OVERLAPS (:startTime, :endTime))";
+            return c.createQuery(SQL)
+                    .addParameter("startTime", startTime)
+                    .addParameter("endTime", endTime)
+                    .executeAndFetchFirst(Boolean.class);
         }
     }
 
