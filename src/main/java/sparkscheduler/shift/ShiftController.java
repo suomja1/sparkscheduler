@@ -69,7 +69,7 @@ public class ShiftController {
             if (!unitDao.exists(unit)) {
                 error = "Syöttämääsi toimipistettä ei ole olemassa!";
             } else if (!employeeDao.exists(employees)) {
-                error = "Syöttämääsi työntekijää ei ole olemassa!";
+                error = "Syöttämääsi työntekijää ei ole olemassa!!!";
             } else {
                 shiftDao.save(
                         unit,
