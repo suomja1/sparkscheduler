@@ -12,3 +12,4 @@ Yleisiä linkkejä:
  - [Kirjautumissivu](https://onlinescheduler.herokuapp.com/login) (esimes1, password)
  - [Työvuorot](https://onlinescheduler.herokuapp.com/protected/shift)
  - [Työntekijät](https://onlinescheduler.herokuapp.com/protected/employee)
+ - *Huomaa, että sovelluksen aloitusnäkymä, navigaatiotoiminnallisuus ei vielä toimi!*
