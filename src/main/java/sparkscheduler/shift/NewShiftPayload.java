@@ -35,7 +35,7 @@ public class NewShiftPayload implements Validable {
             error = "Virheellinen aikaväli!";
         } else if (this.employees == null || this.employees.length == 0) {
             error = "Työntekijöitä on oltava vähintään yksi!";
-        } else if (this.uuidIsParsable(this.employees)) {
+        } else if (!this.uuidIsParsable(this.employees)) {
             error = "Syöttämääsi työntekijää ei ole olemassa!";
         }
 
