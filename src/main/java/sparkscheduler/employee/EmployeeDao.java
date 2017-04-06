@@ -188,6 +188,18 @@ public class EmployeeDao {
                     .isEmpty();
         }
     }
+    
+    public boolean exists(List<UUID> ids) {
+        try (Connection c = this.sql2o.open()) {
+            String SQL = "SELECT * FROM Employee "
+                    + String.format("WHERE id IN (%s) ",
+                            ids.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", ")));
+            
+            return c.createQuery(SQL)
+                    .executeAndFetch(Employee.class)
+                    .size() == ids.size();
+        }
+    }
 
     public void update(UUID id, UUID superior, String fullName, String username, String password, Double contract) {
         try (Connection c = this.sql2o.open()) {

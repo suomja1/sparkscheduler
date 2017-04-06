@@ -26,4 +26,13 @@ public class UnitDao {
                     .executeAndFetchFirst(Unit.class);
         }
     }
+    
+    public boolean exists(UUID id) {
+        try (Connection c = this.sql2o.open()) {
+            return !c.createQuery("SELECT * FROM Unit WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetch(Unit.class)
+                    .isEmpty();
+        }
+    }
 }

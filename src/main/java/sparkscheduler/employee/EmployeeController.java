@@ -11,7 +11,7 @@ import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
 
 /**
- * Controller for the Employee entity.
+ * Controllers for the Employee entity.
  */
 public class EmployeeController {
     public static Route fetchEmployee = (Request req, Response res) -> {

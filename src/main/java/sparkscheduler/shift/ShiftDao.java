@@ -23,7 +23,7 @@ public class ShiftDao {
                     .executeUpdate()
                     .getKey(UUID.class);
             
-            setEmployeesFor(c, employees, id);
+            this.setEmployeesFor(c, employees, id);
             
             c.commit();
             
@@ -37,7 +37,7 @@ public class ShiftDao {
                     .addParameter("id", id)
                     .executeAndFetchFirst(Shift.class);
             
-            shift.setEmployees(getEmployeesFor(c, id));
+            shift.setEmployees(this.getEmployeesFor(c, id));
 
             return shift;
         }
@@ -67,7 +67,7 @@ public class ShiftDao {
                     .addParameter("shift", id)
                     .executeUpdate();
             
-            setEmployeesFor(c, employees, id);
+            this.setEmployeesFor(c, employees, id);
             
             c.commit();
         }
