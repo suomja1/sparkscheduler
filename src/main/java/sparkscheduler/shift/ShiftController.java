@@ -75,7 +75,7 @@ public class ShiftController {
             } else if (shiftDao.overlaps(employees, startTime, endTime)) {
                 error = "Vuoro on päällekkäin työntekijän toisen vuoron kanssa!";
             } else {
-                shiftDao.save(unit,employees,startTime,endTime);
+                shiftDao.save(unit, employees, startTime, endTime);
                 res.redirect("/protected/shift", 303);
                 return "";
             }

@@ -14,8 +14,8 @@
             <thead>
                 <tr>
                     <th>Toimintayksikkö</th>
-                    <th>Alkamisaika</th>
-                    <th>Päättymisaika</th>
+                    <th>Päivämäärä</th>
+                    <th>Kellonaika</th>
                     <th>Työntekijät</th>
                     <th>Muokkaa</th>
                     <th>Poista</th>
@@ -24,8 +24,8 @@
             <tbody>
                 <tr th:each="s : ${shifts}">
                     <td th:text="${units.get(s.unit).name}">unit</td>
-                    <td th:text="${s.startTime}">startTime</td>
-                    <td th:text="${s.endTime}">endTime</td>
+                    <td th:text="${#strings.substring(s.startTime, 0, 9)}">date</td>
+                    <td th:text="|${#strings.substring(s.startTime, 11, 15)}–${#strings.substring(s.endTime, 11, 15)}|">time</td>
                     <td>
                         <ul>
                             <li th:each="e : ${s.employees}" th:text="${allEmployees.get(e).fullName}">employee</li>
