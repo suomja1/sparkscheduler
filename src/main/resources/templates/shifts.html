@@ -24,8 +24,8 @@
             <tbody>
                 <tr th:each="s : ${shifts}">
                     <td th:text="${units.get(s.unit).name}">unit</td>
-                    <td th:text="${#strings.substring(s.startTime, 0, 9)}">date</td>
-                    <td th:text="|${#strings.substring(s.startTime, 11, 15)}–${#strings.substring(s.endTime, 11, 15)}|">time</td>
+                    <td th:text="${#strings.substring(s.startTime, 0, 10)}">date</td>
+                    <td th:text="|${#strings.substring(s.startTime, 11, 16)}–${#strings.substring(s.endTime, 11, 16)}|">time</td>
                     <td>
                         <ul>
                             <li th:each="e : ${s.employees}" th:text="${allEmployees.get(e).fullName}">employee</li>

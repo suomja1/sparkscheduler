@@ -5,6 +5,8 @@
         <header th:replace="layout :: header" />
 
         <h4>Työvuoron tiedot</h4>
+        
+        <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">error message</p>
 
         <form class="form-horizontal" method="post" th:action="@{~/protected/shift/{id}/edit(id=${shift.id})}">
             <div class="form-group">

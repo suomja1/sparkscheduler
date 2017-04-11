@@ -29,10 +29,9 @@ public class UnitDao {
     
     public boolean exists(UUID id) {
         try (Connection c = this.sql2o.open()) {
-            return !c.createQuery("SELECT * FROM Unit WHERE id = :id")
+            return c.createQuery("SELECT EXISTS (SELECT * FROM Unit WHERE id = :id)")
                     .addParameter("id", id)
-                    .executeAndFetch(Unit.class)
-                    .isEmpty();
+                    .executeAndFetchFirst(Boolean.class);
         }
     }
 }

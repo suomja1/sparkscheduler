@@ -19,7 +19,7 @@ import sparkscheduler.employee.Employee;
 import sparkscheduler.unit.Unit;
 
 /**
- * Controller for the Shift entity. Unvalidated!
+ * Controller for the Shift entity.
  */
 public class ShiftController {
     public static Route fetchShift = (Request req, Response res) -> {
@@ -41,15 +41,44 @@ public class ShiftController {
     };
     
     public static Route handleUpdateShift = (Request req, Response res) -> {
-        shiftDao.update(
-                UUID.fromString(req.params(":id")),
-                UUID.fromString(req.queryParams("unit")),
-                Arrays.stream(req.queryParamsValues("employees")).map(i -> UUID.fromString(i)).collect(Collectors.toList()),
-                string2Timestamp(req.queryParams("from")),
-                string2Timestamp(req.queryParams("to"))
+        UUID id = UUID.fromString(req.params(":id"));
+        Shift shift = shiftDao.findOne(id);
+        
+        NewShiftPayload nsp = new NewShiftPayload(
+                req.queryParams("unit"),
+                req.queryParamsValues("employees"),
+                req.queryParams("from"),
+                req.queryParams("to")
         );
-        res.redirect("/protected/shift", 303);
-        return "";
+
+        String error = nsp.isValidForCreation();
+
+        if (StringUtils.isEmpty(error)) {
+            UUID unit = UUID.fromString(nsp.getUnit());
+            List<UUID> employees = Arrays.stream(nsp.getEmployees()).map(i -> UUID.fromString(i)).collect(Collectors.toList());
+            Timestamp startTime = string2Timestamp(nsp.getStartTime());
+            Timestamp endTime = string2Timestamp(nsp.getEndTime());
+
+            if (!unitDao.exists(unit)) {
+                error = "Syöttämääsi toimipistettä ei ole olemassa!";
+            } else if (!employeeDao.exists(employees)) {
+                error = "Syöttämääsi työntekijää ei ole olemassa!";
+            } else if (shiftDao.overlaps(employees, startTime, endTime)) {
+                error = "Vuoro on päällekkäin työntekijän toisen vuoron kanssa!";
+            } else {
+                shiftDao.update(id, unit, employees, startTime, endTime);
+                res.redirect("/protected/shift", 303);
+                return "";
+            }
+        }
+
+        Map map = new HashMap<>();
+        map.put("error", error);
+        map.put("shift", shift);
+        map.put("unit", unitDao.findOne(shift.getUnit()));
+        map.put("units", unitDao.findAllByOrderByName());
+        map.put("employees", employeeDao.findAllByOrderByFullName());
+        return render(req, map, "shift");
     };
 
     public static Route handleAddShift = (Request req, Response res) -> {
@@ -87,7 +116,6 @@ public class ShiftController {
         map.put("units", unitDao.findAllByOrderByName());
         map.put("employees", employeeDao.findAllByOrderByFullName());
         return render(req, map, "addShift");
-        
     };
     
     public static Route handleDeleteShift = (Request req, Response res) -> {
