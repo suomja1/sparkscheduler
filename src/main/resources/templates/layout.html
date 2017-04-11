@@ -7,19 +7,17 @@
     </head>
     <body>
         <nav th:fragment="header" class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">sparkscheduler</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li><a href="/">Koti</a></li>
-                    <li><a href="/protected/shift">Työvuorot</a></li>
-                    <li><a href="/protected/employee">Työntekijät</a></li>
-                </ul>
-                <form class="navbar-form navbar-right" method="post" th:action="@{~/logout}">
-                    <button class="btn btn-default">Kirjaudu ulos</button>
-                </form>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">sparkscheduler</a>
             </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/">Koti</a></li>
+                <li><a href="/protected/shift">Työvuorot</a></li>
+                <li><a href="/protected/employee">Työntekijät</a></li>
+            </ul>
+            <form class="navbar-form navbar-right" method="post" th:action="@{~/logout}">
+                <button class="btn btn-default">Kirjaudu ulos</button>
+            </form>
         </nav>
 
         <div th:fragment="submitButton (buttonname)" class="form-group">
