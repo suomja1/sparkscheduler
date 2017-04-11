@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="layout :: head ('Työntekijät')" />
-    <body class="container-fluid">
+    <body>
         <header th:replace="layout :: header" />
+        
+        <div class="container-fluid">
+            <h4>Työntekijät</h4>
 
-        <h4>Työntekijät</h4>
+            <p>
+                <a href="/protected/employee/add" class="btn btn-success">Lisää</a>
+            </p>
 
-        <p>
-            <a href="/protected/employee/add" class="btn btn-success">Lisää</a>
-        </p>
-
-        <table class="table table-condensed table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>Nimi</th>
-                    <th>Sopimus</th>
-                    <th>Muokkaa</th>
-                    <th>Poista</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="e : ${employees}">
-                    <td th:text="${e.fullName}">name</td>
-                    <td th:text="${e.contract}">contract</td>
-                    <td>
-                        <a th:href="@{~/protected/employee/{id}(id=${e.id})}">
-                            <button class="btn-xs btn-info">Muokkaa</button>
-                        </a>
-                    </td>
-                    <td>
-                        <form method="post" th:action="@{~/protected/employee/{id}/delete(id=${e.id})}">
-                            <button class="btn-xs btn-danger">Poista</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table class="table table-condensed table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nimi</th>
+                        <th>Sopimus</th>
+                        <th>Muokkaa</th>
+                        <th>Poista</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="e : ${employees}">
+                        <td th:text="${e.fullName}">name</td>
+                        <td th:text="${e.contract}">contract</td>
+                        <td>
+                            <a th:href="@{~/protected/employee/{id}(id=${e.id})}">
+                                <button class="btn-xs btn-info">Muokkaa</button>
+                            </a>
+                        </td>
+                        <td>
+                            <form method="post" th:action="@{~/protected/employee/{id}/delete(id=${e.id})}">
+                                <button class="btn-xs btn-danger">Poista</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

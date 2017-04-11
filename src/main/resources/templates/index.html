@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="layout :: head ('Koti')" />
-    <body class="container-fluid">
+    <body>
         <header th:replace="layout :: header" />
         
-        <h1 class="text-center">sparkscheduler</h1>
-        
-        <h4>Selaa työvuoroja</h4>
-        
-        <form class="form-horizontal" method="post">
-            <div th:replace="layout :: multipleUnitInput"/>
-            <div th:replace="layout :: employeesInput"/>
-            
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="from">Mistä:</label>
-                <div class="col-sm-9">
-                    <input type="date" class="form-control" id="from" />
+        <div class="container-fluid">
+            <h1 class="text-center">sparkscheduler</h1>
+
+            <h4>Selaa työvuoroja</h4>
+
+            <form class="form-horizontal" method="post">
+                <div th:replace="layout :: multipleUnitInput"/>
+                <div th:replace="layout :: employeesInput"/>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="from">Mistä:</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" id="from" />
+                    </div>
                 </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="to">Mihin:</label>
-                <div class="col-sm-9">
-                    <input type="date" class="form-control" id="to" />
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="to">Mihin:</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" id="to" />
+                    </div>
                 </div>
-            </div>
-            
-            <div th:replace="layout :: submitButton ('Selaa')"/>
-        </form>
-        
-        <h4>Selaa työntekijöitä</h4>
-        
-        <form class="form-horizontal" method="post">
-            <div th:replace="layout :: multipleUnitInput"/>
-            <div th:replace="layout :: submitButton ('Selaa')"/>
-        </form>
+
+                <div th:replace="layout :: submitButton ('Selaa')"/>
+            </form>
+
+            <h4>Selaa työntekijöitä</h4>
+
+            <form class="form-horizontal" method="post">
+                <div th:replace="layout :: multipleUnitInput"/>
+                <div th:replace="layout :: submitButton ('Selaa')"/>
+            </form>
+        </div>
     </body>
 </html>

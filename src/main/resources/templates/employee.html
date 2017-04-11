@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="layout :: head (${employee.fullName})" /> 
-    <body class="container-fluid">
+    <body>
         <header th:replace="layout :: header" />
         
-        <h4>Työntekijän tiedot</h4>
-        
-        <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">error message</p>
-        
-        <form class="form-horizontal" method="post" th:action="@{~/protected/employee/{id}/edit(id=${employee.id})}">
-            <div th:replace="layout :: fullNameInput (fullNameValue=${employee.fullName})"/>
-            
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="superior">Esimies:</label>
-                <div class="col-sm-9">
-                    <select class="form-control" id="superior" name="superior">
-                        <option disabled="" selected="" value=""> -- valitse -- </option>
-                        <option th:each="s : ${superiors}" th:text="${s.fullName}" th:value="${s.id}" th:selected="${s.id.equals(employee.superior)}">superior name</option>
-                    </select>
+        <div class="container-fluid">
+            <h4>Työntekijän tiedot</h4>
+
+            <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">error message</p>
+
+            <form class="form-horizontal" method="post" th:action="@{~/protected/employee/{id}/edit(id=${employee.id})}">
+                <div th:replace="layout :: fullNameInput (fullNameValue=${employee.fullName})"/>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="superior">Esimies:</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="superior" name="superior">
+                            <option disabled="" selected="" value=""> -- valitse -- </option>
+                            <option th:each="s : ${superiors}" th:text="${s.fullName}" th:value="${s.id}" th:selected="${s.id.equals(employee.superior)}">superior name</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            
-            <div th:replace="layout :: contractInput (contractValue=${employee.contract})"/>
-            <div th:replace="layout :: usernameInput (usernameValue=${employee.username})"/>
-            <div th:replace="layout :: passwordInput (passwordValue=${employee.password})"/>
-            <div th:replace="layout :: submitButton ('Tallenna')"/>
-        </form>
+
+                <div th:replace="layout :: contractInput (contractValue=${employee.contract})"/>
+                <div th:replace="layout :: usernameInput (usernameValue=${employee.username})"/>
+                <div th:replace="layout :: passwordInput (passwordValue=${employee.password})"/>
+                <div th:replace="layout :: submitButton ('Tallenna')"/>
+            </form>
+        </div>
     </body>
 </html>

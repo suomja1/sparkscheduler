@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="layout :: head (${unit.name} + ', ' + ${shift.startTime})" />
-    <body class="container-fluid">
+    <body>
         <header th:replace="layout :: header" />
 
-        <h4>Työvuoron tiedot</h4>
-        
-        <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">error message</p>
+        <div class="container-fluid">
+            <h4>Työvuoron tiedot</h4>
 
-        <form class="form-horizontal" method="post" th:action="@{~/protected/shift/{id}/edit(id=${shift.id})}">
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="unit">Toimintayksikkö:</label>
-                <div class="col-sm-9">
-                    <select id="unit" name="unit" class="form-control">
-                        <option th:each="u : ${units}" th:text="${u.name}" th:value="${u.id}" th:selected="${u.id.equals(shift.unit)}">unit name</option>
-                    </select>
+            <p th:unless="${#strings.isEmpty(error)}" th:text="${error}" class="text-warning">error message</p>
+
+            <form class="form-horizontal" method="post" th:action="@{~/protected/shift/{id}/edit(id=${shift.id})}">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="unit">Toimintayksikkö:</label>
+                    <div class="col-sm-9">
+                        <select id="unit" name="unit" class="form-control">
+                            <option th:each="u : ${units}" th:text="${u.name}" th:value="${u.id}" th:selected="${u.id.equals(shift.unit)}">unit name</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
-                <div class="col-sm-9">
-                    <select class="form-control" id="employees" name="employees" multiple="">
-                        <option th:each="e : ${employees}" th:text="${e.fullName}" th:value="${e.id}" th:selected="${#lists.contains(shift.employees, e.id)}">employee name</option>
-                    </select>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="employees">Työntekijät:</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="employees" name="employees" multiple="">
+                            <option th:each="e : ${employees}" th:text="${e.fullName}" th:value="${e.id}" th:selected="${#lists.contains(shift.employees, e.id)}">employee name</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div th:replace="layout :: timeFromInput (timeFromValue=${#strings.replace(#strings.toString(shift.startTime) ,' ', 'T')})"/>
-            <div th:replace="layout :: timeToInput (timeToValue=${#strings.replace(#strings.toString(shift.endTime) ,' ', 'T')})"/>
-            <div th:replace="layout :: submitButton ('Tallenna')"/>
-        </form>
+                <div th:replace="layout :: timeFromInput (timeFromValue=${#strings.replace(#strings.toString(shift.startTime) ,' ', 'T')})"/>
+                <div th:replace="layout :: timeToInput (timeToValue=${#strings.replace(#strings.toString(shift.endTime) ,' ', 'T')})"/>
+                <div th:replace="layout :: submitButton ('Tallenna')"/>
+            </form>
+        </div>
     </body>
 </html>

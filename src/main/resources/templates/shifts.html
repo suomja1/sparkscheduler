@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="layout :: head ('Työvuorot')" />
-    <body class="container-fluid">
+    <body>
         <header th:replace="layout :: header" />
         
-        <h4>Työvuorot</h4>
-        
-        <p>
-            <a href="/protected/shift/add" class="btn btn-success">Lisää</a>
-        </p>
-        
-        <table class="table table-condensed table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>Toimintayksikkö</th>
-                    <th>Päivämäärä</th>
-                    <th>Kellonaika</th>
-                    <th>Työntekijät</th>
-                    <th>Muokkaa</th>
-                    <th>Poista</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="s : ${shifts}">
-                    <td th:text="${units.get(s.unit).name}">unit</td>
-                    <td th:text="${#strings.substring(s.startTime, 0, 10)}">date</td>
-                    <td th:text="|${#strings.substring(s.startTime, 11, 16)}–${#strings.substring(s.endTime, 11, 16)}|">time</td>
-                    <td>
-                        <ul>
-                            <li th:each="e : ${s.employees}" th:text="${allEmployees.get(e).fullName}">employee</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <a th:href="@{~/protected/shift/{id}(id=${s.id})}">
-                            <button class="btn-xs btn-info">Muokkaa</button>
-                        </a>
-                    </td>
-                    <td>
-                        <form method="post" th:action="@{~/protected/shift/{id}/delete(id=${s.id})}">
-                            <button class="btn-xs btn-danger">Poista</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="container-fluid">
+            <h4>Työvuorot</h4>
+
+            <p>
+                <a href="/protected/shift/add" class="btn btn-success">Lisää</a>
+            </p>
+
+            <table class="table table-condensed table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Toimintayksikkö</th>
+                        <th>Päivämäärä</th>
+                        <th>Kellonaika</th>
+                        <th>Työntekijät</th>
+                        <th>Muokkaa</th>
+                        <th>Poista</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="s : ${shifts}">
+                        <td th:text="${units.get(s.unit).name}">unit</td>
+                        <td th:text="${#strings.substring(s.startTime, 0, 10)}">date</td>
+                        <td th:text="|${#strings.substring(s.startTime, 11, 16)}–${#strings.substring(s.endTime, 11, 16)}|">time</td>
+                        <td>
+                            <ul>
+                                <li th:each="e : ${s.employees}" th:text="${allEmployees.get(e).fullName}">employee</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <a th:href="@{~/protected/shift/{id}(id=${s.id})}">
+                                <button class="btn-xs btn-info">Muokkaa</button>
+                            </a>
+                        </td>
+                        <td>
+                            <form method="post" th:action="@{~/protected/shift/{id}/delete(id=${s.id})}">
+                                <button class="btn-xs btn-danger">Poista</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>
