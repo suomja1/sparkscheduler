@@ -33,9 +33,7 @@
                             </ul>
                         </td>
                         <td>
-                            <a th:href="@{~/protected/shift/{id}(id=${s.id})}">
-                                <button class="btn-xs btn-info">Muokkaa</button>
-                            </a>
+                            <a th:href="@{~/protected/shift/{id}(id=${s.id})}" class="btn-xs btn-info">Muokkaa</a>
                         </td>
                         <td>
                             <form method="post" th:action="@{~/protected/shift/{id}/delete(id=${s.id})}">

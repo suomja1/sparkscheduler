@@ -30,7 +30,7 @@
 
             <h4>Selaa työntekijöitä</h4>
 
-            <form class="form-horizontal" method="post">
+            <form class="form-horizontal" method="get" th:action="@{~/protected/employee}">
                 <div th:replace="layout :: multipleUnitInput"/>
                 <div th:replace="layout :: submitButton ('Selaa')"/>
             </form>

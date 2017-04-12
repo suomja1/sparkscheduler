@@ -1,8 +1,10 @@
 package sparkscheduler.employee;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import spark.Request;
 import spark.Response;
@@ -24,12 +26,18 @@ public class EmployeeController {
     };
 
     /**
-     * Controller for the list view of employees. For now the controller views
-     * all employees at the same time.
+     * Unvalidated!
      */
     public static Route fetchEmployees = (Request req, Response res) -> {
         Map map = new HashMap<>();
-        map.put("employees", employeeDao.findAllByOrderByFullName());
+        String[] units = req.queryParamsValues("units");
+        
+        if (units != null && units.length > 0) {
+            map.put("employees", employeeDao.findByUnitOrderByFullName(Arrays.stream(units).map(i -> UUID.fromString(i)).collect(Collectors.toList())));
+        } else {
+            map.put("employees", employeeDao.findAllByOrderByFullName());
+        }
+        
         return render(req, map, "employees");
     };
     
