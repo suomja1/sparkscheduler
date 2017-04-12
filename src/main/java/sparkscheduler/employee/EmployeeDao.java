@@ -107,7 +107,7 @@ public class EmployeeDao {
      */
     public List<Employee> findByUnitOrderByFullName(List<UUID> units) {
         try (Connection c = this.sql2o.open()) {
-            String SQL = "SELECT * FROM Employee e "
+            String SQL = "SELECT e.* FROM Employee e "
                     + "INNER JOIN EmployeeShift ON e.id = employee "
                     + "INNER JOIN Shift s ON shift = s.id "
                     + String.format("AND s.unit IN (%s) ",
