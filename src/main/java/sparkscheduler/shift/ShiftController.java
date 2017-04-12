@@ -1,22 +1,26 @@
 package sparkscheduler.shift;
 
 import java.sql.Timestamp;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.utils.StringUtils;
+
+import sparkscheduler.employee.Employee;
+import sparkscheduler.unit.Unit;
+import static sparkscheduler.util.ConversionUtil.string2Timestamp;
 import static sparkscheduler.Application.employeeDao;
 import static sparkscheduler.util.ViewUtil.render;
 import static sparkscheduler.Application.unitDao;
 import static sparkscheduler.Application.shiftDao;
-import sparkscheduler.employee.Employee;
-import sparkscheduler.unit.Unit;
 
 /**
  * Controller for the Shift entity.
@@ -130,11 +134,4 @@ public class ShiftController {
         map.put("employees", employeeDao.findAllByOrderByFullName());
         return render(req, map, "addShift");
     };
-    
-    public static Timestamp string2Timestamp(String string) {
-        if (string.chars().filter(c -> c == ':').count() == 1) {
-            string += ":00";
-        }
-        return Timestamp.valueOf(string.replace("T", " "));
-    }
 }

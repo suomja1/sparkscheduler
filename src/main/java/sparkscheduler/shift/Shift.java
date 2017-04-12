@@ -1,8 +1,10 @@
 package sparkscheduler.shift;
 
 import java.sql.Timestamp;
+
 import java.util.List;
 import java.util.UUID;
+
 import lombok.Data;
 
 @Data

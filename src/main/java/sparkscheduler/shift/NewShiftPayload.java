@@ -1,11 +1,12 @@
 package sparkscheduler.shift;
 
-import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import spark.utils.StringUtils;
+
 import sparkscheduler.Validable;
-import static sparkscheduler.shift.ShiftController.string2Timestamp;
+import static sparkscheduler.util.ConversionUtil.string2Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -45,19 +46,5 @@ public class NewShiftPayload implements Validable {
     @Override
     public String isValidForUpdate() {
         return this.isValidForCreation();
-    }
-    
-    private boolean timestampIsParsable(String stamp) {
-        try {
-            string2Timestamp(stamp);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-
-        return true;
-    }
-    
-    private boolean uuidIsParsable(String[] uuids){
-        return Arrays.stream(uuids).allMatch(uuid -> this.uuidIsParsable(uuid));
     }
 }

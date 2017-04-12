@@ -2,12 +2,14 @@ package sparkscheduler.login;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import spark.Filter;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 import static spark.Spark.halt;
-import static sparkscheduler.employee.EmployeeController.authenticate;
+
+import static sparkscheduler.util.AuthenticationUtil.authenticate;
 import static sparkscheduler.util.ViewUtil.render;
 
 public class LoginController {

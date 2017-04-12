@@ -1,25 +1,27 @@
 package sparkscheduler;
 
 import org.sql2o.Sql2o;
+
 import spark.Redirect;
 import static spark.Spark.before;
 import static spark.Spark.staticFiles;
-import sparkscheduler.employee.EmployeeController;
-import sparkscheduler.index.IndexController;
-import sparkscheduler.login.LoginController;
-import sparkscheduler.shift.ShiftController;
-import static sparkscheduler.util.ConnectionUtil.getHerokuAssignedPort;
-import sparkscheduler.unit.UnitDao;
-import static sparkscheduler.util.ConnectionUtil.getDbConnection;
-import sparkscheduler.employee.EmployeeDao;
-import sparkscheduler.shift.ShiftDao;
-import sparkscheduler.util.ViewUtil;
 import static spark.Spark.get;
 import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.post;
 import static spark.Spark.path;
 import static spark.Spark.redirect;
+
+import sparkscheduler.employee.EmployeeController;
+import sparkscheduler.index.IndexController;
+import sparkscheduler.login.LoginController;
+import sparkscheduler.shift.ShiftController;
+import sparkscheduler.unit.UnitDao;
+import sparkscheduler.employee.EmployeeDao;
+import sparkscheduler.shift.ShiftDao;
+import sparkscheduler.util.ViewUtil;
+import static sparkscheduler.util.ConnectionUtil.getHerokuAssignedPort;
+import static sparkscheduler.util.ConnectionUtil.getDbConnection;
 
 public class Application {
     // Dependencies

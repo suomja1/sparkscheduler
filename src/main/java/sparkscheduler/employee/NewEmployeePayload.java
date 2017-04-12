@@ -2,7 +2,9 @@ package sparkscheduler.employee;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import spark.utils.StringUtils;
+
 import sparkscheduler.Validable;
 
 @Data
@@ -44,15 +46,5 @@ public class NewEmployeePayload implements Validable {
         }
         
         return error;
-    }
-    
-    private boolean doubleIsParsable(String doubl){
-        try {
-            Double.parseDouble(doubl);
-        } catch (NumberFormatException e) {
-            return false; 
-        }
-        
-        return true;
     }
 }
