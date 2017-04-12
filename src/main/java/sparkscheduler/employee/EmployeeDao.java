@@ -84,27 +84,6 @@ public class EmployeeDao {
         }
     }
     
-    public List<Employee> findByUnitOrderByFullName(UUID unit) {
-        try (Connection c = this.sql2o.open()) {
-            String SQL = "SELECT * FROM Employee e "
-                    + "INNER JOIN EmployeeShift ON e.id = employee "
-                    + "INNER JOIN Shift s ON shift = s.id "
-                    + "AND s.unit = :unit "
-                    + "ORDER BY e.fullName";
-            
-            List<Employee> employees = c.createQuery(SQL)
-                    .addParameter("unit", unit)
-                    .executeAndFetch(Employee.class);
-
-            employees.forEach(employee -> employee.setShifts(this.getShiftsFor(c, employee.getId())));
-
-            return employees;
-        }
-    }
-    
-    /**
-     * @deprecated  Experimental – not tested!
-     */
     public List<Employee> findByUnitOrderByFullName(List<UUID> units) {
         try (Connection c = this.sql2o.open()) {
             String SQL = "SELECT e.* FROM Employee e "

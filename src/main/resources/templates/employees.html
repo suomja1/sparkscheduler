@@ -25,7 +25,7 @@
                         <td th:text="${e.fullName}">name</td>
                         <td th:text="${e.contract}">contract</td>
                         <td>
-                            <a th:href="@{~/protected/employee/{id}(id=${e.id})}" class="btn-xs btn-info">Muokkaa</a>
+                            <a th:href="@{~/protected/employee/{id}(id=${e.id})}" class="btn-xs btn-info" role="button">Muokkaa</a>
                         </td>
                         <td>
                             <form method="post" th:action="@{~/protected/employee/{id}/delete(id=${e.id})}">
