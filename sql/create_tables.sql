@@ -7,7 +7,7 @@ CREATE TABLE Unit (
 
 CREATE TABLE Employee (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-    superior UUID REFERENCES Employee(id),
+    superior UUID REFERENCES Employee(id) ON DELETE SET NULL,
     fullName TEXT NOT NULL,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
@@ -22,7 +22,6 @@ CREATE TABLE Shift (
 );
 
 CREATE TABLE EmployeeShift (
-    employee UUID REFERENCES Employee(id),
-    shift UUID REFERENCES Shift(id),
-    PRIMARY KEY (employee, shift)
+    employee UUID REFERENCES Employee(id) ON DELETE CASCADE,
+    shift UUID REFERENCES Shift(id) ON DELETE CASCADE
 );

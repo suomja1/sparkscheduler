@@ -75,16 +75,10 @@ public class ShiftDao {
     }
 
     public void delete(UUID id) {
-        try (Connection c = this.sql2o.beginTransaction()) {
-            c.createQuery("DELETE FROM EmployeeShift WHERE shift = :shift")
-                    .addParameter("shift", id)
-                    .executeUpdate();
-
+        try (Connection c = this.sql2o.open()) {
             c.createQuery("DELETE FROM Shift WHERE id = :id")
                     .addParameter("id", id)
                     .executeUpdate();
-
-            c.commit();
         }
     }
     

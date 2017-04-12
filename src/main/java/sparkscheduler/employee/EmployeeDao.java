@@ -152,21 +152,13 @@ public class EmployeeDao {
      */
     public void delete(UUID id) {
         try (Connection c = this.sql2o.beginTransaction()) {
-            c.createQuery("DELETE FROM EmployeeShift WHERE employee = :employee")
-                    .addParameter("employee", id)
+            c.createQuery("DELETE FROM Employee WHERE id = :id")
+                    .addParameter("id", id)
                     .executeUpdate();
             
             c.createQuery("DELETE FROM Shift WHERE NOT EXISTS (SELECT 1 FROM EmployeeShift WHERE EmployeeShift.shift = Shift.id)")
                     .executeUpdate();
             
-            c.createQuery("UPDATE Employee SET superior = NULL WHERE superior = :id")
-                    .addParameter("id", id)
-                    .executeUpdate();
-
-            c.createQuery("DELETE FROM Employee WHERE id = :id")
-                    .addParameter("id", id)
-                    .executeUpdate();
-
             c.commit();
         }
     }
