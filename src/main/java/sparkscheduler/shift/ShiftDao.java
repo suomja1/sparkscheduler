@@ -57,6 +57,40 @@ public class ShiftDao {
         }
     }
     
+    public List<Shift> findByParametersOrderByUnitAscStartTimeAsc(List<UUID> units, List<UUID> employees, Timestamp startTime, Timestamp endTime) {
+        try (Connection c = this.sql2o.open()) {
+            String SQL = "SELECT s.* FROM Shift s "
+                    + "INNER JOIN EmployeeShift ON shift = s.id ";
+            
+            if (units != null && !units.isEmpty()) {
+                SQL += String.format("AND s.unit IN (%s) ",
+                            units.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", ")));
+            }
+            
+            if (employees != null && !employees.isEmpty()) {
+                SQL += String.format("AND employee IN (%s) ",
+                            employees.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", ")));
+            }
+            
+            if (startTime != null) {
+                SQL += "AND s.startTime >= " + "'" + startTime.toString() + "' ";
+            }
+            
+            if (endTime != null) {
+                SQL += "AND s.endTime <= " + "'" + endTime.toString() + "' ";
+            }
+            
+            SQL += "ORDER BY s.unit, s.startTime";
+            
+            List<Shift> shifts = c.createQuery(SQL)
+                    .executeAndFetch(Shift.class);
+
+            shifts.forEach(shift -> shift.setEmployees(this.getEmployeesFor(c, shift.getId())));
+
+            return shifts;
+        }
+    }
+    
     public void update(UUID id, UUID unit, List<UUID> employees, Timestamp startTime, Timestamp endTime) {
         try (Connection c = this.sql2o.beginTransaction()) {
             c.createQuery("UPDATE Shift SET unit = :unit, startTime = :startTime, endTime = :endTime WHERE id = :id")

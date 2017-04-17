@@ -38,7 +38,18 @@ public class ShiftController {
     
     public static Route fetchShifts = (Request req, Response res) -> {
         Map map = new HashMap<>();
-        map.put("shifts", shiftDao.findAllByOrderByUnitAscStartTimeAsc());
+        String[] units = req.queryParamsValues("units");
+        String[] employees = req.queryParamsValues("employees");
+        String startTime = req.queryParams("from");
+        String endTime = req.queryParams("to");
+        
+        map.put("shifts", shiftDao.findByParametersOrderByUnitAscStartTimeAsc(
+                units != null && units.length > 0 ? Arrays.stream(units).map(i -> UUID.fromString(i)).collect(Collectors.toList()) : null,
+                employees != null && employees.length > 0 ? Arrays.stream(employees).map(i -> UUID.fromString(i)).collect(Collectors.toList()) : null,
+                StringUtils.isEmpty(startTime) ? null : string2Timestamp(startTime + " 00:00:00"),
+                StringUtils.isEmpty(endTime) ? null : string2Timestamp(endTime + " 23:59:59")
+        ));
+        
         map.put("units", unitDao.findAllByOrderByName().stream().collect(Collectors.toMap(Unit::getId, u -> u)));
         map.put("allEmployees", employeeDao.findAllByOrderByFullName().stream().collect(Collectors.toMap(Employee::getId, e -> e)));
         return render(req, map, "shifts");
