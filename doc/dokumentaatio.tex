@@ -30,7 +30,7 @@
 
 \href{https://onlinescheduler.herokuapp.com/}{\scheduler{}} on pieni www-alustainen tietokantajärjestelmä yrityksen työvuorolistojen laatimiseen, jakamiseen ja säilömiseen; ohjelmalla pystyy suunnitella ja tarkastella työvuoroja. Excel-pohjaiset työvuorolistat ovat -- vaikka nerokkaita -- talukkolaskentaan tottumalle epäintuitiivisia käyttää, niiden jakaminen työntekijöille on varsin rajoittunutta ja niiden päivittäminen on työlästä. \scheduler{}-ohjelman tavoitteena on tarjota varteenotettava ratkaisu edellä mainittuihin ongelmiin.
 
-\scheduler{} toteutetaan \href{https://www.heroku.com/}{Heroku}-pilvipalveluun. Pääasiallinen ohjelmointikieli on Java~8; ohjelma käyttää \href{http://sparkjava.com/}{Spark}-nimistä web-sovelluskehystä, Javan tärkeimpiä kirjastoja ja \href{http://www.sql2o.org/}{sql2o}-kirjastoa. Sovelluksen näkymät toteutetaan \href{https://www.thymeleaf.org/}{Thymeleaf}-mallimoottorilla. Tallennustoiminnallisuudesta vastaa \href{https://www.postgresql.org/}{PostgreSQL}-tietokanta.
+\scheduler{} toteutetaan \href{https://www.heroku.com/}{Heroku}-pilvipalveluun. Pääasiallinen ohjelmointikieli on Java~8; ohjelma käyttää \href{http://sparkjava.com/}{Spark}-nimistä web-sovelluskehystä, Javan tärkeimpiä kirjastoja sekä \href{http://www.sql2o.org/}{sql2o}- ja \href{https://projectlombok.org/}{Lombok}-kirjastoa. Sovelluksen näkymät toteutetaan \href{https://www.thymeleaf.org/}{Thymeleaf}-mallimoottorilla. Tallennustoiminnallisuudesta vastaa \href{https://www.postgresql.org/}{PostgreSQL}-tietokanta.
 
 \section{Yleiskuva järjestelmästä}
 
@@ -149,11 +149,29 @@ name & Merkkijono & Toimipisteen nimi \\
 \end{figure}
 
 \section{Järjestelmän yleisrakenne}
+
+Tietokantasovellusta tehdessä on noudatettu MVC-mallia. Tavanomaisesta kerroksiin perustuvasta hakemistorakenteesta (controllers, views, models) poiketen sovellus on pakattu ominaisuuksittain (employee, index, login, shift, unit); esimerkiksi työtekijää kuvaava malli Employee, sen DAO-malli EmployeeDao ja siihen liittyvien näkymien kontrolleri EmployeeController löytyvät kaikki hakemistosta employee. Yleishyödyllisiä apuluokkia löytyy hakemistosta util. Kaikki sovelluksen näkymät löytyvät vuorostaan hakemistosta templates.
+
+Sovellus käyttää kahta istuntoattribuuttia: loggedOut ja currentUser. Ensimmäisen arvo on tosi, kun käyttäjä uloskirjautuu onnistuneesti. Jälkimmäisen arvo on kirjautuneen käyttäjän käyttäjätunnus.
+
 \section{Käyttöliittymä ja järjestelmän komponentit}
+
+\scheduler{}in käyttöliittymän näkymien välisiä yhteyksiä on esitetty kuvassa~\ref{fig:nakymat}. Näiden lisäksi sivustolla on navigaatiopalkki, jonka johdosta kirjautunut käyttäjä pääsee mistä tahansa näkymästä aloitussivulle sekä työvuorojen ja työntekijöiden selaukseeen ja poistoon. Myös uloskirjautuminen tapahtuu navigaatiopalkin kautta.
+
+\begin{figure}[tb]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.25\textwidth]{edb45f03}}
+\caption{Käyttöliittymän näkymien välisiä yhteyksiä on luontevaa esittää kaavioina.}
+\label{fig:nakymat}
+\end{figure}
+
 \section{Asennustiedot}
+
+
 \section{Käynnistys- tai käyttöohje}
 Sovellus löytyy osoitteesta \url{https://onlinescheduler.herokuapp.com/}. Testikäyttäjätunnuksen \emph{esimes1} salasana on \emph{password}.
 
-\section{Testaus, tunnetut bugit ja puutteet sekä jatkokehitysideat}
-\section{Omat kokemukset}
+\section{Jatkokehitys}
+
+
 \end{document}
