@@ -59,7 +59,7 @@ public class ShiftDao {
     
     public List<Shift> findByParametersOrderByUnitAscStartTimeAsc(List<UUID> units, List<UUID> employees, Timestamp startTime, Timestamp endTime) {
         try (Connection c = this.sql2o.open()) {
-            String SQL = "SELECT s.* FROM Shift s "
+            String SQL = "SELECT DISTINCT s.* FROM Shift s "
                     + "INNER JOIN EmployeeShift ON shift = s.id ";
             
             if (units != null && !units.isEmpty()) {
