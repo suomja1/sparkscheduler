@@ -8,6 +8,7 @@
             <h4>Kirjaudu sisään</h4>
 
             <!--        Implementing if-else-chain the ugly way...-->
+            <p th:if="${#session.getAttribute('notLoggedIn')}" class="text-warning">Ole hyvä ja kirjaudu sisään.</p>
             <p th:if="${authenticationFailed}" class="text-warning">Sisäänkirjautuminen epäonnistui.</p>
             <p th:if="${not authenticationFailed and authenticationSucceeded}" class="text-success">Sisäänkirjautuminen onnistui.</p>
             <p th:if="${not authenticationFailed and not authenticationSucceeded and loggedOut}" class="text-info">Kirjauduttu ulos.</p>

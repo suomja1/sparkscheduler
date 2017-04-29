@@ -2,7 +2,6 @@ package sparkscheduler.login;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import spark.Filter;
 import spark.Request;
@@ -36,6 +35,7 @@ public class LoginController {
         
         map.put("authenticationSucceeded", true);
         req.session().attribute("currentUser", username);
+        req.session().removeAttribute("notLoggedIn");
         
         res.redirect("/protected", 303);
 
@@ -53,7 +53,9 @@ public class LoginController {
     
     public static Filter ensureUserIsLoggedIn = (Request req, Response res) -> {
         if (req.session().attribute("currentUser") == null) {
-            halt("<html><body><p>Ole hyvä ja <a href='https://onlinescheduler.herokuapp.com/login'>kirjaudu sisään</a>.</p></body></html>");
+            req.session().attribute("notLoggedIn", true);
+            res.redirect("/login");
+            halt();
         }
     };
 }
