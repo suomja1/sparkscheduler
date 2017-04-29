@@ -20,6 +20,10 @@ public class LoginController {
         req.session().removeAttribute("loggedOut");
         map.put("loggedOut", loggedOut != null);
         
+        Object notLoggedIn = req.session().attribute("notLoggedIn");
+        req.session().removeAttribute("notLoggedIn");
+        map.put("notLoggedIn", notLoggedIn != null);
+        
         return render(req, map, "login");
     };
     
@@ -35,7 +39,6 @@ public class LoginController {
         
         map.put("authenticationSucceeded", true);
         req.session().attribute("currentUser", username);
-        req.session().removeAttribute("notLoggedIn");
         
         res.redirect("/protected", 303);
 
