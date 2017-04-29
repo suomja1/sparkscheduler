@@ -118,13 +118,20 @@ public class ShiftDao {
         }
     }
     
-    public boolean overlaps(List<UUID> employees, Timestamp startTime, Timestamp endTime) {
+    public boolean overlaps(UUID id, List<UUID> employees, Timestamp startTime, Timestamp endTime) {
         try (Connection c = this.sql2o.open()) {
             String SQL = "SELECT EXISTS (SELECT * FROM Shift "
                     + "INNER JOIN EmployeeShift ON id = shift "
                     + String.format("AND employee IN (%s) ",
                             employees.stream().map(uuid -> "'" + uuid.toString() + "'").collect(Collectors.joining(", ")))
-                    + "WHERE (startTime, endTime) OVERLAPS (:startTime, :endTime))";
+                    + "WHERE (startTime, endTime) OVERLAPS (:startTime, :endTime)";
+            
+            if (id != null) {
+                SQL += " AND id != '" + id.toString() + "'";
+            }
+            
+            SQL += ")";
+            
             return c.createQuery(SQL)
                     .addParameter("startTime", startTime)
                     .addParameter("endTime", endTime)

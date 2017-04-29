@@ -66,7 +66,7 @@ public class ShiftController {
                 req.queryParams("to")
         );
 
-        String error = nsp.isValidForCreation();
+        String error = nsp.isValidForUpdate();
 
         if (StringUtils.isEmpty(error)) {
             UUID unit = UUID.fromString(nsp.getUnit());
@@ -78,7 +78,7 @@ public class ShiftController {
                 error = "Syöttämääsi toimipistettä ei ole olemassa!";
             } else if (!employeeDao.exists(employees)) {
                 error = "Syöttämääsi työntekijää ei ole olemassa!";
-            } else if (shiftDao.overlaps(employees, startTime, endTime)) {
+            } else if (shiftDao.overlaps(id, employees, startTime, endTime)) {
                 error = "Vuoro on päällekkäin työntekijän toisen vuoron kanssa!";
             } else {
                 shiftDao.update(id, unit, employees, startTime, endTime);
@@ -116,7 +116,7 @@ public class ShiftController {
                 error = "Syöttämääsi toimipistettä ei ole olemassa!";
             } else if (!employeeDao.exists(employees)) {
                 error = "Syöttämääsi työntekijää ei ole olemassa!";
-            } else if (shiftDao.overlaps(employees, startTime, endTime)) {
+            } else if (shiftDao.overlaps(null, employees, startTime, endTime)) {
                 error = "Vuoro on päällekkäin työntekijän toisen vuoron kanssa!";
             } else {
                 shiftDao.save(unit, employees, startTime, endTime);
