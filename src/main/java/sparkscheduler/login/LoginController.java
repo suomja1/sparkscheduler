@@ -53,10 +53,7 @@ public class LoginController {
     
     public static Filter ensureUserIsLoggedIn = (Request req, Response res) -> {
         if (req.session().attribute("currentUser") == null) {
-            res.body("");
-            halt("Ole hyvä ja kirjaudu sisään.");
-            TimeUnit.SECONDS.sleep(3);
-            res.redirect("/login");
+            halt("<html><body><p>Ole hyvä ja <a href='https://onlinescheduler.herokuapp.com/login'>kirjaudu sisään</a>.</p></body></html>");
         }
     };
 }
