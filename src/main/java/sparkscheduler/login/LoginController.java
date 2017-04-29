@@ -2,6 +2,7 @@ package sparkscheduler.login;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import spark.Filter;
 import spark.Request;
@@ -52,6 +53,8 @@ public class LoginController {
     
     public static Filter ensureUserIsLoggedIn = (Request req, Response res) -> {
         if (req.session().attribute("currentUser") == null) {
+            res.body("Ole hyvä ja kirjaudu sisään.");
+            TimeUnit.SECONDS.sleep(3);
             res.redirect("/login");
             halt();
         }

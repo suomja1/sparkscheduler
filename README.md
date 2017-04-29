@@ -6,10 +6,3 @@ Yleisiä linkkejä:
 
 ## Työn aihe
 *scheduler* on pieni www-alustainen tietokantajärjestelmä yrityksen työvuorolistojen laatimiseen, jakamiseen ja säilömiseen; ohjelmalla pystyy suunnitella ja tarkastella työvuoroja.
-
-## Näkymät
- - [Etusivu](https://onlinescheduler.herokuapp.com/)
- - [Kirjautumissivu](https://onlinescheduler.herokuapp.com/login) (esimes1, password)
- - [Työvuorot](https://onlinescheduler.herokuapp.com/protected/shift)
- - [Työntekijät](https://onlinescheduler.herokuapp.com/protected/employee)
- - *Huomaa, että sovelluksen aloitusnäkymä, navigaatiotoiminnallisuus ei vielä toimi!*

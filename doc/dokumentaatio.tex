@@ -30,7 +30,7 @@
 
 \href{https://onlinescheduler.herokuapp.com/}{\scheduler{}} on pieni www-alustainen tietokantajärjestelmä yrityksen työvuorolistojen laatimiseen, jakamiseen ja säilömiseen; ohjelmalla pystyy suunnitella ja tarkastella työvuoroja. Excel-pohjaiset työvuorolistat ovat -- vaikka nerokkaita -- talukkolaskentaan tottumalle epäintuitiivisia käyttää, niiden jakaminen työntekijöille on varsin rajoittunutta ja niiden päivittäminen on työlästä. \scheduler{}-ohjelman tavoitteena on tarjota varteenotettava ratkaisu edellä mainittuihin ongelmiin.
 
-\scheduler{} toteutetaan \href{https://www.heroku.com/}{Heroku}-pilvipalveluun. Pääasiallinen ohjelmointikieli on Java~8; ohjelma käyttää \href{http://sparkjava.com/}{Spark}-nimistä web-sovelluskehystä, Javan tärkeimpiä kirjastoja sekä \href{http://www.sql2o.org/}{sql2o}- ja \href{https://projectlombok.org/}{Lombok}-kirjastoa. Sovelluksen näkymät toteutetaan \href{https://www.thymeleaf.org/}{Thymeleaf}-mallimoottorilla. Tallennustoiminnallisuudesta vastaa \href{https://www.postgresql.org/}{PostgreSQL}-tietokanta.
+\scheduler{} toteutetaan \href{https://www.heroku.com/}{Heroku}-pilvipalveluun. Pääasiallinen ohjelmointikieli on Java~8; ohjelma käyttää \href{http://sparkjava.com/}{Spark}-nimistä web-sovelluskehystä, Javan tärkeimpiä kirjastoja sekä \href{http://www.sql2o.org/}{sql2o}- ja \href{https://projectlombok.org/}{Lombok}-kirjastoja. Sovelluksen näkymät toteutetaan \href{https://www.thymeleaf.org/}{Thymeleaf}-mallimoottorilla. Tallennustoiminnallisuudesta vastaa \href{https://www.postgresql.org/}{PostgreSQL}-tietokanta.
 
 \section{Yleiskuva järjestelmästä}
 
@@ -167,6 +167,7 @@ Sovellus käyttää kahta istuntoattribuuttia: loggedOut ja currentUser. Ensimm�
 
 \section{Asennustiedot}
 
+Sovellus on asennettu Heroku-pilvipalveluun. Aktiivinen, kuunneltava portti asetetaan ohjelman ConnectionUtil-luokan getHerokuAssignedPort()-metodissa. Oletusarvoisesti palvelu kuuntelee porttia 4567. Lisäksi sovellus hyödyntää Herokun tarjoamaa tietokantapalvelua (PostgreSQL), johon luodaan JDBC-yhteys samaisen luokan getDbConnection-luokan avulla. Muutokset kyseisissä metodeissa on riittävä asennusympäristön vaihtamiseen.
 
 \section{Käynnistys- tai käyttöohje}
 Sovellus löytyy osoitteesta \url{https://onlinescheduler.herokuapp.com/}. Testikäyttäjätunnuksen \emph{esimes1} salasana on \emph{password}.
