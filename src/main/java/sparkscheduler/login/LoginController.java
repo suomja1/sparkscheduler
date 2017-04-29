@@ -53,10 +53,10 @@ public class LoginController {
     
     public static Filter ensureUserIsLoggedIn = (Request req, Response res) -> {
         if (req.session().attribute("currentUser") == null) {
-            res.body("Ole hyvä ja kirjaudu sisään.");
+            res.body("");
+            halt("Ole hyvä ja kirjaudu sisään.");
             TimeUnit.SECONDS.sleep(3);
             res.redirect("/login");
-            halt();
         }
     };
 }
