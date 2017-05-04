@@ -152,7 +152,7 @@ name & Merkkijono & Toimipisteen nimi \\
 
 Tietokantasovellusta tehdessä on noudatettu MVC-mallia. Tavanomaisesta kerroksiin perustuvasta hakemistorakenteesta (controllers, views, models) poiketen sovellus on pakattu ominaisuuksittain (employee, index, login, shift, unit); esimerkiksi työtekijää kuvaava malli Employee, sen DAO-malli EmployeeDao ja siihen liittyvien näkymien kontrolleri EmployeeController löytyvät kaikki hakemistosta employee. Yleishyödyllisiä apuluokkia löytyy hakemistosta util. Kaikki sovelluksen näkymät löytyvät vuorostaan hakemistosta templates.
 
-Sovellus käyttää kahta istuntoattribuuttia: loggedOut ja currentUser. Ensimmäisen arvo on tosi, kun käyttäjä uloskirjautuu onnistuneesti. Jälkimmäisen arvo on kirjautuneen käyttäjän käyttäjätunnus.
+Sovellus käyttää kolmea istuntoattribuuttia: loggedOut, notLoggedIn ja currentUser. Ensimmäisen arvo on tosi, kun käyttäjä uloskirjautuu onnistuneesti. Toinen pitää muistissa, mikäli käyttäjä yrittää päästä alueelle, jonne hänellä ei ole oikeuksia. Jälkimmäisimmän arvo on kirjautuneen käyttäjän käyttäjätunnus.
 
 \section{Käyttöliittymä ja järjestelmän komponentit}
 
@@ -175,9 +175,11 @@ Sovellus löytyy osoitteesta \url{https://onlinescheduler.herokuapp.com/}. Testi
 \section{Jatkokehitys}
 
 \begin{description}
+\item[Hakutoiminnon validointi.] Nykyisellään etusivun hakutoimintoa ei ole validoitu.
 \item[Käyttäjien roolit.] Ei-esimiesten oikeuksia työntekijöiden ja työvuorojen muokkaukseen tulisi rajoittaa.
 \item[Työsopimuksen täyttyminen.] Toiminnallisuus tarkistaa työntekijän keskimääräinen viikkotuntimäärä ja verrata sitä työsopimukseen.
 \item[Älykäs työvuorottaja.] Osaisiko sovellus itse tarkistaa työvuorot tai luoda tasapainoisia työvuorolistoja napin painalluksella?
+\item[Kopiointi.] Yleensä työvuorojen laatimisessa on hyödyllistä pystyä kopioimaan pohjaksi esimerkiksi aikaisemman viikon vuorot.
 \end{description}
 
 \end{document}
